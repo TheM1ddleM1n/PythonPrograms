@@ -1,1 +1,1 @@
-chore: tidied up the config, all neat now 🔥🧃🧹
+docs: added some words, made it readable 📖💂🧃
