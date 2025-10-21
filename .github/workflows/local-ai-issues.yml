@@ -1,0 +1,72 @@
+name: Local AI Issue Chatbot
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  local-ai-chat:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.ai/install.sh | sh
+          ollama pull llama3
+          ollama list
+
+      - name: Prepare prompt
+        id: prompt
+        run: |
+          echo "Preparing prompt..."
+          cat <<'PROMPT' > prompt.txt
+          You are a helpful coding assistant running locally inside GitHub Actions.
+          Read the user's issue or comment below, understand their intent, and reply helpfully.
+
+          Provide:
+          - A clear, friendly answer or suggestion.
+          - Example code if relevant.
+          - Follow-up questions if more info is needed.
+
+          If the text looks like a bug report, suggest possible causes and debugging steps.
+          If it’s a feature request, propose implementation ideas.
+
+          === USER MESSAGE ===
+          PROMPT
+
+          if [[ "${{ github.event_name }}" == "issues" ]]; then
+            echo "${{ github.event.issue.title }}" >> prompt.txt
+            echo "${{ github.event.issue.body }}" >> prompt.txt
+          else
+            echo "${{ github.event.comment.body }}" >> prompt.txt
+          fi
+
+      - name: Run Local LLM Response
+        id: respond
+        run: |
+          echo "🤖 Running local model..."
+          ollama run llama3 < prompt.txt > reply.txt
+          echo "reply<<EOF" >> $GITHUB_OUTPUT
+          cat reply.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post AI reply as comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            💬 **Local AI Response (via Ollama)**
+            Model: `llama3`
+
+            ---
+            ${{ steps.respond.outputs.reply }}
