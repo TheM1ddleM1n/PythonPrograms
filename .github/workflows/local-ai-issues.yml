@@ -18,11 +18,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Ollama
+      # --- FIXED SECTION ---
+      - name: Install and Start Ollama
         run: |
+          echo "Installing Ollama..."
           curl -fsSL https://ollama.ai/install.sh | sh
-          ollama pull llama3
+          echo "Starting Ollama server manually..."
+          nohup ollama serve > /tmp/ollama.log 2>&1 &
+          sleep 8  # wait a few seconds for startup
+
+      - name: Check Ollama status
+        run: |
+          echo "Checking Ollama server..."
+          if curl -s http://127.0.0.1:11434/api/tags > /dev/null; then
+            echo "✅ Ollama server is running."
+          else
+            echo "❌ Ollama failed to start."
+            echo "Server logs:"
+            cat /tmp/ollama.log || true
+            exit 1
+          fi
+
+      - name: Pull local model
+        run: |
+          echo "Pulling local model..."
+          ollama pull llama3 || ollama pull phi3 || ollama pull codellama
           ollama list
+      # --- END FIXED SECTION ---
 
       - name: Prepare prompt
         id: prompt
@@ -53,7 +75,7 @@ jobs:
       - name: Run Local LLM Response
         id: respond
         run: |
-          echo "🤖 Running local model..."
+          echo "🤖 Generating AI response..."
           ollama run llama3 < prompt.txt > reply.txt
           echo "reply<<EOF" >> $GITHUB_OUTPUT
           cat reply.txt >> $GITHUB_OUTPUT
@@ -67,6 +89,5 @@ jobs:
           body: |
             💬 **Local AI Response (via Ollama)**
             Model: `llama3`
-
             ---
             ${{ steps.respond.outputs.reply }}
