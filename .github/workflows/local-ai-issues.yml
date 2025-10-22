@@ -14,22 +14,21 @@ jobs:
   local-ai-chat:
     runs-on: ubuntu-latest
     # Only run if issue/comment contains @bot mention
-    if: |
-      (github.event_name == 'issues' && contains(github.event.issue.body, '@bot')) ||
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@bot'))
+    if: >
+      (github.event_name == 'issues' && contains(toLower(github.event.issue.body || ''), '@bot')) ||
+      (github.event_name == 'issue_comment' && contains(toLower(github.event.comment.body || ''), '@bot'))
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # --- FIXED SECTION ---
       - name: Install and Start Ollama
         run: |
           echo "Installing Ollama..."
           curl -fsSL https://ollama.ai/install.sh | sh
           echo "Starting Ollama server manually..."
           nohup ollama serve > /tmp/ollama.log 2>&1 &
-          sleep 8  # wait a few seconds for startup
+          sleep 8
 
       - name: Check Ollama status
         run: |
@@ -48,7 +47,6 @@ jobs:
           echo "Pulling local model..."
           ollama pull llama3 || ollama pull phi3 || ollama pull codellama
           ollama list
-      # --- END FIXED SECTION ---
 
       - name: Prepare prompt
         id: prompt
@@ -85,7 +83,6 @@ jobs:
           echo "🤖 Generating AI response..."
           ollama run llama3 < prompt.txt > reply.txt
           
-          # Store response in output variable
           echo "reply<<EOF" >> $GITHUB_OUTPUT
           cat reply.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
