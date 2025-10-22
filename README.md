@@ -16,7 +16,7 @@ This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 p
 - [ActionsUser] - For updating the `readme` LOL
 - The British Banters Bot - for generating `status messages` (to store in message.txt) (alright)
 
-## Run any file on here if you dont have Python installed (like python 3.11/3.12/(3.13.9 IS THE LATEST VERSION OF PYTHON))
+## Run any file on here if you dont have Python installed (like python 3.14 AS IT IS THE LATEST VERSION OF PYTHON!)
 
 - If you don't have Python installed, no worries!  
 - You can run these projects directly in your browser via the website called `trinket.io`
