@@ -13,6 +13,10 @@ permissions:
 jobs:
   local-ai-chat:
     runs-on: ubuntu-latest
+    # Only run if issue/comment contains @bot mention
+    if: |
+      (github.event_name == 'issues' && contains(github.event.issue.body, '@bot')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@bot'))
 
     steps:
       - name: Checkout repository
@@ -51,16 +55,19 @@ jobs:
         run: |
           echo "Preparing prompt..."
           cat <<'PROMPT' > prompt.txt
-          You are a helpful coding assistant running locally inside GitHub Actions.
-          Read the user's issue or comment below, understand their intent, and reply helpfully.
+          You are a helpful coding assistant bot for the PythonProgramsV3 repository.
+          You were mentioned with @bot to help answer questions or provide assistance.
+          
+          Read the user's message below, understand their intent, and reply helpfully.
 
           Provide:
           - A clear, friendly answer or suggestion.
-          - Example code if relevant.
+          - Example code if relevant (using Python).
           - Follow-up questions if more info is needed.
 
           If the text looks like a bug report, suggest possible causes and debugging steps.
-          If it’s a feature request, propose implementation ideas.
+          If it's a feature request, propose implementation ideas.
+          If they're asking about existing programs, refer to the repository structure.
 
           === USER MESSAGE ===
           PROMPT
@@ -77,6 +84,8 @@ jobs:
         run: |
           echo "🤖 Generating AI response..."
           ollama run llama3 < prompt.txt > reply.txt
+          
+          # Store response in output variable
           echo "reply<<EOF" >> $GITHUB_OUTPUT
           cat reply.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -85,9 +94,16 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.issue.number }}
+          issue-number: ${{ github.event.issue.number || github.event.issue.number }}
           body: |
-            💬 **Local AI Response (via Ollama)**
-            Model: `llama3`
+            🤖 **AI Bot Response** (triggered by @bot mention)
+            
+            Model: `llama3` via Ollama
+            
             ---
+            
             ${{ steps.respond.outputs.reply }}
+            
+            ---
+            
+            *Tip: Mention @bot in any comment or issue to get AI assistance!*
