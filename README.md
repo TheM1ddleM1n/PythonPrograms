@@ -28,10 +28,10 @@ This is the upgraded version of V2 of this PythonProgramsV3 project!
 If you have any questions or feedback to give: do feel free to leave a PR or issue and I will get back to you as soon as I can!
 
 <!-- STATS:START -->
-📄 Total lines of code: 1651
-🐍 Number of Python files: 48
+📄 Total lines of code: 1575
+🐍 Number of Python files: 47
 <!-- STATS:END -->
 
 <!-- UPDATED:START -->
-🕒 Last updated: 2025-11-03 22:19 UTC
+🕒 Last updated: 2025-11-03 22:21 UTC
 <!-- UPDATED:END -->
