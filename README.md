@@ -1,6 +1,6 @@
 # PythonProgramsV3
 
-This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 project!
+This is the upgraded version of V2 of this PythonProgramsV3 project!
 
 ![Black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![Ruff](https://img.shields.io/badge/linter-ruff-purple)
@@ -14,7 +14,7 @@ This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 p
 - [TheM1ddleM1n](https://github.com/TheM1ddleM1n) — Creator & Maintainer of `PythonProgramsV3`
 - [cclauss](https://github.com/cclauss) — Python 3 wizardry & linting expertise
 - [ActionsUser] - For updating the `readme` LOL
-- The British Banters Bot - for generating `status messages`
+- The British Banters Bot - for generating the `status messages`
 
 ## Run any file on here if you dont have Python installed (like python 3.14 AS IT IS THE LATEST VERSION OF PYTHON!)
 
@@ -25,7 +25,7 @@ This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 p
 
 ![Last Updated](https://img.shields.io/github/last-commit/TheM1ddleM1n/PythonProgramsV3?style=flat-square&color=brightgreen)
 
-If you have any questions or feedback to give: feel free to leave a PR or issue and i will get back to you as soon as i can!
+If you have any questions or feedback to give: do feel free to leave a PR or issue and I will get back to you as soon as I can!
 
 <!-- STATS:START -->
 📄 Total lines of code: 1651
