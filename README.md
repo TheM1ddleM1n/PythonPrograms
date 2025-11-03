@@ -14,7 +14,7 @@ This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 p
 - [TheM1ddleM1n](https://github.com/TheM1ddleM1n) — Creator & Maintainer of `PythonProgramsV3`
 - [cclauss](https://github.com/cclauss) — Python wizardry & linting expertise
 - [ActionsUser] - For updating the `readme` LOL
-- The British Banters Bot - for generating `status messages` (to store in message.txt) (alright)
+- The British Banters Bot - for generating `status messages`
 
 ## Run any file on here if you dont have Python installed (like python 3.14 AS IT IS THE LATEST VERSION OF PYTHON!)
 
