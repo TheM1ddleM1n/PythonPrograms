@@ -2,7 +2,7 @@
 
 nterms = int(input("How many terms? "))
 
-# first two terms
+# first two nth terms
 n1, n2 = 0, 1
 count = 0
 
