@@ -6,8 +6,8 @@ This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 p
 ![Ruff](https://img.shields.io/badge/linter-ruff-purple)
 ![Codespell](https://img.shields.io/badge/spellcheck-codespell-green)
 ![CI](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.11+-brightgreen?logo=python&style=for-the-badge)
 [![British Banter Bot 🇬🇧](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml/badge.svg)](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml)
+![Python](https://img.shields.io/badge/python-3.11+-brightgreen?logo=python&style=for-the-badge)
 
 ### 👥 Contributors
 
