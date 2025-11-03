@@ -8,4 +8,4 @@ def RollDice():
 # Main program!
 random.seed()
 Dice = RollDice()
-print("Rolled a {}".format(Dice))
+print("You rolled a {}".format(Dice))
