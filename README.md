@@ -12,7 +12,7 @@ This is the upgraded version of V2 (which is deleted) of this PythonProgramsV3 p
 ### 👥 Contributors
 
 - [TheM1ddleM1n](https://github.com/TheM1ddleM1n) — Creator & Maintainer of `PythonProgramsV3`
-- [cclauss](https://github.com/cclauss) — Python wizardry & linting expertise
+- [cclauss](https://github.com/cclauss) — Python 3 wizardry & linting expertise
 - [ActionsUser] - For updating the `readme` LOL
 - The British Banters Bot - for generating `status messages`
 
