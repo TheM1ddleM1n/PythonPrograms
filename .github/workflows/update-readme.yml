@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '*/30 * * * *'  # Runs every 30 minutes!
+    - cron: '*/365 * * * *'  # Runs every 365 minutes!
 
 jobs:
   update-readme:
