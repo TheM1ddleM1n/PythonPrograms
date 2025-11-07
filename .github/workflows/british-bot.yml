@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Full history for rebase
+          fetch-depth: 0  # Full history for safe rebase
 
       - name: Configure Git
         run: |
@@ -22,13 +22,12 @@ jobs:
 
       - name: Fetch and Rebase
         run: |
-          git fetch origin
+          git fetch origin main
           git rebase origin/main || echo "No changes to rebase"
 
       - name: Generate Banter Message
         id: message
         run: |
-          # Array of British-style commit messages
           messages=(
             "fix: squashed that bug like a proper legend 💂🛠️🔥"
             "feat: added a cheeky new feature, sorted innit bruv 🧃✨💂"
@@ -39,83 +38,20 @@ jobs:
             "test: gave it a proper poke, all green now ✅💂🧃"
             "fix: patched it up like a boss 🔥🛠️💂"
             "feat: dropped a spicy new bit of code 🌶️💂🧃"
-            "chore: did a bit of tidying up 🧹💂✨"
-            "docs: added some words, made it readable 📖💂🧃"
-            "refactor: shuffled things around, proper elegant 🔄💂🧃"
-            "style: polished it up, now it's gleaming ✨💂🧃"
-            "test: ran the tests, smashed it ✅🔥💂"
-            "fix: sorted that edge case, no more drama 🧃💂🛠️"
-            "feat: built something brilliant, innit 💡💂🧃"
-            "chore: moved stuff about, all in order now 🔀💂🧃"
-            "docs: added a cheeky diagram 📊💂🧃"
-            "refactor: made it less of a mess, proper now 🧃💂🧼"
-            "style: gave it a glow-up 💅💂🧃"
-            "test: poked it with a stick, it held up 🧃💂🧪"
-            "fix: patched the hole, no leaks now 💂🛠️🧃"
-            "feat: dropped a gem in the codebase 💎💂🧃"
-            "chore: swept up the leftovers 🧹💂🧃"
-            "docs: scribbled some wisdom 📜💂🧃"
-            "chore: having a nice cuppa tea while sorting this out ☕💂🧃"
-            "fix: bit of a faff, but it's sorted now innit m8 🔧💂🧃"
-            "feat: added something proper fancy, Bob's your uncle 💂🧃🎉"
-            "fix: debugged the gremlins out of this one 🐛💂🔥"
-            "feat: shipped a proper banger 🚀💂🧃"
             "chore: decluttered the codebase, lovely jubbly 🧽💂✨"
             "docs: documented this like a right scholar 📚💂🧃"
             "refactor: reworked the logic, much better now mate 🔧💂🧃"
             "style: made it look mint, absolutely chuffed 😎💂🧃"
-            "test: tested the living daylights out of it ✅💂🧃"
-            "fix: ironed out the wrinkles, smooth sailing now ⛵💂🧃"
+            "test: poked it with a stick, it held up 🧃💂🧪"
+            "fix: debugged the gremlins out of this one 🐛💂🔥"
             "feat: rolled out a cracking feature 🎯💂🧃"
-            "chore: organised the chaos, dead tidy now 📦💂🧃"
             "docs: wrote up a proper guide, cheers 📝💂🧃"
-            "refactor: streamlined the whole thing, brilliant 🌊💂🧃"
-            "style: spruced it up nicely, looking sharp 💈💂🧃"
-            "test: put it through its paces, no worries 🏃💂🧃"
-            "fix: nipped that issue in the bud 🌹💂🧃"
-            "feat: crafted a belter of a feature 🎨💂🧃"
-            "chore: sorted out the mess, tidy as you like 🧼💂🧃"
-            "docs: jotted down the essentials, proper job 📋💂🧃"
             "refactor: optimised like a champion 🏆💂🧃"
             "style: beautified the code, absolutely gorgeous 💄💂🧃"
             "test: verified everything, all tickety-boo ✔️💂🧃"
-            "fix: mended the breakage, good as new 🔨💂🧃"
-            "feat: introduced a stonking good addition 🎪💂🧃"
-            "chore: cleared the clutter, breathing room now 🌬️💂🧃"
-            "docs: penned the documentation, top notch 🖊️💂🧃"
-            "refactor: restructured beautifully, chef's kiss 👨‍🍳💂🧃"
-            "style: styled to perfection, absolutely fab 🌟💂🧃"
-            "test: examined thoroughly, spot on 🔍💂🧃"
-            "fix: remedied the situation, crisis averted 🚨💂🧃"
-            "feat: unveiled a proper corker 🍾💂🧃"
-            "chore: housekeeping done, spotless now 🏠💂🧃"
-            "docs: chronicled the changes, well documented 📖💂🧃"
-            "refactor: revamped the whole shebang 🎭💂🧃"
-            "style: made it look the business 💼💂🧃"
-            "test: inspected every nook and cranny 🔬💂🧃"
-            "fix: sealed the deal on that bug 🎯💂🧃"
-            "feat: delivered a proper treat 🍬💂🧃"
-            "chore: maintained the standards, brilliant 📐💂🧃"
-            "docs: annotated everything nicely 🏷️💂🧃"
-            "refactor: enhanced the architecture, solid 🏗️💂🧃"
-            "style: refined the aesthetics, lovely 🖼️💂🧃"
-            "test: validated the functionality, bang on 🎪💂🧃"
-            "fix: rectified the glitch, all sorted 🔧💂🧃"
-            "feat: launched a smashing feature 🚁💂🧃"
-            "chore: managed the maintenance, proper 🛠️💂🧃"
-            "docs: explained it all clearly, cheers mate 💬💂🧃"
-            "refactor: improved the flow, smooth operator 🎵💂🧃"
-            "style: polished until it shines ✨💂🧃"
-            "test: checked it twice, nice and tight 🎅💂🧃"
           )
-          
-          # Pick random message
           RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
           COMMIT_MSG="${messages[$RANDOM_INDEX]}"
-          
-          echo "Selected commit message: $COMMIT_MSG"
-          
-          # Export for next step
           echo "commit_message=$COMMIT_MSG" >> $GITHUB_OUTPUT
 
       - name: Commit and Push
@@ -123,19 +59,27 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_BANTER_TOKEN }}
         run: |
           git add .
+
+          # Only commit if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit, skipping push."
+            exit 0
+          fi
+
+          git commit -m "${{ steps.message.outputs.commit_message }}"
           
-          # Commit with the generated message
-          git commit -m "${{ steps.message.outputs.commit_message }}" || echo "No changes to commit"
+          # Pull & rebase again just in case new commits landed
+          git pull --rebase origin main || echo "No changes to rebase"
           
-          # Push changes
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} HEAD:main
 
       - name: Drop a Cheeky Comment
+        if: success()
         env:
           GH_TOKEN: ${{ secrets.GH_BANTER_TOKEN }}
         run: |
           COMMIT_SHA=$(git rev-parse HEAD)
-          COMMENT="Nice one, brother! — commit \`$COMMIT_SHA\` is looking clean now."
+          COMMENT="Nice one, bruv! — commit \`$COMMIT_SHA\` is looking mint 💂🧃"
           curl -s -X POST -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"body\": \"$COMMENT\"}" \
