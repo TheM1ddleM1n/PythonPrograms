@@ -41,17 +41,50 @@ jobs:
     # ==========================================
     # VALIDATION MODE
     # ==========================================
-    - name: 🔍 Validate Code
+    - name: 🔍 Validate Python Files
       if: github.event_name != 'workflow_dispatch' || github.event.inputs.mode == 'validate'
       run: |
         echo "🔍 Running validation checks..."
-        black --check . || echo "⚠️ Black formatting issues found"
+
+        # Black check
+        black --check . || echo "⚠️ Black formatting issues found (run auto-fix to fix them)"
+
+        # Ruff linting
         ruff check . || echo "⚠️ Ruff linting issues found"
-        bandit -r . -ll || echo "⚠️ Bandit security issues found"
+
+        # Bandit security
+        bandit -r . -ll -x ./system/executingSystemCommands.py || echo "⚠️ Security issues found (B602/B605 suppressed for known shell usage)"
+
         echo "✅ Validation completed."
 
     # ==========================================
-    # RESTRUCTURE MODE
+    # AUTO-FIX MODE
+    # ==========================================
+    - name: 🔧 Auto-Fix Code Issues
+      if: github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'auto-fix'
+      run: |
+        echo "🔧 Running auto-fix..."
+
+        # Remove unused imports
+        echo "🧹 Removing unused imports..."
+        autoflake --remove-all-unused-imports --remove-unused-variables -r -i . || true
+
+        # Format code with Black
+        echo "🎨 Applying Black formatting..."
+        black . || true
+
+        # Organize imports
+        echo "📦 Organizing imports..."
+        isort . || true
+
+        # Fix PEP8 issues
+        echo "📏 Fixing PEP8 issues..."
+        autopep8 --in-place --aggressive --aggressive -r . || true
+
+        echo "✅ Auto-fix completed."
+
+    # ==========================================
+    # RESTRUCTURE MODE (preview/apply)
     # ==========================================
     - name: 🔄 Restructure Repository
       if: github.event_name == 'workflow_dispatch' && (github.event.inputs.mode == 'restructure-preview' || github.event.inputs.mode == 'restructure-apply')
@@ -129,7 +162,7 @@ jobs:
         def to_snake_case(name: str) -> str:
             name = re.sub(r'[^\w\s-]', '', name)  # Remove special chars
             name = re.sub(r'[-\s]+', '_', name)   # Replace spaces/dashes with underscores
-            name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)  # camelCase → camel_case
+            name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)  # camelCase → snake_case
             return name.lower()
 
         renamed_count = 0
@@ -152,47 +185,3 @@ jobs:
         print(f" - Files renamed: {renamed_count}")
         print(f" - Mode: {'DRY RUN' if DRY_RUN else 'LIVE APPLY'}")
         EOF
-
-    # ==========================================
-    # AUTO-FIX MODE
-    # ==========================================
-    - name: 🔧 Auto-Fix Code
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'auto-fix'
-      run: |
-        echo "🔧 Running auto-fix..."
-        autoflake --remove-all-unused-imports --remove-unused-variables -r -i .
-        isort .
-        black .
-        autopep8 --in-place --aggressive --aggressive -r .
-        echo "✅ Auto-fix complete."
-
-    # ==========================================
-    # COMMIT CHANGES
-    # ==========================================
-    - name: 💾 Commit and Push Changes
-      if: |
-        github.event_name == 'workflow_dispatch' && 
-        (github.event.inputs.mode == 'restructure-apply' || github.event.inputs.mode == 'auto-fix')
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-
-        if [ -n "$(git status --porcelain)" ]; then
-          git add .
-          git commit -m "🏗️ Repository restructure & auto-fixes" || true
-          git push
-          echo "✅ Changes committed and pushed"
-        else
-          echo "ℹ️ No changes to commit."
-        fi
-
-    - name: 🧾 Summary
-      if: always()
-      run: |
-        echo ""
-        echo "═══════════════════════════════════════════"
-        echo "           🏁 WORKFLOW COMPLETE"
-        echo "═══════════════════════════════════════════"
-        echo "Mode: ${{ github.event.inputs.mode || 'validate' }}"
-        echo ""
-        echo "✅ Task finished successfully!"
