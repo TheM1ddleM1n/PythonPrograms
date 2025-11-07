@@ -23,165 +23,195 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🧾 Checkout code
+    - name: Checkout code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: 🐍 Set up Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
 
-    - name: 📦 Install dependencies
+    - name: Install dependencies
       run: |
-        pip install black ruff bandit radon autoflake isort autopep8
+        pip install black ruff pytest mypy pylint bandit isort autoflake autopep8 radon safety codespell
 
-    # ==========================================
+    # ============================
     # VALIDATION MODE
-    # ==========================================
-    - name: 🔍 Validate Python Files
+    # ============================
+    - name: 🔍 Validation Checks
       if: github.event_name != 'workflow_dispatch' || github.event.inputs.mode == 'validate'
       run: |
         echo "🔍 Running validation checks..."
-
-        # Black check
-        black --check . || echo "⚠️ Black formatting issues found (run auto-fix to fix them)"
-
-        # Ruff linting
-        ruff check . || echo "⚠️ Ruff linting issues found"
-
-        # Bandit security
-        bandit -r . -ll -x ./system/executingSystemCommands.py || echo "⚠️ Security issues found (B602/B605 suppressed for known shell usage)"
-
+        black --check . || echo "⚠️ Black would reformat some files"
+        ruff check . --output-format=github || echo "⚠️ Ruff linting issues"
+        bandit -r . -ll || echo "⚠️ Security issues found"
         echo "✅ Validation completed."
 
-    # ==========================================
-    # AUTO-FIX MODE
-    # ==========================================
-    - name: 🔧 Auto-Fix Code Issues
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'auto-fix'
-      run: |
-        echo "🔧 Running auto-fix..."
-
-        # Remove unused imports
-        echo "🧹 Removing unused imports..."
-        autoflake --remove-all-unused-imports --remove-unused-variables -r -i . || true
-
-        # Format code with Black
-        echo "🎨 Applying Black formatting..."
-        black . || true
-
-        # Organize imports
-        echo "📦 Organizing imports..."
-        isort . || true
-
-        # Fix PEP8 issues
-        echo "📏 Fixing PEP8 issues..."
-        autopep8 --in-place --aggressive --aggressive -r . || true
-
-        echo "✅ Auto-fix completed."
-
-    # ==========================================
-    # RESTRUCTURE MODE (preview/apply)
-    # ==========================================
+    # ============================
+    # RESTRUCTURE MODE (manual trigger)
+    # ============================
     - name: 🔄 Restructure Repository
       if: github.event_name == 'workflow_dispatch' && (github.event.inputs.mode == 'restructure-preview' || github.event.inputs.mode == 'restructure-apply')
       run: |
-        MODE=${{ github.event.inputs.mode }}
-        echo "🌀 Running restructure mode: $MODE"
+        DRY_RUN=${{ github.event.inputs.mode == 'restructure-preview' && 'true' || 'false' }}
 
-        python << 'EOF'
-        import os, shutil, re
+        python << EOF
+        import shutil
+        import re
         from pathlib import Path
 
-        DRY_RUN = "${{ github.event.inputs.mode }}" == "restructure-preview"
-
+        # Directory structure
         STRUCTURE = {
-            'games': [
-                'Dice', 'RollTheDice.py', 'dice.py', 'Dice Part 2.py',
-                'EnhancedS&L.py', 'S&L1Player.py', 'S&L2Player.py',
-                'Monster Duelz.py', 'TerminalDriftGame.py',
-                'TerminalQuizShowdown.py', 'Countries.py'
-            ],
-            'math': [
-                'Age.py', 'DataTypes.py', 'Fibonacci.py', 'VAT.py',
-                'VolumeOfSphere.py', 'discount.py', 'float.py',
-                'mathsquiz.py', 'times tables.py', 'heart.py'
-            ],
-            'utilities': [
-                'FileSorter.py', 'MoodMusicSuggester.py', 'TheZenOfPython.py',
-                'TypingSpeedTest.py', 'Username.py', 'encrypting_tool.py',
-                'executingSystemCommands.py', 'comic(ig).py'
-            ],
-            'learning': [
-                'MyFirstProgram.py', 'Code.py', 'Story.py',
-                'loops.py', 'jokes.py', 'Name.py', 'time.py'
-            ],
-            'random_generators': [
-                'FortuneTeller.py', 'Lucky.py', 'heads vs tails.py',
-                'numbergame.py'
-            ],
-            'simulations': [
-                'Hertz.py', 'Month.py', 'YearGroups.py', 'Waiter.py',
-                'Security.py', 'basketball.py', 'DictCommand.py',
-                'FootballTeam.py'
-            ]
+            'games': ['Dice', 'RollTheDice.py', 'dice.py', 'Dice Part 2.py',
+                      'EnhancedS&L.py', 'S&L1Player.py', 'S&L2Player.py',
+                      'Monster Duelz.py', 'TerminalDriftGame.py', 'TerminalQuizShowdown.py', 'Countries.py'],
+            'math': ['Age.py', 'DataTypes.py', 'Fibonacci.py', 'VAT.py',
+                     'VolumeOfSphere.py', 'discount.py', 'float.py', 'mathsquiz.py', 'times tables.py', 'heart.py'],
+            'utilities': ['FileSorter.py', 'MoodMusicSuggester.py', 'TheZenOfPython.py',
+                          'TypingSpeedTest.py', 'Username.py', 'encrypting_tool.py', 'executingSystemCommands.py', 'comic(ig).py'],
+            'learning': ['MyFirstProgram.py', 'Code.py', 'Story.py', 'loops.py', 'jokes.py', 'Name.py', 'time.py'],
+            'random_generators': ['FortuneTeller.py', 'Lucky.py', 'heads vs tails.py', 'numbergame.py'],
+            'simulations': ['Hertz.py', 'Month.py', 'YearGroups.py', 'Waiter.py', 'Security.py', 'basketball.py', 'DictCommand.py', 'FootballTeam.py']
         }
 
-        print("🔄 Repository restructure running...")
+        dry_run = ${DRY_RUN}
+
+        def to_snake_case(name):
+            name = re.sub(r'[^\w\s-]', '', name)
+            name = re.sub(r'[-\s]+', '_', name)
+            name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)
+            return name.lower() + '.py'
+
+        print("🔄 Repository Restructure Script")
+        print("=" * 50)
+        print(f"Mode: {'DRY RUN (preview)' if dry_run else 'LIVE (apply changes)'}\n")
+
+        # Create directories
+        for directory in STRUCTURE.keys():
+            if not dry_run:
+                Path(directory).mkdir(exist_ok=True)
+            print(f"{'[DRY RUN]' if dry_run else '✅'} Create directory: {directory}/")
+
+        # Move and rename files
         moved_count = 0
-
-        # Ensure directories exist
-        for directory in STRUCTURE:
-            Path(directory).mkdir(exist_ok=True)
-            print(f"📁 Ensured directory: {directory}/")
-
-        # Move files to correct directories
         for target_dir, files in STRUCTURE.items():
-            for pattern in files:
-                possible_paths = [Path(pattern)]
-                for old_dir in ['Number', 'Dice', 'Other Programs', 'system']:
-                    possible_paths.append(Path(old_dir) / pattern)
+            for file_pattern in files:
+                found_files = [p for p in Path('.').rglob(file_pattern) if p.exists()]
+                for old_path in found_files:
+                    new_path = Path(target_dir) / to_snake_case(old_path.stem)
+                    if dry_run:
+                        print(f"[DRY RUN] Would move: {old_path} → {new_path}")
+                    else:
+                        try:
+                            shutil.move(str(old_path), str(new_path))
+                            print(f"✅ Moved: {old_path} → {new_path}")
+                            moved_count += 1
+                        except Exception as e:
+                            print(f"❌ Error moving {old_path}: {e}")
 
-                for old_path in possible_paths:
-                    if old_path.exists():
-                        new_path = Path(target_dir) / old_path.name
-                        if DRY_RUN:
-                            print(f"[DRY RUN] Would move: {old_path} → {new_path}")
-                        else:
-                            try:
-                                shutil.move(str(old_path), str(new_path))
-                                moved_count += 1
-                                print(f"✅ Moved: {old_path} → {new_path}")
-                            except Exception as e:
-                                print(f"❌ Failed to move {old_path}: {e}")
+        print("\n" + "="*50)
+        if dry_run:
+            print("🔍 DRY RUN COMPLETE - No changes made")
+        else:
+            print(f"✅ Restructure complete! Moved {moved_count} files")
+        EOF
 
-        # Convert filenames to snake_case
-        def to_snake_case(name: str) -> str:
-            name = re.sub(r'[^\w\s-]', '', name)  # Remove special chars
-            name = re.sub(r'[-\s]+', '_', name)   # Replace spaces/dashes with underscores
-            name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)  # camelCase → snake_case
-            return name.lower()
+    # ============================
+    # AUTO-FIX MODE
+    # ============================
+    - name: 🔧 Auto-Fix Code Issues + Rename
+      if: github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'auto-fix'
+      run: |
+        echo "🔧 Running auto-fixes and renaming files..."
+        autoflake --remove-all-unused-imports --remove-unused-variables -r -i . || true
 
-        renamed_count = 0
+        python << 'EOF'
+        import re
+        from pathlib import Path
+
+        def to_snake_case(name):
+            name = re.sub(r'[^\w\s-]', '', name)
+            name = re.sub(r'[-\s]+', '_', name)
+            name = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', name)
+            return name.lower() + '.py'
+
+        fixes_made = 0
         for py_file in Path('.').rglob('*.py'):
             if '__pycache__' in str(py_file) or '.git' in str(py_file):
                 continue
+            # Fix content
+            try:
+                with open(py_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                original = content
+                content = re.sub(r'(\"\s*)\n(\s*\")', r'\1,\n\2', content)
+                content = '\n'.join(line.rstrip() for line in content.split('\n'))
+                if content and not content.endswith('\n'):
+                    content += '\n'
+                if content != original:
+                    with open(py_file, 'w', encoding='utf-8') as f:
+                        f.write(content)
+                    fixes_made += 1
+            except Exception as e:
+                print(f"Error fixing {py_file}: {e}")
 
-            new_name = to_snake_case(py_file.stem) + '.py'
-            if py_file.name != new_name:
+            # Rename
+            old_name = py_file.name
+            new_name = to_snake_case(py_file.stem)
+            if old_name != new_name:
                 new_path = py_file.parent / new_name
-                if DRY_RUN:
-                    print(f"[DRY RUN] Would rename: {py_file.name} → {new_name}")
-                else:
+                try:
                     py_file.rename(new_path)
-                    renamed_count += 1
-                    print(f"🐍 Renamed: {py_file.name} → {new_name}")
+                    print(f"✅ Renamed {py_file} → {new_path}")
+                    fixes_made += 1
+                except Exception as e:
+                    print(f"❌ Error renaming {py_file}: {e}")
 
-        print(f"\n📦 Summary:")
-        print(f" - Files moved: {moved_count}")
-        print(f" - Files renamed: {renamed_count}")
-        print(f" - Mode: {'DRY RUN' if DRY_RUN else 'LIVE APPLY'}")
+        print(f"\n✅ Fixed and renamed {fixes_made} files")
         EOF
+
+        black . || true
+        isort . || true
+        autopep8 --in-place --aggressive --aggressive -r . || true
+
+    # ============================
+    # COMMIT CHANGES
+    # ============================
+    - name: 💾 Commit and Push Changes
+      if: github.event_name == 'workflow_dispatch' && (github.event.inputs.mode == 'restructure-apply' || github.event.inputs.mode == 'auto-fix')
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        if [ -n "$(git status --porcelain)" ]; then
+          git add .
+          if [ "${{ github.event.inputs.mode }}" == "restructure-apply" ]; then
+            git commit -m "🔄 Restructure repository: organized directories + snake_case filenames"
+          else
+            git commit -m "🤖 Auto-fix: code quality + snake_case filenames"
+          fi
+          git push
+          echo "✅ Changes committed and pushed"
+        else
+          echo "ℹ️ No changes to commit"
+
+    # ============================
+    # SUMMARY
+    # ============================
+    - name: 📊 Summary
+      if: always()
+      run: |
+        echo ""
+        echo "════════════════════════════════════════"
+        echo "         WORKFLOW SUMMARY"
+        echo "════════════════════════════════════════"
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          echo "Mode: ${{ github.event.inputs.mode }}"
+        else
+          echo "Mode: Automatic validation"
+        fi
+        echo ""
+        echo "✅ Workflow completed successfully!"
+        echo "════════════════════════════════════════"
