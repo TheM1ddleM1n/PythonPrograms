@@ -16,6 +16,15 @@ A growing collection of Python scripts, experiments, and projects — now even c
 
 ---
 
+### 📦 Repository Stats
+
+![GitHub Stars](https://img.shields.io/github/stars/TheM1ddleM1n/PythonProgramsV3?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/TheM1ddleM1n/PythonProgramsV3?style=social)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/TheM1ddleM1n/PythonProgramsV3?color=blueviolet&label=Repo%20Size)
+![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/TheM1ddleM1n/PythonProgramsV3?color=gold)
+
+---
+
 ### 👥 Contributors
 
 | Name | Role | Description |
@@ -38,11 +47,11 @@ You can run any of these Python scripts directly in your browser using [**Trinke
 
 ---
 
-### 📊 Repository Stats
+### 📊 Repository Metrics
 
 <!-- STATS:START -->
-📄 Total lines of code: 1575
-🐍 Number of Python files: 47
+📄 **Total lines of code:** 1575  
+🐍 **Number of Python files:** 47  
 <!-- STATS:END -->
 
 ---
@@ -50,8 +59,10 @@ You can run any of these Python scripts directly in your browser using [**Trinke
 ### ⏰ Update Info
 
 <!-- UPDATED:START -->
-🕒 Last updated: 2025-11-07 19:50 UTC
+🕒 **Last updated:** 2025-11-07 01:18 UTC  
 <!-- UPDATED:END -->
+
+![Last Commit](https://img.shields.io/github/last-commit/TheM1ddleM1n/PythonProgramsV3?style=flat-square&color=brightgreen)
 
 ---
 
@@ -63,4 +74,4 @@ Feel free to open a **PR** or **issue**, and I’ll get back to you as soon as p
 ---
 
 > _“Code. Test. Improve. Repeat.”_  
-> — TheM1ddleM1n
+> — **TheM1ddleM1n**
