@@ -29,10 +29,10 @@ A growing collection of Python scripts, experiments, and projects — now even c
 
 | Name | Role | Description |
 |------|------|-------------|
-| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonProgramsV3` |
-| [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise |
-| **ActionsUser** | Bot | Keeps the `README.md` up to date |
-| **British Banter Bot 🇬🇧** | Fun Bot | Generates British-flavoured status messages |
+| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonProgramsV3!` |
+| [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
+| **ActionsUser** | Bot | Keeps the `README.md` updated! |
+| **British Banter Bot 🇬🇧** | Fun Bot | Generates British-flavoured status messages! |
 
 ---
 
