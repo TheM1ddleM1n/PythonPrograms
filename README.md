@@ -1,6 +1,6 @@
 # 🐍 PythonProgramsV3
 
-Welcome to **PythonProgramsV3** — the upgraded and improved successor to *V2*!  
+Welcome to **PythonProgramsV3** — the upgraded successor to *V2*!  
 A growing collection of Python scripts, experiments, and projects — now even cleaner, faster, and better organized.
 
 ---
@@ -36,7 +36,7 @@ A growing collection of Python scripts, experiments, and projects — now even c
 
 ---
 
-### 💻 Run It Without Installing Python
+### 💻 Run It Without Installing Python!
 
 No Python? No problem.  
 You can run any of these Python scripts directly in your browser using [**Trinket.io**](https://trinket.io/python3)!
