@@ -1,74 +1,72 @@
-"""Snakes and Ladders - Two Player Games!"""
 import random
+import time
 
-turns = 0
-player1_square = 0
-player2_square = 0
+turns=0 
+squares1=0 # Player 1's square to start
+squares2=0 # Player 2's square to start
 
-print('Welcome to Snakes and Ladders the GAME')
-print('You need to reach square 80 to win!')
+print('Welcome to Snakes & Ladders THE GAME')
+time.sleep(2.5)
+print('You need to reach square 100 to win!')
+time.sleep(2.5)
+print("Press the Enter key to start")
+input()
+time.sleep(1)
 
-while player1_square < 80 and player2_square < 80:
-    # Player 1 turn
-    print('Player 1 press enter to roll the dice')
+while squares1 < 100 and squares2 < 100:
+    print('Player 1 press Enter to roll the dice')
     input()
-    dice_roll = random.randint(1, 6)
-    print(f'You rolled a {dice_roll}')
-    player1_square += dice_roll
+    diceroll=random.randint(1,6)
+    print('You rolled a', diceroll)
+    squares1 += diceroll
+    time.sleep(1.5)
 
     print()
     
-    # Player 2 turn
-    print('Player 2 press enter to roll the dice')
+    print('Player 2 press Enter to roll the dice')
     input()
-    dice_roll = random.randint(1, 6)
-    print(f'You rolled a {dice_roll}')
-    player2_square += dice_roll
+    diceroll=random.randint(1,6)
+    print('You rolled a', diceroll)
+    squares2 += diceroll
+    time.sleep(1.5)
     
     turns += 1
     
-    # Player 1 - Ladders
-    if player1_square in [5, 12, 19, 24, 27, 32, 40, 45, 68]:
-        ladder_roll = random.randint(1, 14)
+    if squares1 == 5 or squares1 == 12 or squares1 == 19 or squares1 == 24 or squares1 == 27 or squares1 == 32 or squares1 == 40 or squares1 == 45 or squares1 == 67 or squares1 == 76:
+        ladderroll = random.randint(1,14)
         print('Player 1 landed on a ladder!')
-        print(f'Player 1 moved {ladder_roll} squares')
+        print('Player 1 moved', str(ladderroll), ' squares')
         print()
-        player1_square += ladder_roll
-    
-    # Player 1 - Snakes
-    if player1_square in [12, 15, 23, 24, 33, 39, 48, 49]:
-        snake_roll = random.randint(1, 12)
+        squares1 += ladderroll
+    if squares1 == 12 or squares1 == 15 or squares1 == 23 or squares1 == 24 or squares1 == 33 or squares1 == 39 or squares1 == 48 or squares1 == 49:
+        snakeroll = random.randint(1,12)
         print('Player 1 landed on a snake!')
-        print(f'Player 1 moved back {snake_roll} squares')
+        print('Player 1 moved back', snakeroll,'squares')
         print()
-        player1_square -= snake_roll
+        squares1 -= snakeroll
 
-    # Player 2 - Ladders
-    if player2_square in [5, 12, 19, 24, 27, 32, 40, 45]:
-        ladder_roll = random.randint(1, 14)
+    if squares2 == 5 or squares2 == 12 or squares2 == 19 or squares2 == 24 or squares2 == 27 or squares2 == 32 or squares2 == 40 or squares2 == 45:
+        ladderroll = random.randint(1,14)
         print('Player 2 landed on a ladder!')
-        print(f'Player 2 moved {ladder_roll} squares')
+        print('Player 2 moved', str(ladderroll), ' squares')
         print()
-        player2_square += ladder_roll
-    
-    # Player 2 - Snakes
-    if player2_square in [12, 15, 23, 24, 33, 39, 48, 49, 79]:
-        snake_roll = random.randint(1, 12)
+        squares2 += ladderroll
+    if squares2 == 12 or squares2 == 15 or squares2 == 23 or squares2 == 24 or squares2 == 33 or squares2 == 39 or squares2 == 48 or squares2 == 49 or squares1 == 79:
+        snakeroll = random.randint(1,12)
         print('Player 2 landed on a snake!')
-        print(f'Player 2 moved back {snake_roll} squares')
+        print('Player 2 moved back', snakeroll,'squares')
         print()
-        player2_square -= snake_roll
+        squares2 -= snakeroll
         
-    print(f'Player 1 is on square {player1_square}')
-    print(f'Player 2 is on square {player2_square}')
+    print('Player 1 is on square', str(squares1))
+    print('Player 2 is on square', str(squares2))
     print()
     
-# Determine winner
-if player1_square > player2_square:
-    print('🏆 Player 1 Wins!')
-elif player2_square > player1_square:
-    print('🏆 Player 2 Wins!')
-else:
-    print("It's a Tie! Better luck next time.")
+if squares1 > squares2:
+    print('Player 1 Wins!')
+if squares2 > squares1:
+    print('Player 2 Wins!')
+if squares1 == squares2:
+    print('It\'s a Tie! Try again next time.')
 
-print(f'That took {turns} turns')
+print('That took', turns,'turns')
