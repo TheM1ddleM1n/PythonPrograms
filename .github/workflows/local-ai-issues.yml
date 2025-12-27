@@ -1,4 +1,4 @@
-name: Local AI Issue Chatbot
+name: Local AI Issue Chatbot using Ollama!
 
 on:
   issues:
