@@ -1,5 +1,4 @@
 # Dice
-
 # Subroutine to output dice
 def Output5():
     print("ooooooooooo")
@@ -9,7 +8,5 @@ def Output5():
     print("o  #   #  o")    
     print("o         o")
     print("ooooooooooo")
-
-
 # Main program to output the dice
 Output5()
