@@ -2,31 +2,38 @@ name: British Banter Bot 🇬🇧
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
 
 jobs:
   banter:
+    name: Generate Banter
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for safe rebase
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
-          git config user.name "The British Banters Bot"
-          git config user.email "banterbot@example.com"
+          git config user.name "British Banter Bot 🇬🇧"
+          git config user.email "banter@example.com"
 
-      - name: Fetch and Rebase
+      - name: Check for changes
+        id: changes
         run: |
-          git fetch origin main
-          git rebase origin/main || echo "No changes to rebase"
+          git diff --quiet HEAD~1 HEAD || echo "has_changes=true" >> $GITHUB_OUTPUT
 
       - name: Generate Banter Message
         id: message
+        if: steps.changes.outputs.has_changes == 'true'
         run: |
           messages=(
             "fix: squashed that bug like a proper legend 💂🛠️🔥"
@@ -39,48 +46,29 @@ jobs:
             "fix: patched it up like a boss 🔥🛠️💂"
             "feat: dropped a spicy new bit of code 🌶️💂🧃"
             "chore: decluttered the codebase, lovely jubbly 🧽💂✨"
-            "docs: documented this like a right scholar 📚💂🧃"
-            "refactor: reworked the logic, much better now mate 🔧💂🧃"
-            "style: made it look mint, absolutely chuffed 😎💂🧃"
-            "test: poked it with a stick, it held up 🧃💂🧪"
-            "fix: debugged the gremlins out of this one 🐛💂🔥"
-            "feat: rolled out a cracking feature 🎯💂🧃"
-            "docs: wrote up a proper guide, cheers 📝💂🧃"
-            "refactor: optimised like a champion 🏆💂🧃"
-            "style: beautified the code, absolutely gorgeous 💄💂🧃"
-            "test: verified everything, all tickety-boo ✔️💂🧃"
           )
           RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
           COMMIT_MSG="${messages[$RANDOM_INDEX]}"
           echo "commit_message=$COMMIT_MSG" >> $GITHUB_OUTPUT
 
-      - name: Commit and Push
+      - name: Amend last commit with banter
+        if: steps.changes.outputs.has_changes == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_BANTER_TOKEN }}
+          COMMIT_MSG: ${{ steps.message.outputs.commit_message }}
         run: |
-          git add .
-
-          # Only commit if there are changes
-          if git diff --cached --quiet; then
-            echo "No changes to commit, skipping push."
-            exit 0
-          fi
-
-          git commit -m "${{ steps.message.outputs.commit_message }}"
-          
-          # Pull & rebase again just in case new commits landed
-          git pull --rebase origin main || echo "No changes to rebase"
-          
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} HEAD:main
+          git commit --amend -m "$COMMIT_MSG" --no-edit || echo "No changes to amend"
+          git push --force-with-lease origin main || echo "Nothing to push"
 
       - name: Drop a Cheeky Comment
-        if: success()
+        if: steps.changes.outputs.has_changes == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_BANTER_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           COMMIT_SHA=$(git rev-parse HEAD)
           COMMENT="Nice one, bruv! — commit \`$COMMIT_SHA\` is looking mint 💂🧃"
-          curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+          
+          curl -s -X POST \
+            -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"body\": \"$COMMENT\"}" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments"
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" || echo "⚠️ Comment failed"
