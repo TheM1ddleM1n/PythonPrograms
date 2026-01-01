@@ -1,6 +1,78 @@
+import json
+from datetime import datetime
+
+# Full-featured car dictionary
 thisdict = {
-  "brand": "Ford",
-  "model": "Mustang",
-  "year": 1964
+    "brand": "Ford",
+    "model": "Mustang",
+    "year": 1964,
+    "specs": {
+        "engine": "V8",
+        "horsepower": 271,
+        "transmission": "manual",
+        "top_speed_mph": 120
+    },
+    "owners": [
+        {"name": "Alice", "since": 1965},
+        {"name": "Bob", "since": 1972}
+    ]
 }
-print(thisdict)
+
+# Function to pretty-print the dictionary
+def print_dict(d):
+    print(json.dumps(d, indent=4))
+
+# Function to calculate the car's age
+def car_age(car):
+    current_year = datetime.now().year
+    return current_year - car["year"]
+
+# Function to add a new owner
+def add_owner(car, name, since):
+    car["owners"].append({"name": name, "since": since})
+
+# Function to update specs
+def update_specs(car, key, value):
+    car["specs"][key] = value
+
+# Function to list owners after a certain year
+def owners_after(car, year):
+    return [owner for owner in car["owners"] if owner["since"] > year]
+
+# Function to display main info
+def display_car_info(car):
+    engine = car["specs"]["engine"]
+    hp = car["specs"]["horsepower"]
+    age = car_age(car)
+    newest_owner = car["owners"][-1]["name"] if car["owners"] else "None"
+
+    print(f"{car['brand']} {car['model']} ({car['year']})")
+    print(f"Engine: {engine}, Horsepower: {hp} HP")
+    print(f"Age: {age} years")
+    print(f"Newest Owner: {newest_owner}")
+    print(f"Total Owners: {len(car['owners'])}\n")
+
+# --- Example usage ---
+
+# Update year
+thisdict["year"] = 2023
+
+# Update specs
+update_specs(thisdict, "top_speed_mph", 155)
+
+# Add new owners
+add_owner(thisdict, "Charlie", 2024)
+add_owner(thisdict, "Dana", 2025)
+
+# Display main info
+display_car_info(thisdict)
+
+# Filter owners since 2000
+recent_owners = owners_after(thisdict, 2000)
+print("Owners since 2000:")
+for owner in recent_owners:
+    print(f"- {owner['name']} (since {owner['since']})")
+
+# Print full dictionary
+print("\nFull car details:")
+print_dict(thisdict)
