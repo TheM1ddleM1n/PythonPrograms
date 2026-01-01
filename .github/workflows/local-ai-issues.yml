@@ -1,4 +1,4 @@
-name: Local AI Issue Chatbot using Ollama!
+name: AI Issue Assistant 🤖
 
 on:
   issues:
@@ -11,119 +11,52 @@ permissions:
   contents: read
 
 jobs:
-  local-ai-chat:
+  ai_response:
+    name: Generate AI Response
     runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'issues' || github.event_name == 'issue_comment'
+    if: contains(github.event.issue.body, '@bot') || contains(github.event.comment.body, '@bot')
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      # 🧠 Check for @bot mention (case-insensitive)
-      - name: Check for @bot mention
-        id: mention
+      - name: Get issue/comment body
+        id: content
         run: |
-          body="${{ github.event.comment.body || github.event.issue.body }}"
-          echo "Comment or issue body:"
-          echo "$body"
-          if echo "$body" | grep -i "@bot" > /dev/null; then
-            echo "✅ @bot mention detected"
-            echo "run_job=true" >> $GITHUB_ENV
-          else
-            echo "🛑 No @bot mention found, skipping."
-            echo "run_job=false" >> $GITHUB_ENV
-          fi
-
-      - name: Stop if no mention
-        if: env.run_job != 'true'
-        run: |
-          echo "No @bot mention found. Skipping further steps."
-          exit 0
-
-      # --- FIXED SECTION ---
-      - name: Install and Start Ollama
-        run: |
-          echo "Installing Ollama..."
-          curl -fsSL https://ollama.ai/install.sh | sh
-          echo "Starting Ollama server manually..."
-          nohup ollama serve > /tmp/ollama.log 2>&1 &
-          sleep 8  # Wait a few seconds for startup
-
-      - name: Check Ollama status
-        run: |
-          echo "Checking Ollama server..."
-          if curl -s http://127.0.0.1:11434/api/tags > /dev/null; then
-            echo "✅ Ollama server is running."
-          else
-            echo "❌ Ollama failed to start."
-            echo "Server logs:"
-            cat /tmp/ollama.log || true
-            exit 1
-          fi
-
-      - name: Pull local model
-        run: |
-          echo "Pulling local model..."
-          ollama pull llama3 || ollama pull phi3 || ollama pull codellama
-          ollama list
-      # --- END FIXED SECTION ---
-
-      - name: Prepare prompt
-        id: prompt
-        run: |
-          echo "Preparing prompt..."
-          cat <<'PROMPT' > prompt.txt
-          You are a helpful coding assistant bot for the PythonProgramsV3 repository.
-          You were mentioned with @bot to help answer questions or provide assistance.
-          
-          Read the user's message below, understand their intent, and reply helpfully.
-
-          Provide:
-          - A clear, friendly answer or suggestion.
-          - Example code if relevant (using Python).
-          - Follow-up questions if more info is needed.
-
-          If the text looks like a bug report, suggest possible causes and debugging steps.
-          If it's a feature request, propose implementation ideas.
-          If they're asking about existing programs, refer to the repository structure.
-
-          === USER MESSAGE ===
-          PROMPT
-
-          if [[ "${{ github.event_name }}" == "issues" ]]; then
-            echo "${{ github.event.issue.title }}" >> prompt.txt
-            echo "${{ github.event.issue.body }}" >> prompt.txt
-          else
-            echo "${{ github.event.comment.body }}" >> prompt.txt
-          fi
-
-      - name: Run Local LLM Response
-        id: respond
-        if: env.run_job == 'true'
-        run: |
-          echo "🤖 Generating AI response..."
-          ollama run llama3 < prompt.txt > reply.txt
-          
-          echo "reply<<EOF" >> $GITHUB_OUTPUT
-          cat reply.txt >> $GITHUB_OUTPUT
+          BODY="${{ github.event.comment.body || github.event.issue.body }}"
+          echo "user_message<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Post AI reply as comment
-        if: env.run_job == 'true'
+      - name: Call Hugging Face API
+        id: ai
+        run: |
+          PROMPT="You are a helpful Python programming assistant for the PythonProgramsV3 repository. The user asked:\n\n${{ steps.content.outputs.user_message }}\n\nProvide a helpful response with code examples if relevant."
+          
+          RESPONSE=$(curl -s -X POST \
+            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1" \
+            -H "Authorization: Bearer ${{ secrets.HF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"inputs\": \"$PROMPT\"}" | jq -r '.[0].generated_text // "Error generating response"')
+          
+          echo "ai_response<<EOF" >> $GITHUB_OUTPUT
+          echo "$RESPONSE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post AI response as comment
         uses: peter-evans/create-or-update-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.issue.number || github.event.issue.number }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
-            🤖 **AI Bot Response** (triggered by @bot mention)
+            🤖 **AI Assistant Response** (triggered by @bot mention)
             
-            Model: `llama3` via Ollama
-            
-            ---
-            
-            ${{ steps.respond.outputs.reply }}
+            Model: Mistral 7B via Hugging Face
             
             ---
             
-            *Tip: Mention @bot (any capitalization) in any comment or issue to get AI assistance!*
+            ${{ steps.ai.outputs.ai_response }}
+            
+            ---
+            
+            *Tip: Mention @bot in any issue/comment to get AI assistance!*
