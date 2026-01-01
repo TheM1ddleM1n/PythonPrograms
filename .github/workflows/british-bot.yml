@@ -16,6 +16,9 @@ on:
           - pirate
           - cockney
           - upper-class
+          - yorkshire
+          - scottish
+          - posh-london
 
 permissions:
   contents: write
@@ -57,12 +60,11 @@ jobs:
           fi
           
           if [ "$SELECTED_MODE" == "random" ]; then
-            MODES=("british" "pirate" "cockney" "upper-class")
+            MODES=("british" "pirate" "cockney" "upper-class" "yorkshire" "scottish" "posh-london")
             SELECTED_MODE=${MODES[$((RANDOM % ${#MODES[@]}))]}
           fi
           
           echo "mode=$SELECTED_MODE" >> $GITHUB_OUTPUT
-          echo "Selected banter mode: $SELECTED_MODE" >> $GITHUB_STEP_SUMMARY
 
       - name: Generate British Banter
         id: british
@@ -164,6 +166,81 @@ jobs:
           RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
           echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
 
+      - name: Generate Yorkshire Banter
+        id: yorkshire
+        if: steps.mode.outputs.mode == 'yorkshire'
+        run: |
+          messages=(
+            "fix: right then, fixed that bug like a proper Yorkshire warrior 🛠️💪⚪"
+            "feat: nay bother, added a grand feature, none of yer nonsense 💡✨⚪"
+            "chore: sorted the codebase, clean as a new cloth on t'loom 🧹⚪✨"
+            "docs: wrote it all down proper, like a true Yorkshire scribe 📖⚪💪"
+            "refactor: reorganized t'whole thing, neat and tidy like 🎯⚪💪"
+            "style: made it look right grand, that code does 🎨✨⚪"
+            "test: poked at it till it squealed, all working now 🔍✅⚪"
+            "fix: fixed it faster than you can say 'eh bab' 🏃⚡⚪"
+            "feat: by 'eck, added some cracking new code, proper champion 🏆✨⚪"
+            "chore: cleaned up t'mess, neat and proper like 🧹💪⚪"
+            "perf: sped up faster than a Yorkshire pudding in t'oven ⚡🍲⚪"
+            "fix: patched it up like a proper Yorkshire tradesman 🔧⚪💪"
+            "feat: this feature's a real belter, I tell thee 💎✨⚪"
+            "docs: documented it better than t'Leeds Library, I reckon 📚⚪💪"
+            "refactor: restructured like a Yorkshire stone wall, solid as owt ⛏️⚪💪"
+            "test: tested it within an inch of its life, Yorkshire style ✅⚪💪"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
+      - name: Generate Scottish Banter
+        id: scottish
+        if: steps.mode.outputs.mode == 'scottish'
+        run: |
+          messages=(
+            "fix: och aye, bashed that bug like a true Scot 🇬🇧⚔️🥃"
+            "feat: bonnie wee feature, aye ye dinnae get better than this 💡✨🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "chore: tidied up the codebase, clean as a highland loch 🧹✨🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "docs: wrote it doon like a true son o' Scotland 📖🏴󠁧󠁢󠁳󠁣󠁴󠁿⚔️"
+            "refactor: reorganized tae perfection, as they dae in Edinburgh 🎯✨🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "style: made it bonnie tae look upon, a true Caledonian marvel 🎨🏴󠁧󠁢󠁳󠁣󠁴󠁿✨"
+            "test: tested it tougher than Highland heather, all sorted 🔍✅🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "fix: fixed faster than a Speyside distillery works its magic ⚡🥃✨"
+            "feat: a bonnie new feature, aye the best in a' the land 💎🏴󠁧󠁢󠁳󠁣󠁴󠁿🥃"
+            "chore: swept oot the auld, brought in the new, braw 🧹🏴󠁧󠁢󠁳󠁣󠁴󠁿✨"
+            "perf: sped up like Loch Ness waters in flood, I tell ye 🌊⚡🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "fix: patched it like a true Scottish craftsman, nae messin' 🔧🏴󠁧󠁢󠁳󠁣󠁴󠁿💪"
+            "feat: this feature's a bonnie doozy, straight frae the Highlands 🏔️💡🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "docs: documented it better than Robert Burns himself 📖⚔️🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "refactor: reorganized like a proper Scottish fortification, solid 🏰🎯🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "test: tested it tae the limits, och ye beauty 🔬✅🥃"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
+      - name: Generate Posh London Banter
+        id: posh-london
+        if: steps.mode.outputs.mode == 'posh-london'
+        run: |
+          messages=(
+            "fix: frightfully good show, vanquished that pesky bug from Chelsea 🎩💎✨"
+            "feat: darling, we've procured a most delightful feature for SW1A 1AA 🏴󠁧󠁢󠁥󠁮󠁧󠁿💍✨"
+            "chore: the codebase has been organised with the panache of Belgravia finest 🧹👑✨"
+            "docs: documented with the eloquence of a Knightsbridge scholar, naturally 📚💎🎩"
+            "refactor: restructured with the finesse of a Kensington townhouse restoration 🏘️✨💎"
+            "style: polished to the lustrous gleam of polished Knightsbridge marble 🎨💍✨"
+            "test: subjected to the rigorous standards of a Mayfair investment review ✅👑💎"
+            "fix: rectified with the precision of a Bespoke Savile Row tailor 🔧🎩✨"
+            "feat: an absolutely divine contribution, worthy of The Ritz itself 💡👑🥂"
+            "chore: organised with the meticulousness of a Claridge's concierge 🧹✨💍"
+            "perf: accelerated with the smoothness of a Bentley on Park Lane ⚡🚗💎"
+            "fix: patched with the elegance of a Harrods fine restoration service 🔧💍✨"
+            "feat: a positively exquisite innovation, strictly for the discerning coder 💎👑✨"
+            "docs: composed with the sophistication of a Claridge's invitation, I must say 📖🎩💍"
+            "refactor: restructured with the architectual grandeur of Westminster Abbey 🏰💎👑"
+            "test: examined with the meticulous care of a Sotheby's appraisal, absolutely impeccable ✅💍👑"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
       - name: Consolidate Message
         id: message
         if: steps.changes.outputs.has_changes == 'true'
@@ -179,6 +256,15 @@ jobs:
             upper-class)
               COMMIT_MSG="${{ steps.upper-class.outputs.commit_message }}"
               ;;
+            yorkshire)
+              COMMIT_MSG="${{ steps.yorkshire.outputs.commit_message }}"
+              ;;
+            scottish)
+              COMMIT_MSG="${{ steps.scottish.outputs.commit_message }}"
+              ;;
+            posh-london)
+              COMMIT_MSG="${{ steps.posh-london.outputs.commit_message }}"
+              ;;
             *)
               COMMIT_MSG="${{ steps.british.outputs.commit_message }}"
               ;;
@@ -193,83 +279,37 @@ jobs:
           git commit --amend -m "$COMMIT_MSG" --no-edit 2>/dev/null || echo "ℹ️ No changes to amend"
           git push --force-with-lease origin main 2>/dev/null || echo "ℹ️ Nothing to push"
 
-      - name: Drop a Cheeky Comment (British)
-        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'british'
+      - name: Post Comment
+        if: steps.changes.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          MODE="${{ steps.mode.outputs.mode }}"
           COMMIT_SHA=$(git rev-parse HEAD)
-          REACTIONS=(
-            "Nice one, bruv! — commit \`$COMMIT_SHA\` is looking mint 💂🧃"
-            "Cor blimey! That's a belter of a commit, that is 🚀💂"
-            "Sorted! Commit \`$COMMIT_SHA\` is absolutely pukka 👑✨"
-            "Blimey, you've done well there! Absolute cracker 💪💂"
-            "Top marks! Commit \`$COMMIT_SHA\` is the bee's knees 🐝💂"
-            "Brilliant work, mate! That's a gem of a commit 💎🧃"
-          )
-          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
-          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
-          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
-            -d "{\"body\": \"$COMMENT\"}" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
-            || echo "⚠️ Comment failed"
-
-      - name: Drop a Cheeky Comment (Pirate)
-        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'pirate'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          COMMIT_SHA=$(git rev-parse HEAD)
-          REACTIONS=(
-            "Shiver me timbers! Commit \`$COMMIT_SHA\` be fit for the high seas 🏴‍☠️💎"
-            "Arrr, ye be a true buccaneer! That commit be legendary 🏴‍☠️⚔️"
-            "Yo ho ho! Commit \`$COMMIT_SHA\` be worth its weight in doubloons 🏴‍☠️💰"
-            "Blimey, ye've plundered a fine piece of code there, matey! 🏴‍☠️✨"
-            "Dead men tell no tales, but this commit \`$COMMIT_SHA\` speaks volumes! 🏴‍☠️💀"
-            "Avast ye! That be the finest work ever to sail these digital seas 🏴‍☠️🌊"
-          )
-          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
-          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
-          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
-            -d "{\"body\": \"$COMMENT\"}" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
-            || echo "⚠️ Comment failed"
-
-      - name: Drop a Cheeky Comment (Cockney)
-        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'cockney'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          COMMIT_SHA=$(git rev-parse HEAD)
-          REACTIONS=(
-            "Blimey! Commit \`$COMMIT_SHA\` is the dog's dinner, innit! 🐭✨"
-            "Stone the crows, that's a belter mate! Proper lush work 💚👑"
-            "Cor strike a light! Ye did good there gal, real good 🌟💪"
-            "Blimey, I ain't never seen code so clean, lovely jubbly! 🧹✨"
-            "Stone my crows, commit \`$COMMIT_SHA\` is mint innit, top drawer! 💚🎩"
-            "Aw nah fam, that code be fresher than a Billingsgate catch! 🐟✨"
-          )
-          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
-          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
-          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
-            -d "{\"body\": \"$COMMENT\"}" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
-            || echo "⚠️ Comment failed"
-
-      - name: Drop a Cheeky Comment (Upper-Class)
-        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'upper-class'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          COMMIT_SHA=$(git rev-parse HEAD)
-          REACTIONS=(
-            "Most extraordinary! Commit \`$COMMIT_SHA\` exemplifies the pinnacle of elegance 👑💎"
-            "One must congratulate you forthwith—this is positively Shakespearean coding! 🎭👑"
-            "Absolutely smashing! A commit of such refinement rarely graces our repositories 💎✨"
-            "Pip pip! Commit \`$COMMIT_SHA\` is fit for Her Majesty's personal collection 👑🏰"
-            "Indubitably magnificent! The workmanship here is simply beyond reproach 🎩💎"
-            "What ho! This code exhibits the sophistication of a well-tailored waistcoat indeed! 👔✨"
-          )
+          
+          case $MODE in
+            pirate)
+              REACTIONS=("Shiver me timbers! Commit \`$COMMIT_SHA\` be fit for the high seas 🏴‍☠️💎" "Arrr, ye be a true buccaneer! That commit be legendary 🏴‍☠️⚔️" "Yo ho ho! Commit \`$COMMIT_SHA\` be worth its weight in doubloons 🏴‍☠️💰" "Blimey, ye've plundered a fine piece of code there, matey! 🏴‍☠️✨" "Dead men tell no tales, but this commit \`$COMMIT_SHA\` speaks volumes! 🏴‍☠️💀" "Avast ye! That be the finest work ever to sail these digital seas 🏴‍☠️🌊")
+              ;;
+            cockney)
+              REACTIONS=("Blimey! Commit \`$COMMIT_SHA\` is the dog's dinner, innit! 🐭✨" "Stone the crows, that's a belter mate! Proper lush work 💚👑" "Cor strike a light! Ye did good there gal, real good 🌟💪" "Blimey, I ain't never seen code so clean, lovely jubbly! 🧹✨" "Stone my crows, commit \`$COMMIT_SHA\` is mint innit, top drawer! 💚🎩" "Aw nah fam, that code be fresher than a Billingsgate catch! 🐟✨")
+              ;;
+            upper-class)
+              REACTIONS=("Most extraordinary! Commit \`$COMMIT_SHA\` exemplifies the pinnacle of elegance 👑💎" "One must congratulate you forthwith—this is positively Shakespearean coding! 🎭👑" "Absolutely smashing! A commit of such refinement rarely graces our repositories 💎✨" "Pip pip! Commit \`$COMMIT_SHA\` is fit for Her Majesty's personal collection 👑🏰" "Indubitably magnificent! The workmanship here is simply beyond reproach 🎩💎" "What ho! This code exhibits the sophistication of a well-tailored waistcoat indeed! 👔✨")
+              ;;
+            yorkshire)
+              REACTIONS=("By 'eck, that's a cracking commit there, mate! 💪⚪" "Right then, commit \`$COMMIT_SHA\` is nay bother, proper champion stuff 🏆⚪" "Eh up, that code's grand as owt! Braw work, duck 💡✨" "Stone the crows, that commit's a real belter innit! 🎯⚪" "Nay nonsense, that's quality work, proper Yorkshire pride 💪⚪" "By gum, ye've done summat special there, real proper like! ✨⚪")
+              ;;
+            scottish)
+              REACTIONS=("Och aye, that commit's bonnie as a Highland morning! 🏴󠁧󠁢󠁳󠁣󠁴󠁿💎" "By the waters o' Loch Ness! Commit \`$COMMIT_SHA\` is absolutely braw! 🌊✨" "Aye, that's the finest work I've seen oot o' the Lowlands! 🏰🏴󠁧󠁢󠁳󠁣󠁴󠁿" "Och, ye're a true son o' Scotland with that code! 💪🏴󠁧󠁢󠁳󠁣󠁴󠁿" "Blimey, that commit's worth a dram o' the finest whisky! 🥃✨" "Haud yer wheesht, that's pure dead brilliant, mate! 🎯🏴󠁧󠁢󠁳󠁣󠁴󠁿")
+              ;;
+            posh-london)
+              REACTIONS=("Absolutely divine! Commit \`$COMMIT_SHA\` is fit for The Ritz itself, darling 👑💍" "Frightfully good show! One's impressed with such Knightsbridge-calibre work 🏘️💎" "Pip pip! That commit would grace any Mayfair establishment, truly exquisite 🎩✨" "Positively smashing! Commit \`$COMMIT_SHA\` is the epitome of Chelsea elegance 💎👑" "I say, what a splendid piece of work from a Belgravia perspective! 👔✨" "Absolutely posh! This commit's worthy of a Claridge's celebration, old sport 🥂💍")
+              ;;
+            *)
+              REACTIONS=("Nice one, bruv! — commit \`$COMMIT_SHA\` is looking mint 💂🧃" "Cor blimey! That's a belter of a commit, that is 🚀💂" "Sorted! Commit \`$COMMIT_SHA\` is absolutely pukka 👑✨" "Blimey, you've done well there! Absolute cracker 💪💂" "Top marks! Commit \`$COMMIT_SHA\` is the bee's knees 🐝💂" "Brilliant work, mate! That's a gem of a commit 💎🧃")
+              ;;
+          esac
           RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
           COMMENT="${REACTIONS[$RANDOM_INDEX]}"
           curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
