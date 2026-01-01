@@ -222,7 +222,7 @@ jobs:
         run: |
           messages=(
             "fix: frightfully good show, vanquished that pesky bug from Chelsea 🎩💎✨"
-            "feat: darling, we've procured a most delightful feature for SW1A 1AA 🏴󠁧󠁢󠁥󠁮󠁧󠁿💍✨"
+            "feat: darling, we've procured a most delightful feature for SW1A 1AA"
             "chore: the codebase has been organised with the panache of Belgravia finest 🧹👑✨"
             "docs: documented with the eloquence of a Knightsbridge scholar, naturally 📚💎🎩"
             "refactor: restructured with the finesse of a Kensington townhouse restoration 🏘️✨💎"
