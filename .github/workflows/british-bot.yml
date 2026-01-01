@@ -196,21 +196,21 @@ jobs:
         if: steps.mode.outputs.mode == 'scottish'
         run: |
           messages=(
-            "fix: och aye, bashed that bug like a true Scot 🇬🇧⚔️🥃"
-            "feat: bonnie wee feature, aye ye dinnae get better than this 💡✨🏴󠁧󠁢󠁳󠁣󠁴󠁿"
-            "chore: tidied up the codebase, clean as a highland loch 🧹✨🏴󠁧󠁢󠁳󠁣󠁴󠁿"
-            "docs: wrote it doon like a true son o' Scotland 📖🏴󠁧󠁢󠁳󠁣󠁴󠁿⚔️"
-            "refactor: reorganized tae perfection, as they dae in Edinburgh 🎯✨🏴󠁧󠁢󠁳󠁣󠁴󠁿"
-            "style: made it bonnie tae look upon, a true Caledonian marvel 🎨🏴󠁧󠁢󠁳󠁣󠁴󠁿✨"
-            "test: tested it tougher than Highland heather, all sorted 🔍✅🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "fix: och aye, bashed that bug like a true Scot 🥃⚔️🍺"
+            "feat: bonnie wee feature, aye ye dinnae get better than this 💡✨🏰"
+            "chore: tidied up the codebase, clean as a highland loch 🧹✨🏔️"
+            "docs: wrote it doon like a true son o' Scotland 📖🏰⚔️"
+            "refactor: reorganized tae perfection, as they dae in Edinburgh 🎯✨🏰"
+            "style: made it bonnie tae look upon, a true Caledonian marvel 🎨🏰✨"
+            "test: tested it tougher than Highland heather, all sorted 🔍✅🏔️"
             "fix: fixed faster than a Speyside distillery works its magic ⚡🥃✨"
-            "feat: a bonnie new feature, aye the best in a' the land 💎🏴󠁧󠁢󠁳󠁣󠁴󠁿🥃"
-            "chore: swept oot the auld, brought in the new, braw 🧹🏴󠁧󠁢󠁳󠁣󠁴󠁿✨"
-            "perf: sped up like Loch Ness waters in flood, I tell ye 🌊⚡🏴󠁧󠁢󠁳󠁣󠁴󠁿"
-            "fix: patched it like a true Scottish craftsman, nae messin' 🔧🏴󠁧󠁢󠁳󠁣󠁴󠁿💪"
-            "feat: this feature's a bonnie doozy, straight frae the Highlands 🏔️💡🏴󠁧󠁢󠁳󠁣󠁴󠁿"
-            "docs: documented it better than Robert Burns himself 📖⚔️🏴󠁧󠁢󠁳󠁣󠁴󠁿"
-            "refactor: reorganized like a proper Scottish fortification, solid 🏰🎯🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+            "feat: a bonnie new feature, aye the best in a' the land 💎🏰🥃"
+            "chore: swept oot the auld, brought in the new, braw 🧹🏰✨"
+            "perf: sped up like Loch Ness waters in flood, I tell ye 🌊⚡🏔️"
+            "fix: patched it like a true Scottish craftsman, nae messin' 🔧🏰💪"
+            "feat: this feature's a bonnie doozy, straight frae the Highlands 🏔️💡🥃"
+            "docs: documented it better than Robert Burns himself 📖⚔️🏰"
+            "refactor: reorganized like a proper Scottish fortification, solid 🏰🎯💪"
             "test: tested it tae the limits, och ye beauty 🔬✅🥃"
           )
           RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
@@ -301,7 +301,7 @@ jobs:
               REACTIONS=("By 'eck, that's a cracking commit there, mate! 💪⚪" "Right then, commit \`$COMMIT_SHA\` is nay bother, proper champion stuff 🏆⚪" "Eh up, that code's grand as owt! Braw work, duck 💡✨" "Stone the crows, that commit's a real belter innit! 🎯⚪" "Nay nonsense, that's quality work, proper Yorkshire pride 💪⚪" "By gum, ye've done summat special there, real proper like! ✨⚪")
               ;;
             scottish)
-              REACTIONS=("Och aye, that commit's bonnie as a Highland morning! 🏴󠁧󠁢󠁳󠁣󠁴󠁿💎" "By the waters o' Loch Ness! Commit \`$COMMIT_SHA\` is absolutely braw! 🌊✨" "Aye, that's the finest work I've seen oot o' the Lowlands! 🏰🏴󠁧󠁢󠁳󠁣󠁴󠁿" "Och, ye're a true son o' Scotland with that code! 💪🏴󠁧󠁢󠁳󠁣󠁴󠁿" "Blimey, that commit's worth a dram o' the finest whisky! 🥃✨" "Haud yer wheesht, that's pure dead brilliant, mate! 🎯🏴󠁧󠁢󠁳󠁣󠁴󠁿")
+              REACTIONS=("Och aye, that commit's bonnie as a Highland morning! 🏰💎" "By the waters o' Loch Ness! Commit \`$COMMIT_SHA\` is absolutely braw! 🌊✨" "Aye, that's the finest work I've seen oot o' the Lowlands! 🏰🥃" "Och, ye're a true son o' Scotland with that code! 💪🏔️" "Blimey, that commit's worth a dram o' the finest whisky! 🥃✨" "Haud yer wheesht, that's pure dead brilliant, mate! 🎯⚔️")
               ;;
             posh-london)
               REACTIONS=("Absolutely divine! Commit \`$COMMIT_SHA\` is fit for The Ritz itself, darling 👑💍" "Frightfully good show! One's impressed with such Knightsbridge-calibre work 🏘️💎" "Pip pip! That commit would grace any Mayfair establishment, truly exquisite 🎩✨" "Positively smashing! Commit \`$COMMIT_SHA\` is the epitome of Chelsea elegance 💎👑" "I say, what a splendid piece of work from a Belgravia perspective! 👔✨" "Absolutely posh! This commit's worthy of a Claridge's celebration, old sport 🥂💍")
