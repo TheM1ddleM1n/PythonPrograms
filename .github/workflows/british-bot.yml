@@ -4,6 +4,18 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      banter_mode:
+        description: 'Select banter style'
+        required: true
+        default: 'random'
+        type: choice
+        options:
+          - random
+          - british
+          - pirate
+          - cockney
+          - upper-class
 
 permissions:
   contents: write
@@ -29,11 +41,32 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet HEAD~1 HEAD || echo "has_changes=true" >> $GITHUB_OUTPUT
+          if git diff --quiet HEAD~1 HEAD; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Generate Banter Message
-        id: message
-        if: steps.changes.outputs.has_changes == 'true'
+      - name: Determine Banter Mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            SELECTED_MODE="${{ github.event.inputs.banter_mode }}"
+          else
+            SELECTED_MODE="random"
+          fi
+          
+          if [ "$SELECTED_MODE" == "random" ]; then
+            MODES=("british" "pirate" "cockney" "upper-class")
+            SELECTED_MODE=${MODES[$((RANDOM % ${#MODES[@]}))]}
+          fi
+          
+          echo "mode=$SELECTED_MODE" >> $GITHUB_OUTPUT
+          echo "Selected banter mode: $SELECTED_MODE" >> $GITHUB_STEP_SUMMARY
+
+      - name: Generate British Banter
+        id: british
+        if: steps.mode.outputs.mode == 'british'
         run: |
           messages=(
             "fix: squashed that bug like a proper legend 💂🛠️🔥"
@@ -46,9 +79,110 @@ jobs:
             "fix: patched it up like a boss 🔥🛠️💂"
             "feat: dropped a spicy new bit of code 🌶️💂🧃"
             "chore: decluttered the codebase, lovely jubbly 🧽💂✨"
+            "perf: made it faster than a London underground 🚇⚡💂"
+            "fix: ironed out the wrinkles, looking sharp 👔🔧💂"
+            "feat: brilliant innovation, that is 💡🧃✨"
+            "docs: documented it better than the Queen's English 👑📖💂"
+            "refactor: restructured the whole thing, Bob's your uncle 🎯💂"
+            "test: tested it within an inch of its life ✅🔬💂"
           )
           RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
-          COMMIT_MSG="${messages[$RANDOM_INDEX]}"
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
+      - name: Generate Pirate Banter
+        id: pirate
+        if: steps.mode.outputs.mode == 'pirate'
+        run: |
+          messages=(
+            "fix: arrr, slayed that bug like a fearless buccaneer 🏴‍☠️⚔️💀"
+            "feat: shiver me timbers, added treasure of a feature 🏴‍☠️💎✨"
+            "chore: swab the deck, cleaned up this code proper like 🧹⚓🏴‍☠️"
+            "docs: wrote it down like a captain's log, it is 📜🏴‍☠️⚓"
+            "refactor: plundered and pillaged the codebase, savvy 🗺️💀✨"
+            "style: polished like a pirate's cutlass, it be shinin' 🗡️✨🏴‍☠️"
+            "test: tested with the wrath of Davy Jones himself ⚓💀✅"
+            "fix: fixed it faster than ye can say 'yo ho ho' 🏴‍☠️⚡💂"
+            "feat: dropped a booty load of new code, matey 🏴‍☠️💰🧃"
+            "chore: cast off the barnacles, ship be fresh now 🚢✨💀"
+            "perf: sped it up like a pirate ship in a hurricane 🌪️⚓⚡"
+            "fix: patched the hull breach with cannons of code 🏴‍☠️🔫💎"
+            "feat: a legendary new feature, tell all the seven seas 🌊🏴‍☠️💡"
+            "docs: scrolled the knowledge like an old treasure map 🗺️📖🏴‍☠️"
+            "refactor: reorganized like a pirate's plundered fortress 🏴‍☠️🎯💀"
+            "test: gave it the trials of the Caribbean, it survives 🌊✅⚓"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
+      - name: Generate Cockney Banter
+        id: cockney
+        if: steps.mode.outputs.mode == 'cockney'
+        run: |
+          messages=(
+            "fix: blimey, fixed that bug innit, ain't it sweet 💪🐢✨"
+            "feat: cor strike a light, got a new feature for ya gal 🌟✨👑"
+            "chore: tidy up the gaff, clean as a whistle now mate 🧹✨🎩"
+            "docs: wrote it all down proper, like a London geezer 📖🎩✨"
+            "refactor: rearranged the crib, all spick and span bruv 🎯💪🎩"
+            "style: made it look lush, innit a beaut 🎨✨💚"
+            "test: poked it about somethin' fierce, all sorted yeah 🔍✅💪"
+            "fix: done it up like a proper cockney warrior, no sweat 🐭⚔️✨"
+            "feat: blimey, dropped some mint new bits of code 🌿💚✨"
+            "chore: swept out the old, brought in the new, lovely 🧹💚🎩"
+            "perf: made it quicker than a London cabbie, nuff said ⚡🚕💚"
+            "fix: patched it up slicker than ye old codger's pipe 🔧✨🎩"
+            "feat: stone the crows, this feature is the bees knees 🐝👑💚"
+            "docs: scribbled it down like old Dick Whittington 📜🎩✨"
+            "refactor: reorganized like a proper market stall arrangement 🎯💪🏪"
+            "test: gave it a right old going over, bob's yer uncle ✅🐭🎩"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
+      - name: Generate Upper-Class Banter
+        id: upper-class
+        if: steps.mode.outputs.mode == 'upper-class'
+        run: |
+          messages=(
+            "fix: one has quite efficiently eliminated the offending bug, what what 🎩👑✨"
+            "feat: a most splendid feature has been introduced to one's codebase, naturally 💎🥂✨"
+            "chore: the repository has been organised with the utmost propriety, I assure you 🧹👑✨"
+            "docs: documentation crafted with the precision of Oxford scholars, indeed 📚👑🎩"
+            "refactor: the code structure has been restructured with aristocratic elegance 🎯💎✨"
+            "style: the aesthetics have been refined to the highest standards of sophistication 🎨👑💎"
+            "test: one has subjected the code to rigorous examination, most thoroughly 🔬✅👑"
+            "fix: the malfunction has been rectified with the grace of a Mayfair gentleman 🎩✨💎"
+            "feat: a magnificent contribution to the digital estate, positively splendid 💡👑🥂"
+            "chore: the digital manor has been tidied to perfection, indubitably so 🧹✨👑"
+            "perf: acceleration achieved with the finesse of a Rolls-Royce engine ⚡🚗💎"
+            "fix: patched with the precision of a Savile Row tailor, exceedingly fine 🔧👑✨"
+            "feat: a most distinguished innovation for the discerning programmer, I say 💎🎩✨"
+            "docs: documented with the eloquence of a Cambridge Don, supremely executed 📖👑🎩"
+            "refactor: restructured with the deportment of Windsor Castle guardians 🏰💎👑"
+            "test: examined with the rigour of a Buckingham Palace inspection, absolutely flawless ✅👑💎"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+          echo "commit_message=${messages[$RANDOM_INDEX]}" >> $GITHUB_OUTPUT
+
+      - name: Consolidate Message
+        id: message
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          MODE="${{ steps.mode.outputs.mode }}"
+          case $MODE in
+            pirate)
+              COMMIT_MSG="${{ steps.pirate.outputs.commit_message }}"
+              ;;
+            cockney)
+              COMMIT_MSG="${{ steps.cockney.outputs.commit_message }}"
+              ;;
+            upper-class)
+              COMMIT_MSG="${{ steps.upper-class.outputs.commit_message }}"
+              ;;
+            *)
+              COMMIT_MSG="${{ steps.british.outputs.commit_message }}"
+              ;;
+          esac
           echo "commit_message=$COMMIT_MSG" >> $GITHUB_OUTPUT
 
       - name: Amend last commit with banter
@@ -56,19 +190,104 @@ jobs:
         env:
           COMMIT_MSG: ${{ steps.message.outputs.commit_message }}
         run: |
-          git commit --amend -m "$COMMIT_MSG" --no-edit || echo "No changes to amend"
-          git push --force-with-lease origin main || echo "Nothing to push"
+          git commit --amend -m "$COMMIT_MSG" --no-edit 2>/dev/null || echo "ℹ️ No changes to amend"
+          git push --force-with-lease origin main 2>/dev/null || echo "ℹ️ Nothing to push"
 
-      - name: Drop a Cheeky Comment
-        if: steps.changes.outputs.has_changes == 'true'
+      - name: Drop a Cheeky Comment (British)
+        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'british'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           COMMIT_SHA=$(git rev-parse HEAD)
-          COMMENT="Nice one, bruv! — commit \`$COMMIT_SHA\` is looking mint 💂🧃"
-          
-          curl -s -X POST \
-            -H "Authorization: token $GH_TOKEN" \
-            -H "Content-Type: application/json" \
+          REACTIONS=(
+            "Nice one, bruv! — commit \`$COMMIT_SHA\` is looking mint 💂🧃"
+            "Cor blimey! That's a belter of a commit, that is 🚀💂"
+            "Sorted! Commit \`$COMMIT_SHA\` is absolutely pukka 👑✨"
+            "Blimey, you've done well there! Absolute cracker 💪💂"
+            "Top marks! Commit \`$COMMIT_SHA\` is the bee's knees 🐝💂"
+            "Brilliant work, mate! That's a gem of a commit 💎🧃"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
+          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
+          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
             -d "{\"body\": \"$COMMENT\"}" \
-            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" || echo "⚠️ Comment failed"
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
+            || echo "⚠️ Comment failed"
+
+      - name: Drop a Cheeky Comment (Pirate)
+        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'pirate'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          REACTIONS=(
+            "Shiver me timbers! Commit \`$COMMIT_SHA\` be fit for the high seas 🏴‍☠️💎"
+            "Arrr, ye be a true buccaneer! That commit be legendary 🏴‍☠️⚔️"
+            "Yo ho ho! Commit \`$COMMIT_SHA\` be worth its weight in doubloons 🏴‍☠️💰"
+            "Blimey, ye've plundered a fine piece of code there, matey! 🏴‍☠️✨"
+            "Dead men tell no tales, but this commit \`$COMMIT_SHA\` speaks volumes! 🏴‍☠️💀"
+            "Avast ye! That be the finest work ever to sail these digital seas 🏴‍☠️🌊"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
+          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
+          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
+            || echo "⚠️ Comment failed"
+
+      - name: Drop a Cheeky Comment (Cockney)
+        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'cockney'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          REACTIONS=(
+            "Blimey! Commit \`$COMMIT_SHA\` is the dog's dinner, innit! 🐭✨"
+            "Stone the crows, that's a belter mate! Proper lush work 💚👑"
+            "Cor strike a light! Ye did good there gal, real good 🌟💪"
+            "Blimey, I ain't never seen code so clean, lovely jubbly! 🧹✨"
+            "Stone my crows, commit \`$COMMIT_SHA\` is mint innit, top drawer! 💚🎩"
+            "Aw nah fam, that code be fresher than a Billingsgate catch! 🐟✨"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
+          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
+          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
+            || echo "⚠️ Comment failed"
+
+      - name: Drop a Cheeky Comment (Upper-Class)
+        if: steps.changes.outputs.has_changes == 'true' && steps.mode.outputs.mode == 'upper-class'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          REACTIONS=(
+            "Most extraordinary! Commit \`$COMMIT_SHA\` exemplifies the pinnacle of elegance 👑💎"
+            "One must congratulate you forthwith—this is positively Shakespearean coding! 🎭👑"
+            "Absolutely smashing! A commit of such refinement rarely graces our repositories 💎✨"
+            "Pip pip! Commit \`$COMMIT_SHA\` is fit for Her Majesty's personal collection 👑🏰"
+            "Indubitably magnificent! The workmanship here is simply beyond reproach 🎩💎"
+            "What ho! This code exhibits the sophistication of a well-tailored waistcoat indeed! 👔✨"
+          )
+          RANDOM_INDEX=$((RANDOM % ${#REACTIONS[@]}))
+          COMMENT="${REACTIONS[$RANDOM_INDEX]}"
+          curl -s -X POST -H "Authorization: token $GH_TOKEN" -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
+            || echo "⚠️ Comment failed"
+
+      - name: Post workflow summary
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          MODE="${{ steps.mode.outputs.mode }}"
+          echo "✅ British Banter Applied Successfully! 🇬🇧" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🎭 **Banter Mode:** \`${MODE^^}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📝 **Commit Message:**" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.message.outputs.commit_message }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🎪 The madness continues!" >> $GITHUB_STEP_SUMMARY
