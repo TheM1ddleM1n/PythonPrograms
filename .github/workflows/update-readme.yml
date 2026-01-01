@@ -3,36 +3,51 @@ name: 🧠 Update README Stats
 on:
   push:
     branches: [main]
+    paths:
+      - '**.py'  # Only run if Python files changed
   schedule:
-    - cron: '0 0 * * *'  # Runs at midnight!
+    - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update-readme:
+    name: Calculate and Update Stats
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-    - name: Count Python files and lines
-      run: |
-        PY_FILES=$(find . -name "*.py" | wc -l)
-        TOTAL_LINES=$(find . -name "*.py" -exec cat {} + | wc -l)
-        echo "PY_FILES=$PY_FILES" >> $GITHUB_ENV
-        echo "TOTAL_LINES=$TOTAL_LINES" >> $GITHUB_ENV
+      - name: Count Python files and lines
+        id: stats
+        run: |
+          PY_FILES=$(find . -name "*.py" -type f | wc -l)
+          TOTAL_LINES=$(find . -name "*.py" -type f -exec cat {} + | wc -l)
+          echo "py_files=$PY_FILES" >> $GITHUB_OUTPUT
+          echo "total_lines=$TOTAL_LINES" >> $GITHUB_OUTPUT
+          echo "📊 Found $PY_FILES Python files with $TOTAL_LINES total lines"
 
-    - name: Update README.md
-      run: |
-        STATS="📄 Total lines of code: $TOTAL_LINES\n🐍 Number of Python files: $PY_FILES"
-        DATE="🕒 Last updated: $(date -u +"%Y-%m-%d %H:%M UTC")"
+      - name: Update README.md
+        run: |
+          STATS="📄 Total lines of code: ${{ steps.stats.outputs.total_lines }}\n🐍 Number of Python files: ${{ steps.stats.outputs.py_files }}"
+          DATE="🕒 Last updated: $(date -u +"%Y-%m-%d %H:%M UTC")"
 
-        sed -i "/<!-- STATS:START -->/,/<!-- STATS:END -->/c\\<!-- STATS:START -->\n$STATS\n<!-- STATS:END -->" README.md
-        sed -i "/<!-- UPDATED:START -->/,/<!-- UPDATED:END -->/c\\<!-- UPDATED:START -->\n$DATE\n<!-- UPDATED:END -->" README.md
+          sed -i "/<!-- STATS:START -->/,/<!-- STATS:END -->/c\\<!-- STATS:START -->\n$STATS\n<!-- STATS:END -->" README.md
+          sed -i "/<!-- UPDATED:START -->/,/<!-- UPDATED:END -->/c\\<!-- UPDATED:START -->\n$DATE\n<!-- UPDATED:END -->" README.md
 
-    - name: Commit changes
-      run: |
-        git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "actions@github.com"
-        git add README.md
-        git commit -m "🧠 Update README stats"
-        git push
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          if git diff --quiet README.md; then
+            echo "✅ No changes to README"
+            exit 0
+          fi
+          
+          git add README.md
+          git commit -m "docs: update README stats [skip ci]"
+          git push
