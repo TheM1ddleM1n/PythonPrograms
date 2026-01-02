@@ -10,7 +10,7 @@ score_font = pygame.font.SysFont("poppins", 20)  # or any other font you'd like
 score = 0
 
 # color definition
-WHITE = (255, 255, 255) # Orginal colors
+WHITE = (255, 255, 255) # Original colors
 RED = (255, 0, 0)
 BLUE = (0, 0, 255) # ADDED NEW COLORS - Blue, Purple, Coral!
 PURPLE = (51, 51, 255)
