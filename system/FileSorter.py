@@ -3,7 +3,6 @@ Enhanced File Sorter - Organize your messy folders!
 Usage: python FileSorter.py <folder_path> [--dry-run]
 """
 
-import os
 import shutil
 from pathlib import Path
 import argparse
