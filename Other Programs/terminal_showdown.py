@@ -8,7 +8,7 @@ questions_answered = 0
 
 # 🖥️ Loading Screen
 def loading_screen():
-    print("🔄 Booting Terminal Quiz Showdown", end="")
+    print("🔄 Booting Terminal Showdown", end="")
     for _ in range(5):
         time.sleep(0.5)
         print(".", end="", flush=True)
@@ -112,7 +112,7 @@ def play_quiz():
                                     |___/ 
     """)
     loading_screen()
-    print("Welcome to Terminal Quiz Showdown! Created by ModuleMaster64")
+    print("Welcome to Terminal Showdown! Created by TheM1ddleM1n")
     rounds = 5
     for _ in range(rounds):
         category = choose_category()
@@ -120,10 +120,10 @@ def play_quiz():
         ask_question(question)
 
     # ⚔️ Final Boss Round
-    print("\n⚔️ FINAL BOSS ROUND ⚔️")
+    print("\n⚔️ FINAL BOSS! ⚔️")
     ask_question(final_boss, is_boss=True)
 
     show_results()
 
-# 🚀 Start the Game
+# Load game
 play_quiz()
