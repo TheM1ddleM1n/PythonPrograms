@@ -1,11 +1,21 @@
-# Selection commands
+"""Year group to Key Stage converter."""
 
-# Subroutine to output Key Stage
-def YearGroup(Year):
-    if Year >= 1 and Year <13:
+
+def get_key_stage(year):
+    """
+    Determine UK Key Stage from year group.
+    
+    Args:
+        year (int): Year group (1-11)
+        
+    Returns:
+        None: Prints Key Stage information
+    """
+    if 1 <= year < 11:
         print("You are in Key Stage 1-3!")
     else:
-        print("You are in Key Stage 4-5!")
+        print("You are in Key Stage 4!")
+
 
 # Main program
-YearGroup(10)
+get_key_stage(11)
