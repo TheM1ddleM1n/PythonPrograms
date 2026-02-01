@@ -1,9 +1,22 @@
-def Sample(Hz):
-    if Hz == 44100:
+"""Audio quality checker based on sample rate."""
+
+
+def check_sample_rate(hz):
+    """
+    Determine audio quality from sample rate frequency.
+    
+    Args:
+        hz (int): Sample rate in Hz
+        
+    Returns:
+        None: Prints quality assessment
+    """
+    if hz == 44100:
         print("CD Quality")
-    if Hz < 44100:
+    elif hz < 44100:
         print("Low Quality")
-    if Hz > 44100:
+    else:
         print("Compressed Quality")
 
-Sample(48000)
+
+check_sample_rate(48000)
