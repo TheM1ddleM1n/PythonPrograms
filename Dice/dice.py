@@ -9,7 +9,6 @@ from enum import Enum
 
 class DiceMode(Enum):
     """Available dice game modes."""
-
     SIMPLE_ROLL = "1"
     ASCII_DISPLAY = "2"
     GUESSING_GAME = "3"
@@ -77,6 +76,7 @@ class DiceGame:
     }
 
     def __init__(self):
+        """Initialize game with random seed."""
         random.seed()
 
     def roll(self, sides: int = 6) -> int:
@@ -96,7 +96,7 @@ class DiceGame:
             print(f"Dice value: {value}")
 
     def simple_roll_mode(self):
-        """Mode 1: Simple dice roller."""
+        """Mode 1: Simple dice roller with replay."""
         print("\n🎲 SIMPLE DICE ROLLER")
         print(self.SEPARATOR)
 
@@ -115,7 +115,7 @@ class DiceGame:
                 break
 
     def ascii_display_mode(self):
-        """Mode 2: ASCII art dice display."""
+        """Mode 2: ASCII art dice display with input validation."""
         print("\n🎲 ASCII DICE DISPLAY")
         print(self.SEPARATOR)
 
@@ -239,7 +239,7 @@ def show_main_menu() -> Optional[DiceMode]:
 
 
 def main():
-    """Main entry point."""
+    """Main entry point with replay functionality."""
     game = DiceGame()
 
     while True:
@@ -255,6 +255,12 @@ def main():
             game.ascii_display_mode()
         elif mode == DiceMode.GUESSING_GAME:
             game.guessing_game_mode()
+        
+        # Replay prompt (ADDED)
+        replay = input("\n🔄 Play again? (y/n): ").strip().lower()
+        if replay != 'y':
+            print("\n👋 Thanks for playing!")
+            break
 
 
 if __name__ == "__main__":
