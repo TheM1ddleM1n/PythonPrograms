@@ -24,12 +24,12 @@ A growing collection of Python scripts, experiments, and projects — now even c
 ![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/TheM1ddleM1n/PythonProgramsV3?color=gold)
 
 <!-- STATS:START -->
-📄 Total lines of code: 2232
-🐍 Number of Python files: 41
+📄 Total lines of code: 2046
+🐍 Number of Python files: 40
 <!-- STATS:END -->
 
 <!-- UPDATED:START -->
-🕒 Last updated: 2026-02-01 14:14 UTC
+🕒 Last updated: 2026-02-06 22:37 UTC
 <!-- UPDATED:END -->
 
 ---
