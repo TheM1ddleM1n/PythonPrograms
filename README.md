@@ -78,7 +78,6 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 | **Linting** | ✅ Ruff | Error checking & best practices |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
 | **Type Hints** | ⏳ In Progress | Modern programs have them; legacy code being updated |
-| **Test Coverage** | 📋 Planned | Interactive tests for each program |
 
 ---
 
