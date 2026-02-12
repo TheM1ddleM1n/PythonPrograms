@@ -55,7 +55,7 @@ def morse_decode(code):
     return ''.join(reverse_dict.get(char, '') for char in code.split())
 
 def main():
-    print("🔐 Welcome to the Encryption Tool!")
+    print("Welcome to the Encryption Tool!")
     print("1. Encrypt with Caesar")
     print("2. Decrypt with Caesar")
     print("3. Encrypt with Vigenère")
