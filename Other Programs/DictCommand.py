@@ -52,8 +52,6 @@ def display_car_info(car):
     print(f"Newest Owner: {newest_owner}")
     print(f"Total Owners: {len(car['owners'])}\n")
 
-# --- Example usage ---
-
 # Update year
 thisdict["year"] = 2023
 
