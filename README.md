@@ -1,7 +1,7 @@
 # 🐍 PythonProgramsV3
 
 Welcome to **PythonProgramsV3** — the upgraded successor to *V2*!  
-A growing collection of Python scripts, experiments, and projects — now even cleaner, faster, and better organized.
+A growing collection of Python scripts, experiments, and projects!
 
 ---
 
@@ -77,7 +77,7 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 | **Code Style** | ✅ Black | Consistent formatting |
 | **Linting** | ✅ Ruff | Error checking & best practices |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
-| **Type Hints** | ⏳ In Progress | Modern programs have them; legacy code being updated |
+| **Type Hints** | ⏳ Possible | Modern programs have them; legacy code being updated |
 
 ---
 
