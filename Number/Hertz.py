@@ -1,6 +1,3 @@
-"""Audio quality checker based on sample rate."""
-
-
 def check_sample_rate(hz):
     """
     Determine audio quality from sample rate frequency.
