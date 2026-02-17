@@ -4,7 +4,7 @@ fortune = 0
 replay = "y"
 
 print('Welcome to TheM1ddleM1n\'s fortune telling program!')
-replay = input('Do you want to have your fortune read? Enter y to play on or press enter to exit: ')
+replay = input('Do you want to have your fortune read? Enter the key "y" to play on or press the "enter" key to exit: ')
 
 while replay == "y":
     fortune = random.randint(1, 5)
@@ -30,6 +30,6 @@ while replay == "y":
         print()
 
     elif fortune == 5:
-        print('Oh no! You are bankrupt you spent too much money. What do you do now??')
+        print('Oh noooooo! You are bankrupt you spent too much money. What do you do now??')
         replay = input('Do you want to play again? Enter y to play again or press enter to exit: ')
         print()
