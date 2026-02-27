@@ -77,7 +77,7 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 | **Code Style** | ✅ Black | Consistent formatting |
 | **Linting** | ✅ Ruff | Error checking & best practices |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
-| **Type Hints** | ⏳ Possible | Modern programs have them; legacy code being updated |
+| **Type Hints** |⏳| Modern programs have them; legacy code being updated |
 
 ---
 
