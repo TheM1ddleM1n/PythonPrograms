@@ -4,9 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - '**.py'  # Only run if Python files changed
+      - '**.py'  # only runs if Python files changed
   schedule:
-    - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'  # weekly on Sunday at 2 AM UTC
   workflow_dispatch:
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
     
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Count Python files and lines
         id: stats
