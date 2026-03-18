@@ -13,6 +13,7 @@ A growing collection of Python scripts, experiments, and projects!
 ![CI](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/ci.yml/badge.svg)
 [![British Banter Bot 🇬🇧](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml/badge.svg)](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml)
 ![Python Version](https://img.shields.io/badge/python-3.11+-brightgreen?logo=python&style=for-the-badge)
+![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)
 
 ---
 
@@ -66,7 +67,8 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 | [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonProgramsV3!` |
 | [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
 | **ActionsUser** | Bot | Keeps the `README.md` updated! |
-| **British Banter Bot 🇬🇧** | Fun Bot | Generates British-flavoured status messages! |
+| **British Banter Bot 🇬🇧** | Fun Bot | Generates British-flavoured commit messages! |
+| **Dependabot 🤖** | Bot | Keeps GitHub Actions versions up to date! |
 
 ---
 
@@ -77,7 +79,8 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 | **Code Style** | ✅ Black | Consistent formatting |
 | **Linting** | ✅ Ruff | Error checking & best practices |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
-| **Type Hints** |⏳| Modern programs have them; legacy code being updated |
+| **Dependencies** | ✅ Dependabot | Auto-updates GitHub Actions weekly |
+| **Type Hints** | ⏳ | Modern programs have them; legacy code being updated |
 
 ---
 
