@@ -1,5 +1,4 @@
-"""Web scraper — grabs headlines from BBC News and Hacker News.
-"""
+# Web scraper — grabs headlines from BBC News and Hacker News.
 import html
 import re
 import urllib.request
@@ -23,7 +22,7 @@ def scrape_bbc(limit=10):
 
 
 def scrape_hackernews(limit=10):
-    # Hacker News has a proper JSON API, so again no scraping trickery needed
+    # Hacker News has a proper JSON API, so again no scraping is needed here
     top_ids_raw = fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
     story_ids = re.findall(r"\d+", top_ids_raw)[:limit]
 
@@ -47,17 +46,17 @@ def display(source, headlines):
     print(f"\n 📰 {source}")
     print("  " + "=" * 50)
     if not headlines:
-        print("  Nothing came back — check your connection!")
+        print("Nothing came back — please check your connection")
         return
     for i, (title, link) in enumerate(headlines, 1):
         print(f"\n  {i}. {title}")
-        print(f"     🔗 {link}")
+        print(f"🔗 {link}")
 
 
 def main():
     print("\n📰 WEB SCRAPER")
     print("=" * 40)
-    print("  Pulls headlines from BBC and Hacker News.\n")
+    print("Pulls headlines from BBC and Hacker News.\n")
 
     while True:
         print("1. BBC News")
@@ -72,10 +71,10 @@ def main():
             break
 
         if choice not in ("1", "2", "3"):
-            print("  1-4 only!")
+            print("1-4 only!")
             continue
 
-        print("\nFetching...")
+        print("\nPlease wait while fetching takes place...")
         try:
             if choice in ("1", "3"):
                 display("BBC News", scrape_bbc())
@@ -85,7 +84,6 @@ def main():
             print(f"  ⚠️ Failed to fetch: {e}")
 
         print()
-
-
+        
 if __name__ == "__main__":
     main()
