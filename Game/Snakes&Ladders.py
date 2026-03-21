@@ -1,7 +1,3 @@
-"""
-Unified Snakes and Ladders Game
-Combines all 3 versions with multiple game modes
-"""
 import random
 from typing import Dict, Tuple, Optional
 from dataclasses import dataclass
