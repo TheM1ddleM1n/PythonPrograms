@@ -3,14 +3,11 @@ from typing import Dict, Tuple, Optional
 from dataclasses import dataclass
 from enum import Enum
 
-
 class GameMode(Enum):
-    """Available game modes."""
     SINGLE_PLAYER = "1"
     TWO_PLAYER = "2"
     CLASSIC = "classic"
     ENHANCED = "enhanced"
-
 
 @dataclass
 class BoardConfig:
@@ -36,10 +33,7 @@ class BoardConfig:
                 63: 3
             }
 
-
 class Player:
-    """Represents a player in the game."""
-    
     def __init__(self, name: str, player_number: int = 1):
         self.name = name
         self.number = player_number
