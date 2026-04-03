@@ -1,10 +1,8 @@
 def check_sample_rate(hz):
     """
     Determine audio quality from sample rate frequency.
-    
     Args:
         hz (int): Sample rate in Hz
-        
     Returns:
         None: Prints quality assessment
     """
@@ -14,6 +12,5 @@ def check_sample_rate(hz):
         print("Low Quality")
     else:
         print("Compressed Quality")
-
-
+        
 check_sample_rate(48000)
