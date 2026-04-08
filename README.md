@@ -1,7 +1,7 @@
 # 🐍 PythonProgramsV3
 
 Welcome to **PythonProgramsV3** — the upgraded successor to *V2*!  
-A growing collection of Python scripts, experiments, and projects!
+A growing collection of Python scripts and experiments 
 
 ---
 
