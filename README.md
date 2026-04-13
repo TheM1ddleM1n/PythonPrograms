@@ -12,7 +12,7 @@ A growing collection of Python scripts and experiments
 ![Spellcheck: Codespell](https://img.shields.io/badge/spellcheck-codespell-green)
 ![CI](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/ci.yml/badge.svg)
 [![British Banter Bot 🇬🇧](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml/badge.svg)](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml)
-![Python Version](https://img.shields.io/badge/python-3.11+-brightgreen?logo=python&style=for-the-badge)
+![Python Version](https://img.shields.io/badge/python-3.12+-brightgreen?logo=python&style=for-the-badge)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)
 
 ---
@@ -56,7 +56,7 @@ python Dice/RollTheDice.py
 No Python installed? No problem!  
 Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in your browser.
 
-> 🐍 Recommended: Use Python **3.11+** for full compatibility and new features.
+> 🐍 Recommended: Use Python **3.12+** for full compatibility and new features.
 
 ---
 
