@@ -50,7 +50,6 @@ class Player:
         new_pos = self.position + spaces
         event = None
         
-        # Check for overshoot
         if new_pos > board.winning_square:
             event = f"⚠️ Rolled too high! Stay on square {self.position}"
             return self.position, event
@@ -58,13 +57,11 @@ class Player:
         self.position = new_pos
         self.turns += 1
         
-        # Check for ladder
         if self.position in board.ladders:
             old_pos = self.position
             self.position = board.ladders[self.position]
             event = f"🪜 Ladder! Climbed from {old_pos} to {self.position}"
         
-        # Check for snake
         elif self.position in board.snakes:
             old_pos = self.position
             self.position = board.snakes[self.position]
@@ -185,7 +182,6 @@ def main():
     
     game.play()
     
-    # Ask to play again
     play_again = input("\n🔁 Play again? (y/n): ").strip().lower()
     if play_again == 'y':
         main()
