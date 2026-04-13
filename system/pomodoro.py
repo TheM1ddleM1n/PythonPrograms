@@ -8,7 +8,6 @@ import sys
 from datetime import datetime, timedelta
 from typing import List, Dict
 import json
-from pathlib import Path
 
 
 class PomodoroTimer:
