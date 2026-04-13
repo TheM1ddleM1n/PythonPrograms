@@ -19,7 +19,6 @@ class DiceGame:
 
     SEPARATOR = "=" * 50
 
-    # Dice face Unicode characters
     DICE_FACES = {
         1: "⚀",
         2: "⚁",
@@ -29,7 +28,6 @@ class DiceGame:
         6: "⚅",
     }
 
-    # ASCII art for dice faces
     ASCII_DICE = {
         1: [
             "┌─────────┐",
@@ -256,7 +254,6 @@ def main():
         elif mode == DiceMode.GUESSING_GAME:
             game.guessing_game_mode()
         
-        # Replay prompt (ADDED)
         replay = input("\n🔄 Play again? (y/n): ").strip().lower()
         if replay != 'y':
             print("\n👋 Thanks for playing!")
