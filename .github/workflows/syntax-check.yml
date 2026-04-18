@@ -1,0 +1,32 @@
+name: 🐍 Syntax Check
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+
+    - uses: actions/setup-python@v6
+      with:
+        python-version: '3.12'
+
+    - name: Check syntax of all Python files
+      run: |
+        FAILED=0
+        while IFS= read -r -d '' file; do
+          if ! python -m py_compile "$file" 2>&1; then
+            echo "::error file=$file::Syntax error"
+            FAILED=1
+          fi
+        done < <(find . -name "*.py" -not -path "./.git/*" -print0)
+        if [ "$FAILED" -eq 1 ]; then
+          echo "❌ One or more files have syntax errors"
+          exit 1
+        fi
+        echo "✅ All Python files passed syntax check"
