@@ -1,0 +1,146 @@
+name: 🇬🇧 On Push
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      banter_mode:
+        description: 'Select banter style'
+        required: true
+        default: 'random'
+        type: choice
+        options:
+          - random
+          - british
+          - pirate
+          - cockney
+          - upper-class
+          - yorkshire
+          - scottish
+          - posh-london
+
+permissions:
+  contents: write
+
+env:
+  GIT_USER: "British Banter Bot 🇬🇧"
+  GIT_EMAIL: "banter@example.com"
+
+jobs:
+  on-push:
+    name: Update README & Generate Banter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ env.GIT_USER }}"
+          git config user.email "${{ env.GIT_EMAIL }}"
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet HEAD~1 HEAD; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Count Python files and lines
+        id: stats
+        run: |
+          PY_FILES=$(find . -name "*.py" -type f | wc -l)
+          TOTAL_LINES=$(find . -name "*.py" -type f -exec cat {} + | wc -l)
+          echo "py_files=$PY_FILES" >> $GITHUB_OUTPUT
+          echo "total_lines=$TOTAL_LINES" >> $GITHUB_OUTPUT
+          echo "📊 Found $PY_FILES Python files with $TOTAL_LINES total lines"
+
+      - name: Update README.md
+        run: |
+          STATS="📄 Total lines of code: ${{ steps.stats.outputs.total_lines }}\n🐍 Number of Python files: ${{ steps.stats.outputs.py_files }}"
+          DATE="🕒 Last updated: $(date -u +"%Y-%m-%d %H:%M UTC")"
+
+          sed -i "/<!-- STATS:START -->/,/<!-- STATS:END -->/c\\<!-- STATS:START -->\n$STATS\n<!-- STATS:END -->" README.md
+          sed -i "/<!-- UPDATED:START -->/,/<!-- UPDATED:END -->/c\\<!-- UPDATED:START -->\n$DATE\n<!-- UPDATED:END -->" README.md
+
+      - name: Determine Banter Mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            SELECTED_MODE="${{ github.event.inputs.banter_mode }}"
+          else
+            SELECTED_MODE="random"
+          fi
+
+          if [ "$SELECTED_MODE" == "random" ]; then
+            MODES=("british" "pirate" "cockney" "upper-class" "yorkshire" "scottish" "posh-london")
+            SELECTED_MODE=${MODES[$((RANDOM % ${#MODES[@]}))]}
+          fi
+
+          echo "mode=$SELECTED_MODE" >> $GITHUB_OUTPUT
+
+      - name: Generate Banter Message
+        id: banter
+        env:
+          MODE: ${{ steps.mode.outputs.mode }}
+        run: |
+          source .github/scripts/banter_library.sh
+          MESSAGE=$(get_banter_message "$MODE")
+          echo "commit_message=$MESSAGE" >> $GITHUB_OUTPUT
+
+      - name: Commit everything
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          COMMIT_MSG: ${{ steps.banter.outputs.commit_message }}
+        run: |
+          git add README.md
+
+          if git diff --cached --quiet; then
+            echo "✅ No README changes to commit"
+          else
+            git commit -m "docs: update README stats [skip ci]"
+          fi
+
+          git commit --amend -m "$COMMIT_MSG" --no-edit 2>/dev/null || echo "ℹ️ Nothing to amend"
+          git push --force-with-lease origin main 2>/dev/null || echo "ℹ️ Nothing to push"
+
+      - name: Post commit comment
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODE: ${{ steps.mode.outputs.mode }}
+        run: |
+          source .github/scripts/banter_library.sh
+
+          COMMIT_SHA=$(git rev-parse HEAD)
+          COMMENT=$(get_reaction_comment "$MODE" "$COMMIT_SHA")
+
+          curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"$COMMENT\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/comments" \
+            || echo "⚠️ Comment failed"
+
+      - name: Post workflow summary
+        if: steps.changes.outputs.has_changes == 'true'
+        env:
+          MODE: ${{ steps.mode.outputs.mode }}
+          COMMIT_MSG: ${{ steps.banter.outputs.commit_message }}
+        run: |
+          echo "✅ On Push Workflow Complete! 🇬🇧" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🎭 **Banter Mode:** \`${MODE^^}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📝 **Commit Message:**" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "$COMMIT_MSG" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 **Python Files:** ${{ steps.stats.outputs.py_files }}" >> $GITHUB_STEP_SUMMARY
+          echo "📄 **Total Lines:** ${{ steps.stats.outputs.total_lines }}" >> $GITHUB_STEP_SUMMARY
