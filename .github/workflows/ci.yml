@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
+
 jobs:
   codespell:
     runs-on: ubuntu-latest
@@ -20,4 +24,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - run: pipx run ruff format --check
+    - name: Format with Ruff
+      run: pipx run ruff format .
+    - name: Commit formatting fixes
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        if git diff --quiet; then
+          echo "✅ No formatting changes needed"
+          exit 0
+        fi
+
+        git add -A
+        git commit -m "style: apply ruff formatting [skip ci]"
+
+        for i in 1 2 3; do
+          git pull --rebase origin main && git push && break
+          echo "⚠️ Push failed, retrying ($i/3)..."
+          sleep 5
+        done
