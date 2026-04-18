@@ -6,6 +6,7 @@ score = 0
 streak = 0
 questions_answered = 0
 
+
 # 🖥️ Loading Screen
 def loading_screen():
     print("🔄 Booting Terminal Showdown", end="")
@@ -15,30 +16,35 @@ def loading_screen():
     print("\n✅ Ready!\n")
     time.sleep(1)
 
+
 # 🧠 Question Bank
 question_bank = {
     "Science": [
         {"q": "What planet is known as the Red Planet?", "a": "mars"},
         {"q": "What gas do plants absorb from the atmosphere?", "a": "carbon dioxide"},
-        {"q": "What is the chemical symbol for gold?", "a": "au"}
+        {"q": "What is the chemical symbol for gold?", "a": "au"},
     ],
     "History": [
-        {"q": "Who was the first President of the United States?", "a": "george washington"},
+        {
+            "q": "Who was the first President of the United States?",
+            "a": "george washington",
+        },
         {"q": "In which year did World War II end?", "a": "1945"},
-        {"q": "What wall fell in 1989?", "a": "berlin wall"}
+        {"q": "What wall fell in 1989?", "a": "berlin wall"},
     ],
     "Memes": [
         {"q": "Finish the phrase: 'One does not simply...'", "a": "walk into mordor"},
         {"q": "What animal is known for 'Dramatic Chipmunk'?", "a": "prairie dog"},
-        {"q": "What is the name of the Shrek swamp song?", "a": "all star"}
-    ]
+        {"q": "What is the name of the Shrek swamp song?", "a": "all star"},
+    ],
 }
 
 # 👑 Final Boss Question
 final_boss = {
     "q": "You're in a room with two doors. One leads to freedom, the other to doom. Two guards stand watch: one always lies, one always tells the truth. You can ask one question. What do you ask?",
-    "a": "what would the other guard say"
+    "a": "what would the other guard say",
 }
+
 
 # ⏱️ Timed Question
 def ask_question(q_obj, is_boss=False):
@@ -74,6 +80,7 @@ def ask_question(q_obj, is_boss=False):
         streak = 0
     questions_answered += 1
 
+
 # 📚 Category Selection
 def choose_category():
     print("\n📚 Choose a category:")
@@ -82,10 +89,11 @@ def choose_category():
     choice = input("Enter number: ")
     categories = list(question_bank.keys())
     if choice.isdigit() and 1 <= int(choice) <= len(categories):
-        return categories[int(choice)-1]
+        return categories[int(choice) - 1]
     else:
         print("❌ Invalid choice. Defaulting to 'Science'.")
         return "Science"
+
 
 # 🎉 Endgame Summary
 def show_results():
@@ -100,6 +108,7 @@ def show_results():
         print("👏 Solid effort, quiz warrior.")
     else:
         print("🧃 You need more juice. Try again!")
+
 
 # 🏁 Game Loop
 def play_quiz():
@@ -124,6 +133,7 @@ def play_quiz():
     ask_question(final_boss, is_boss=True)
 
     show_results()
+
 
 # Load game
 play_quiz()

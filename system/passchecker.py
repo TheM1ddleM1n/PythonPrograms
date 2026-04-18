@@ -40,7 +40,7 @@ def password_entropy(password):
 
 def crack_time(entropy_bits):
     guesses_per_second = 1e12
-    seconds = 2 ** entropy_bits / guesses_per_second
+    seconds = 2**entropy_bits / guesses_per_second
 
     if seconds < 1:
         return "Instantly"
@@ -192,8 +192,12 @@ root.configure(bg="#000000")
 
 style = ttk.Style()
 style.theme_use("clam")
-style.configure("TLabel", background="#000000", foreground="#00ff00", font=("Consolas", 11))
-style.configure("TButton", background="#003300", foreground="#00ff00", font=("Consolas", 11))
+style.configure(
+    "TLabel", background="#000000", foreground="#00ff00", font=("Consolas", 11)
+)
+style.configure(
+    "TButton", background="#003300", foreground="#00ff00", font=("Consolas", 11)
+)
 style.map("TButton", background=[("active", "#005500")])
 
 label = ttk.Label(root, text="Enter Password:")
@@ -227,7 +231,7 @@ text_output = tk.Text(
     state="disabled",
     bg="#001100",
     fg="#00ff00",
-    font=("Consolas", 11)
+    font=("Consolas", 11),
 )
 text_output.pack(pady=10)
 

@@ -34,7 +34,11 @@ def scrape_hackernews(limit=10):
             url_match = re.search(r'"url":"(.*?)"', data)
             if title_match:
                 title = html.unescape(title_match.group(1))
-                link = url_match.group(1) if url_match else f"https://news.ycombinator.com/item?id={sid}"
+                link = (
+                    url_match.group(1)
+                    if url_match
+                    else f"https://news.ycombinator.com/item?id={sid}"
+                )
                 stories.append((title, link))
         except Exception:
             continue
@@ -84,6 +88,7 @@ def main():
             print(f"  ⚠️ Failed to fetch: {e}")
 
         print()
-        
+
+
 if __name__ == "__main__":
     main()

@@ -4,17 +4,17 @@
 def get_key_stage(year):
     """
     Map UK year group to Key Stage level.
-    
+
     Key Stage mapping:
     - KS1: Years 1-2
     - KS2: Years 3-6
     - KS3: Years 7-9
     - KS4: Years 10-11
     - KS5: Years 12-13
-    
+
     Args:
         year (int): Year group (1-13)
-        
+
     Returns:
         str: Key Stage description
     """

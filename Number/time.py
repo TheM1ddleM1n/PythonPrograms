@@ -4,12 +4,14 @@ from datetime import datetime
 now = datetime.now()
 
 # Different formats
-full_date_time = now.strftime("%Y-%m-%d %H:%M:%S")  # Full date and time ie. 2010/03/02 12:01:22
-date_only = now.strftime("%Y-%m-%d")                  # Date only ie. 2010/03/02
-time_only_24hr = now.strftime("%H:%M:%S")             # Time in 24-hour format
-time_only_12hr = now.strftime("%I:%M:%S %p")          # Time in 12-hour format with AM/PM 
-day_of_week = now.strftime("%A")                        # Day of the week ie. Friday
-month_name = now.strftime("%B")                         # Full month name ie. June
+full_date_time = now.strftime(
+    "%Y-%m-%d %H:%M:%S"
+)  # Full date and time ie. 2010/03/02 12:01:22
+date_only = now.strftime("%Y-%m-%d")  # Date only ie. 2010/03/02
+time_only_24hr = now.strftime("%H:%M:%S")  # Time in 24-hour format
+time_only_12hr = now.strftime("%I:%M:%S %p")  # Time in 12-hour format with AM/PM
+day_of_week = now.strftime("%A")  # Day of the week ie. Friday
+month_name = now.strftime("%B")  # Full month name ie. June
 
 # Print all formats
 print("Full Date and Time:", full_date_time)

@@ -4,6 +4,7 @@
 def VAT(Total):
     return Total * 0.05
 
+
 # Main program
 Total = 100.12
 ValueAddedTax = VAT(Total)

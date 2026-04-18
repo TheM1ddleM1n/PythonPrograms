@@ -41,6 +41,3 @@ if money >= 20:
     print(f"\n🍰 As a surprise, the chef sends out a complimentary {dessert}.")
 
 print("\n🎭 Thank you for dining with us at the Chateau of Food! Please come again!")
-
-
-     

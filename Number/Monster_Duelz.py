@@ -24,4 +24,3 @@ if player_health <= 0:
     print("☠️ Oh no! You were defeated!")
 elif monster_health <= 0:
     print("🏆 You slayed the monster! Congrats!")
-

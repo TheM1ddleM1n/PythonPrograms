@@ -1,5 +1,6 @@
 import random
 
+
 # Subroutine to demonstrate casting and operators
 def MathsDemo(X, Y):
     DivisionResult = X / Y
@@ -8,8 +9,9 @@ def MathsDemo(X, Y):
     print("{} integer division by {} is {}".format(X, Y, IntDivisionResult))
     ModResult = X % Y
     print("{} modulus {} is {}".format(X, Y, ModResult))
-    ExpResult = X ** Y
+    ExpResult = X**Y
     print("{} to the power of {} is {}".format(X, Y, ExpResult))
+
 
 # Main program with random inputs
 x = random.randint(1, 100)

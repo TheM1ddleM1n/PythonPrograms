@@ -5,7 +5,7 @@ import random
 
 class Team:
     """Represents a basketball team."""
-    
+
     def __init__(self, name):
         """Initialize team with name and score."""
         self.name = name
@@ -14,7 +14,7 @@ class Team:
 
 class Game:
     """Controls the basketball game."""
-    
+
     def __init__(self):
         """Initialize game with two teams and quarter tracking."""
         self.home_team = Team("Home Team")
@@ -40,12 +40,16 @@ class Game:
             away_score = random.randint(0, 5)
             self.home_team.score += home_score
             self.away_team.score += away_score
-            print(f"{self.home_team.name}: {home_score} - {self.away_team.name}: {away_score}")
+            print(
+                f"{self.home_team.name}: {home_score} - {self.away_team.name}: {away_score}"
+            )
 
     def print_scores(self):
         """Print current scores (FIXED BUG)."""
-        print(f"Current scores: {self.home_team.name} - {self.home_team.score}, "
-              f"{self.away_team.name} - {self.away_team.score}")
+        print(
+            f"Current scores: {self.home_team.name} - {self.home_team.score}, "
+            f"{self.away_team.name} - {self.away_team.score}"
+        )
 
 
 def main():
@@ -53,7 +57,7 @@ def main():
     game = Game()
     while True:
         user_input = input("Press 'q' to quit, or press Enter to continue: ")
-        if user_input == 'q':
+        if user_input == "q":
             break
         game.start_game()
         game.play_quarter()

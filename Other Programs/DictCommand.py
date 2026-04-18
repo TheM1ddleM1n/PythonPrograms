@@ -10,34 +10,37 @@ thisdict = {
         "engine": "V8",
         "horsepower": 271,
         "transmission": "manual",
-        "top_speed_mph": 120
+        "top_speed_mph": 120,
     },
-    "owners": [
-        {"name": "Alice", "since": 1965},
-        {"name": "Bob", "since": 1972}
-    ]
+    "owners": [{"name": "Alice", "since": 1965}, {"name": "Bob", "since": 1972}],
 }
+
 
 # Function to pretty-print the dictionary
 def print_dict(d):
     print(json.dumps(d, indent=4))
+
 
 # Function to calculate the car's age
 def car_age(car):
     current_year = datetime.now().year
     return current_year - car["year"]
 
+
 # Function to add a new owner
 def add_owner(car, name, since):
     car["owners"].append({"name": name, "since": since})
+
 
 # Function to update specs
 def update_specs(car, key, value):
     car["specs"][key] = value
 
+
 # Function to list owners after a certain year
 def owners_after(car, year):
     return [owner for owner in car["owners"] if owner["since"] > year]
+
 
 # Function to display main info
 def display_car_info(car):
@@ -51,6 +54,7 @@ def display_car_info(car):
     print(f"Age: {age} years")
     print(f"Newest Owner: {newest_owner}")
     print(f"Total Owners: {len(car['owners'])}\n")
+
 
 # Update year
 thisdict["year"] = 2023

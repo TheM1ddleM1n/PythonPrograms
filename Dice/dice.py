@@ -2,6 +2,7 @@
 Unified Dice Game Collection
 Combines simple dice roller, ASCII display, and guessing game
 """
+
 import random
 from typing import Optional
 from enum import Enum
@@ -9,6 +10,7 @@ from enum import Enum
 
 class DiceMode(Enum):
     """Available dice game modes."""
+
     SIMPLE_ROLL = "1"
     ASCII_DISPLAY = "2"
     GUESSING_GAME = "3"
@@ -105,9 +107,7 @@ class DiceGame:
             print(f"\n🎲 You rolled a {roll} {self.get_unicode_face(roll)}\n")
 
             cont = (
-                input("Roll again? (Enter to continue, 'q' to quit): ")
-                .strip()
-                .lower()
+                input("Roll again? (Enter to continue, 'q' to quit): ").strip().lower()
             )
             if cont == "q":
                 break
@@ -253,9 +253,9 @@ def main():
             game.ascii_display_mode()
         elif mode == DiceMode.GUESSING_GAME:
             game.guessing_game_mode()
-        
+
         replay = input("\n🔄 Play again? (y/n): ").strip().lower()
-        if replay != 'y':
+        if replay != "y":
             print("\n👋 Thanks for playing!")
             break
 

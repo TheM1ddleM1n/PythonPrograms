@@ -12,5 +12,6 @@ def check_sample_rate(hz):
         print("Low Quality")
     else:
         print("Compressed Quality")
-        
+
+
 check_sample_rate(48000)

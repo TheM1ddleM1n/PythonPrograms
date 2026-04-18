@@ -37,7 +37,7 @@ def display_stats(wpm, accuracy, time_taken, errors):
     print(f"🎯 Accuracy: {accuracy}%")
     print(f"⏱️  Time: {time_taken:.2f} seconds")
     print(f"❌ Errors: {errors}")
-    
+
     # Performance rating
     if wpm >= 60 and accuracy >= 95:
         print("\n🏆 Excellent! You're a typing master!")
@@ -52,55 +52,55 @@ def display_stats(wpm, accuracy, time_taken, errors):
 def typing_test():
     """Run a single typing test."""
     text = random.choice(SAMPLE_TEXTS)
-    
+
     print("\n" + "=" * 50)
     print("Type the following text:")
     print("=" * 50)
     print(f"\n{text}\n")
     print("=" * 50)
-    
+
     input("Press ENTER when ready to start...")
     print("\nGO! Start typing:\n")
-    
+
     start_time = time.time()
     typed_text = input()
     end_time = time.time()
-    
+
     time_taken = end_time - start_time
     wpm = calculate_wpm(text, time_taken)
     accuracy = calculate_accuracy(text, typed_text)
-    
+
     # Count errors
     errors = sum(1 for o, t in zip(text, typed_text) if o != t)
     errors += abs(len(text) - len(typed_text))  # Add length difference
-    
+
     display_stats(wpm, accuracy, time_taken, errors)
-    
+
     return wpm, accuracy
 
 
 def main():
     print("⌨️  Welcome to the Typing Speed Test!")
     print("Test your typing speed and accuracy")
-    
+
     total_tests = 0
     total_wpm = 0
     total_accuracy = 0
-    
+
     while True:
         print("\n" + "=" * 50)
         print("1. Start typing test")
         print("2. View overall stats")
         print("3. Exit")
-        
+
         choice = input("\nChoose an option (1-3): ").strip()
-        
+
         if choice == "1":
             wpm, accuracy = typing_test()
             total_tests += 1
             total_wpm += wpm
             total_accuracy += accuracy
-            
+
         elif choice == "2":
             if total_tests == 0:
                 print("\n❌ No tests completed yet!")
@@ -113,11 +113,11 @@ def main():
                 print(f"Tests completed: {total_tests}")
                 print(f"Average WPM: {avg_wpm}")
                 print(f"Average Accuracy: {avg_accuracy}%")
-                
+
         elif choice == "3":
             print("\n👋 Thanks for practicing! Keep improving!")
             break
-            
+
         else:
             print("❌ Invalid choice. Please select 1-3.")
 
