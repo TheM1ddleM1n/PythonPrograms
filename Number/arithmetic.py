@@ -14,7 +14,7 @@ def maths_demo(x, y):
     print(f"{x} / {y} = {x / y}")
     print(f"{x} // {y} = {x // y}  (integer division)")
     print(f"{x} % {y} = {x % y}  (modulus)")
-    print(f"{x} ** {y} = {x ** y}  (exponent)")
+    print(f"{x} ** {y} = {x**y}  (exponent)")
 
 
 def float_demo():
@@ -33,7 +33,7 @@ def heart_flow_rate(volume, time):
 
 def volume_of_sphere(r):
     """Calculate the volume of a sphere."""
-    return 4 / 3 * (3.14 * (r ** 3))
+    return 4 / 3 * (3.14 * (r**3))
 
 
 def real_world_demos():
