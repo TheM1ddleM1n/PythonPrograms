@@ -197,7 +197,6 @@ Aye, that's the finest work I've seen oot o' the Lowlands! 🏰🥃
 Och, ye're a true son o' Scotland with that code! 💪🏔️
 Blimey, that commit's worth a dram o' the finest whisky! 🥃✨
 Haud yer wheesht, that's pure dead brilliant, mate! 🎯⚔️
-Och aye the noo! Commit %COMMIT% is a braw piece o' work 🏴󠁧󠁢󠁳󠁣󠁴󠁿✨
 By the bonnie banks! That code's finer than a Highland reel 🎵🏔️
 Hoots mon! Commit %COMMIT% is worthy of a Highland fling 💃🥃
 Awa' wi' ye! That's the bonniest code I've seen a' week 🏰💎
