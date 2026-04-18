@@ -2,7 +2,6 @@
 name: ci
 on:
   push:
-    # branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -21,4 +20,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - run: pipx run ruff format
+    - run: pipx run ruff format --check
