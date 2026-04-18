@@ -5,7 +5,7 @@ def Find(Phrase, Word):
     return Start, End
 
 # Main program
-Phrase = "Clean code always looks like it was written by someone who cares." — Robert C. Martin
+Phrase = "Clean code always looks like it was written by someone who cares." Robert C. Martin
 Word = "written"
 Start, End = Find(Phrase,Word)
 print("'{}' can be found between characters {} and {} in '{}'.".format(Word, Start, End, Phrase))
