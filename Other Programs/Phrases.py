@@ -1,13 +1,11 @@
-# String data types
-
-# Subroutine to process a phrase
+# Subroutine for Phrases
 def Find(Phrase, Word):
     Start = Phrase.find(Word)
     End = Start + len(Word) -1
     return Start, End
 
 # Main program
-Phrase = "Code never lies; comments sometimes do. - Ron Jeffries"
-Word = "comments"
+Phrase = "Clean code always looks like it was written by someone who cares." — Robert C. Martin
+Word = "written"
 Start, End = Find(Phrase,Word)
 print("'{}' can be found between characters {} and {} in '{}'.".format(Word, Start, End, Phrase))
