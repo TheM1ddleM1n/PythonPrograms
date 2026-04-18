@@ -4,9 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - '**.py'  # only runs if Python files changed
+      - '**.py'
   schedule:
-    - cron: '0 2 * * 0'  # weekly on Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -16,7 +16,7 @@ jobs:
   update-readme:
     name: Calculate and Update Stats
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
@@ -42,12 +42,17 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          
+
           if git diff --quiet README.md; then
             echo "✅ No changes to README"
             exit 0
           fi
-          
+
           git add README.md
           git commit -m "docs: update README stats [skip ci]"
-          git push
+
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "⚠️ Push failed, retrying ($i/3)..."
+            sleep 5
+          done
