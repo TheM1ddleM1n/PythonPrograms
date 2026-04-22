@@ -62,7 +62,7 @@ def play(mode):
 
         guess = int(guess)
         attempts += 1
-        
+
         if guess > number:
             slow("Lower")
 
@@ -73,12 +73,14 @@ def play(mode):
             slow("You won in " + str(attempts) + " attempts")
             break
 
+
 def secret_reveal():
     slow("Secret mode unlocked")
     time.sleep(0.5)
     slow("Range increased")
     time.sleep(0.5)
     slow("Good luck")
+
 
 while True:
     intro()
