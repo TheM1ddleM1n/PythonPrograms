@@ -7,17 +7,17 @@ print("")
 time.sleep(3)
 
 
-number = random.randint(1,100)
+number = random.randint(1, 100)
 
 while True:
- guess = int(input())
- if guess > number:
-   print("Lower")
- if guess < number:
-   print("Higher")
- if guess == number:
-   print("You won !")
-   break
+    guess = int(input())
+    if guess > number:
+        print("Lower")
+    if guess < number:
+        print("Higher")
+    if guess == number:
+        print("You won !")
+        break
 
 
 time.sleep(1e6)
