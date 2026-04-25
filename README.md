@@ -11,7 +11,7 @@ A growing collection of Python scripts and experiments
 ![Linter: Ruff](https://img.shields.io/badge/linter-ruff-purple)
 ![Spellcheck: Codespell](https://img.shields.io/badge/spellcheck-codespell-green)
 ![CI](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/ci.yml/badge.svg)
-[![British Banter Bot 🇬🇧](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml/badge.svg)](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml)
+[![British Banter Bot 🇬🇧](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/british-bot.yml/badge.svg)](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/onpush.yml)
 ![Python Version](https://img.shields.io/badge/python-3.12+-brightgreen?logo=python&style=for-the-badge)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)
 
