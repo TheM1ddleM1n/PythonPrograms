@@ -80,7 +80,6 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 | **Linting** | ✅ Ruff | Error checking & best practices |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
 | **Dependencies** | ✅ Dependabot | Auto-updates GitHub Actions weekly |
-| **Type Hints** | ⏳ | Modern programs have them; legacy code being updated |
 
 ---
 
