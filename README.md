@@ -34,9 +34,9 @@ A growing collection of Python scripts and experiments
 
 ---
 
-## 🌟 Quick Start Guide
+## Quick Start Guide
 
-### 💻 Run Locally
+### Run Locally via command 
 ```bash
 # Clone the repository
 git clone https://github.com/TheM1ddleM1n/PythonProgramsV3.git
@@ -51,7 +51,7 @@ python Other\ Programs/TerminalQuizShowdown.py
 python Dice/RollTheDice.py
 ```
 
-### 🌐 Run in Browser
+### Run in Browser
 No Python installed? No problem!  
 Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in your browser.
 
