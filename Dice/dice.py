@@ -1,8 +1,3 @@
-"""
-Unified Dice Game Collection
-Combines simple dice roller, ASCII display, and guessing game
-"""
-
 import random
 from typing import Optional
 from enum import Enum
