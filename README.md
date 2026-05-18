@@ -1,7 +1,7 @@
 # 🐍 PythonProgramsV3
 
 Welcome to **PythonProgramsV3** — the upgraded successor to *V2*!  
-A growing collection of Python scripts and experiments 
+A growing collection of Python scripts and experiments.
 
 ---
 
@@ -25,6 +25,7 @@ A growing collection of Python scripts and experiments
 
 <!-- STATS:START -->
 📄 Total lines of code: 3355
+
 🐍 Number of Python files: 42
 <!-- STATS:END -->
 
