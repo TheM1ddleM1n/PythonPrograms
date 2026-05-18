@@ -110,8 +110,7 @@ def build_table(versions):
     today = date.today()
 
     all_sorted = sorted(
-        (e for e in versions if version_key(e) >= MIN_VERSION),
-        key=version_key
+        (e for e in versions if version_key(e) >= MIN_VERSION), key=version_key
     )
 
     if not all_sorted:
@@ -128,12 +127,13 @@ def build_table(versions):
 
     upcoming_eol = next(
         (
-            e for e in all_sorted
+            e
+            for e in all_sorted
             if not parsed[e["cycle"]][1]
             and parsed[e["cycle"]][0] is not None
             and months_between(today, parsed[e["cycle"]][0]) <= 12
         ),
-        None
+        None,
     )
 
     lines = [
@@ -145,7 +145,10 @@ def build_table(versions):
         "",
         "| Version | Released | EOL Date | Months Until EOL | Status |",
         "|---------|----------|----------|------------------|--------|",
-        *[format_row(e, recommended_cycle, latest_cycle, today, parsed[e["cycle"]]) for e in all_sorted],
+        *[
+            format_row(e, recommended_cycle, latest_cycle, today, parsed[e["cycle"]])
+            for e in all_sorted
+        ],
         "",
     ]
 
@@ -180,14 +183,15 @@ def update_readme(table_content):
         raise RuntimeError(f"Failed to read {README_PATH}: {e}")
 
     pattern = re.compile(
-        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END),
-        re.DOTALL
+        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END), re.DOTALL
     )
 
     if not re.search(pattern, content):
         raise ValueError(f"Could not find version markers in {README_PATH}")
 
-    updated = re.sub(pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content)
+    updated = re.sub(
+        pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content
+    )
 
     try:
         with open(README_PATH, "w", encoding="utf-8") as f:
