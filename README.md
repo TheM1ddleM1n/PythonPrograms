@@ -80,8 +80,6 @@ python Dice/RollTheDice.py
 No Python installed? No problem!  
 Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in your browser.
 
-> 🐍 Recommended: Use Python **3.12+** for full compatibility and new features.
-
 ---
 
 ## 👥 Contributors
