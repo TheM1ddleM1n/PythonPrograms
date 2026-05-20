@@ -3,12 +3,26 @@ import urllib.error
 import json
 import re
 from datetime import date, datetime
+from typing import NamedTuple
 
 API_URL = "https://endoflife.date/api/python.json"
 README_PATH = "README.md"
 TABLE_START = "<!-- PYTHON_VERSIONS_START -->"
 TABLE_END = "<!-- PYTHON_VERSIONS_END -->"
 MIN_VERSION = (3, 10)
+UPCOMING_EOL_MONTHS = 12
+
+
+class ParsedDates(NamedTuple):
+    eol_date: date | None
+    is_eol: bool
+    support_end: date | None
+
+
+class NotableVersions(NamedTuple):
+    recommended_cycle: str
+    latest_cycle: str
+    upcoming_eol_entry: dict | None
 
 
 def version_key(entry):
@@ -27,17 +41,17 @@ def parse_date(value):
         return None
 
 
-def parse_entry_dates(entry):
+def parse_entry_dates(entry, today):
     eol_raw = entry.get("eol")
     if isinstance(eol_raw, bool):
         eol_date = None
         is_eol = eol_raw
     else:
         eol_date = parse_date(eol_raw)
-        is_eol = eol_date is not None and eol_date <= date.today()
+        is_eol = eol_date is not None and eol_date <= today
 
     support_end = parse_date(entry.get("support"))
-    return eol_date, is_eol, support_end
+    return ParsedDates(eol_date, is_eol, support_end)
 
 
 def months_between(from_date, to_date):
@@ -47,54 +61,93 @@ def months_between(from_date, to_date):
     return max(0, months)
 
 
+def age_display(release_date, today):
+    if release_date is None:
+        return "?"
+    total_months = months_between(release_date, today)
+    years = total_months // 12
+    months = total_months % 12
+    if years and months:
+        return f"{years}y {months}mo"
+    if years:
+        return f"{years}y"
+    return f"{months}mo"
+
+
 def eol_display(eol_date, is_eol):
     if eol_date is None:
-        return "~~EOL~~" if is_eol else "Unknown"
+        return "~~EOL~~" if is_eol else "?"
     if is_eol:
         return f"~~{eol_date}~~"
     return str(eol_date)
 
 
-def months_until_eol_display(eol_date, is_eol):
+def months_until_eol_display(eol_date, is_eol, today):
     if is_eol:
         return "—"
     if eol_date is None:
         return "?"
-    months = months_between(date.today(), eol_date)
-    return f"{months}mo"
+    return f"{months_between(today, eol_date)}mo"
 
 
-def status_label(is_eol, is_recommended, is_latest, support_end, today):
+def phase_display(is_eol, support_end, today):
     if is_eol:
-        return "🔴 EOL — stop using this"
+        return "EOL"
+    if support_end is not None and support_end <= today:
+        return "Security"
+    return "Full"
+
+
+def status_label(is_eol, is_recommended, is_latest):
+    if is_eol:
+        return "🔴 Stop using"
     if is_recommended:
-        return "✅ **This is recommended**"
+        return "✅ Recommended"
     if is_latest:
         return "🟢 Latest"
-    if support_end is not None and support_end <= today:
-        return "🟠 Security-only — migrate soon"
-    return "🟡 Security-only"
+    return "—"
 
 
-def format_row(entry, recommended_cycle, latest_cycle, today, parsed_dates):
-    eol_date, is_eol, support_end = parsed_dates
+def last_release_display(latest_release_date, today):
+    if latest_release_date is None:
+        return "?"
+    total_months = months_between(latest_release_date, today)
+    if total_months == 0:
+        return "This month"
+    if total_months == 1:
+        return "1mo ago"
+    return f"{total_months}mo ago"
+
+
+def format_row(entry, recommended_cycle, latest_cycle, today, parsed):
     cycle = entry.get("cycle", "?")
-    released = entry.get("releaseDate", "?")
+    release_date = parse_date(entry.get("releaseDate"))
+    released = str(release_date) if release_date else "?"
+    latest_patch = entry.get("latest", "?")
+    latest_release_date = parse_date(entry.get("latestReleaseDate"))
 
     is_recommended = cycle == recommended_cycle
     is_latest = cycle == latest_cycle and cycle != recommended_cycle
 
-    label = status_label(is_eol, is_recommended, is_latest, support_end, today)
-    eol_col = eol_display(eol_date, is_eol)
-    months_col = months_until_eol_display(eol_date, is_eol)
+    age_col = age_display(release_date, today)
+    bugfix_col = str(parsed.support_end) if parsed.support_end else "?"
+    patch_col = latest_patch
+    last_release_col = last_release_display(latest_release_date, today)
+    phase_col = phase_display(parsed.is_eol, parsed.support_end, today)
+    eol_col = eol_display(parsed.eol_date, parsed.is_eol)
+    months_col = months_until_eol_display(parsed.eol_date, parsed.is_eol, today)
+    status_col = status_label(parsed.is_eol, is_recommended, is_latest)
 
-    return f"| {cycle} | {released} | {eol_col} | {months_col} | {label} |"
+    return (
+        f"| {cycle} | {released} | {age_col} | {bugfix_col} | {latest_patch} "
+        f"| {last_release_col} | {phase_col} | {eol_col} | {months_col} | {status_col} |"
+    )
 
 
 def fetch_versions():
     try:
         with urllib.request.urlopen(API_URL) as response:
-            data = json.loads(response.read().decode())
+            data = json.loads(response.read())
     except urllib.error.URLError as e:
         raise RuntimeError(f"Failed to fetch version data: {e}")
     except json.JSONDecodeError as e:
@@ -106,57 +159,64 @@ def fetch_versions():
     return data
 
 
+def select_notable_versions(all_sorted, parsed, today):
+    active = [e for e in all_sorted if not parsed[e["cycle"]].is_eol]
+
+    if not active:
+        raise RuntimeError("No active (non-EOL) Python versions found")
+
+    recommended = active[-2] if len(active) >= 2 else active[-1]
+    latest = active[-1]
+
+    upcoming_eol = next(
+        (
+            e for e in all_sorted
+            if not parsed[e["cycle"]].is_eol
+            and parsed[e["cycle"]].eol_date is not None
+            and months_between(today, parsed[e["cycle"]].eol_date) <= UPCOMING_EOL_MONTHS
+        ),
+        None
+    )
+
+    return NotableVersions(
+        recommended_cycle=recommended["cycle"],
+        latest_cycle=latest["cycle"],
+        upcoming_eol_entry=upcoming_eol,
+    )
+
+
 def build_table(versions):
     today = date.today()
 
     all_sorted = sorted(
-        (e for e in versions if version_key(e) >= MIN_VERSION), key=version_key
+        (e for e in versions if version_key(e) >= MIN_VERSION),
+        key=version_key
     )
 
     if not all_sorted:
         raise RuntimeError("No versions matched the minimum version filter")
 
-    parsed = {e["cycle"]: parse_entry_dates(e) for e in all_sorted}
-    active = [e for e in all_sorted if not parsed[e["cycle"]][1]]
-
-    recommended = active[-2] if len(active) >= 2 else (active[-1] if active else None)
-    latest = active[-1] if active else None
-
-    recommended_cycle = recommended["cycle"] if recommended else "?"
-    latest_cycle = latest["cycle"] if latest else "?"
-
-    upcoming_eol = next(
-        (
-            e
-            for e in all_sorted
-            if not parsed[e["cycle"]][1]
-            and parsed[e["cycle"]][0] is not None
-            and months_between(today, parsed[e["cycle"]][0]) <= 12
-        ),
-        None,
-    )
+    parsed = {e["cycle"]: parse_entry_dates(e, today) for e in all_sorted}
+    notable = select_notable_versions(all_sorted, parsed, today)
 
     lines = [
-        f"> **Recommended: Python {recommended_cycle}** — stable, fully supported, and widely compatible with modern libraries. "
-        f"**{latest_cycle}** is available if you want the latest but may have rough edges in some packages. "
+        f"> **Recommended: Python {notable.recommended_cycle}** — stable, fully supported, and widely compatible with modern libraries. "
+        f"**{notable.latest_cycle}** is available if you want the latest but may have rough edges in some packages. "
         f"And it might not work on all computers",
         "",
         "Each Python version gets ~2 years of full bug-fix releases, then ~3 years of security-only patches, for a total of 5 years of support. After that it's EOL — no more patches, ever.",
         "",
-        "| Version | Released | EOL Date | Months Until EOL | Status |",
-        "|---------|----------|----------|------------------|--------|",
-        *[
-            format_row(e, recommended_cycle, latest_cycle, today, parsed[e["cycle"]])
-            for e in all_sorted
-        ],
+        "| Version | Released | Age | Bug-fix Until | Latest Patch | Last Release | Phase | EOL Date | Months Until EOL | Status |",
+        "|---------|----------|-----|---------------|--------------|--------------|-------|----------|------------------|--------|",
+        *[format_row(e, notable.recommended_cycle, notable.latest_cycle, today, parsed[e["cycle"]]) for e in all_sorted],
         "",
     ]
 
-    if upcoming_eol:
-        eol_date, _, _ = parsed[upcoming_eol["cycle"]]
-        months_left = months_between(today, eol_date)
+    if notable.upcoming_eol_entry:
+        eol_entry_parsed = parsed[notable.upcoming_eol_entry["cycle"]]
+        months_left = months_between(today, eol_entry_parsed.eol_date)
         lines.append(
-            f"If your project still targets {upcoming_eol['cycle']}, start planning a migration — "
+            f"If your project still targets {notable.upcoming_eol_entry['cycle']}, start planning a migration — "
             f"it reaches end of life in just {months_left} month{'s' if months_left != 1 else ''}. "
             f"Check your version with:"
         )
@@ -183,15 +243,14 @@ def update_readme(table_content):
         raise RuntimeError(f"Failed to read {README_PATH}: {e}")
 
     pattern = re.compile(
-        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END), re.DOTALL
+        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END),
+        re.DOTALL
     )
 
     if not re.search(pattern, content):
         raise ValueError(f"Could not find version markers in {README_PATH}")
 
-    updated = re.sub(
-        pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content
-    )
+    updated = re.sub(pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content)
 
     try:
         with open(README_PATH, "w", encoding="utf-8") as f:
