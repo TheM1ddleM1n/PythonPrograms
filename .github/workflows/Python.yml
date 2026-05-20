@@ -23,7 +23,7 @@ jobs:
           python-version: '3.13'
 
       - name: Run update script
-        run: python scripts/py_versions.py
+        run: python scripts/py_version.py
 
       - name: Commit and push if changed
         run: |
