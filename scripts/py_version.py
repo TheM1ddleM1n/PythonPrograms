@@ -74,18 +74,19 @@ def age_display(release_date, today):
     return f"📅 {months}mo"
 
 
-def eol_display(eol_date, is_eol):
-    if eol_date is None:
-        return (
-            "![EOL](https://img.shields.io/badge/EOL-unknown-lightgrey?style=flat-square)"
-            if is_eol
-            else "?"
-        )
-    if is_eol:
-        return (
-            f"![EOL](https://img.shields.io/badge/EOL-{eol_date}-red?style=flat-square)"
-        )
-    return str(eol_date)
+def latest_patch_display(latest_patch, latest_release_date, today):
+    if latest_patch is None:
+        return "?"
+    if latest_release_date is None:
+        return latest_patch
+    total_months = months_between(latest_release_date, today)
+    if total_months == 0:
+        ago = "this month"
+    elif total_months == 1:
+        ago = "1mo ago"
+    else:
+        ago = f"{total_months}mo ago"
+    return f"{latest_patch} ({ago})"
 
 
 def months_until_eol_display(eol_date, is_eol, today):
@@ -96,57 +97,42 @@ def months_until_eol_display(eol_date, is_eol, today):
     return f"⏳ {months_between(today, eol_date)}mo"
 
 
-def phase_badge(is_eol, support_end, today):
+def status_badge(is_eol, is_recommended, is_latest, support_end, today):
     if is_eol:
-        return "![Phase](https://img.shields.io/badge/Phase-EOL-red?style=flat-square)"
-    if support_end is not None and support_end <= today:
-        return "![Phase](https://img.shields.io/badge/Phase-Security-orange?style=flat-square)"
-    return "![Phase](https://img.shields.io/badge/Phase-Full-brightgreen?style=flat-square)"
-
-
-def status_badge(is_eol, is_recommended, is_latest):
-    if is_eol:
-        return "![Status](https://img.shields.io/badge/Status-Stop_Using-red?style=flat-square)"
+        return "![Status](https://img.shields.io/badge/Status-Stop_Using-red?style=for-the-badge)"
     if is_recommended:
-        return "![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=flat-square)"
+        return "![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge)"
     if is_latest:
-        return "![Status](https://img.shields.io/badge/Status-Latest-blue?style=flat-square)"
-    return "![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=flat-square)"
+        return "![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge)"
+    if support_end is not None and support_end <= today:
+        return "![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge)"
+    return "![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge)"
 
 
-def last_release_display(latest_release_date, today):
-    if latest_release_date is None:
+def bugfix_display(support_end, is_eol):
+    if is_eol:
+        return "—"
+    if support_end is None:
         return "?"
-    total_months = months_between(latest_release_date, today)
-    if total_months == 0:
-        return "🕐 This month"
-    if total_months == 1:
-        return "🕐 1mo ago"
-    return f"🕐 {total_months}mo ago"
+    return str(support_end)
 
 
 def format_row(entry, recommended_cycle, latest_cycle, today, parsed):
     cycle = entry.get("cycle", "?")
     release_date = parse_date(entry.get("releaseDate"))
-    released = str(release_date) if release_date else "?"
-    latest_patch = entry.get("latest", "?")
+    latest_patch = entry.get("latest")
     latest_release_date = parse_date(entry.get("latestReleaseDate"))
 
     is_recommended = cycle == recommended_cycle
     is_latest = cycle == latest_cycle and cycle != recommended_cycle
 
     age_col = age_display(release_date, today)
-    bugfix_col = str(parsed.support_end) if parsed.support_end else "?"
-    last_release_col = last_release_display(latest_release_date, today)
-    phase_col = phase_badge(parsed.is_eol, parsed.support_end, today)
-    eol_col = eol_display(parsed.eol_date, parsed.is_eol)
+    bugfix_col = bugfix_display(parsed.support_end, parsed.is_eol)
+    patch_col = latest_patch_display(latest_patch, latest_release_date, today)
     months_col = months_until_eol_display(parsed.eol_date, parsed.is_eol, today)
-    status_col = status_badge(parsed.is_eol, is_recommended, is_latest)
+    status_col = status_badge(parsed.is_eol, is_recommended, is_latest, parsed.support_end, today)
 
-    return (
-        f"| {cycle} | {released} | {age_col} | {bugfix_col} | {latest_patch} "
-        f"| {last_release_col} | {phase_col} | {eol_col} | {months_col} | {status_col} |"
-    )
+    return f"| {cycle} | {age_col} | {bugfix_col} | {patch_col} | {months_col} | {status_col} |"
 
 
 def fetch_versions():
@@ -175,14 +161,12 @@ def select_notable_versions(all_sorted, parsed, today):
 
     upcoming_eol = next(
         (
-            e
-            for e in all_sorted
+            e for e in all_sorted
             if not parsed[e["cycle"]].is_eol
             and parsed[e["cycle"]].eol_date is not None
-            and months_between(today, parsed[e["cycle"]].eol_date)
-            <= UPCOMING_EOL_MONTHS
+            and months_between(today, parsed[e["cycle"]].eol_date) <= UPCOMING_EOL_MONTHS
         ),
-        None,
+        None
     )
 
     return NotableVersions(
@@ -196,7 +180,8 @@ def build_table(versions):
     today = date.today()
 
     all_sorted = sorted(
-        (e for e in versions if version_key(e) >= MIN_VERSION), key=version_key
+        (e for e in versions if version_key(e) >= MIN_VERSION),
+        key=version_key
     )
 
     if not all_sorted:
@@ -212,18 +197,9 @@ def build_table(versions):
         "",
         "Each Python version gets ~2 years of full bug-fix releases, then ~3 years of security-only patches, for a total of 5 years of support. After that it's EOL — no more patches, ever.",
         "",
-        "| Version | Released | Age | Bug-fix Until | Latest Patch | Last Release | Phase | EOL Date | Months Until EOL | Status |",
-        "|---------|----------|-----|---------------|--------------|--------------|-------|----------|------------------|--------|",
-        *[
-            format_row(
-                e,
-                notable.recommended_cycle,
-                notable.latest_cycle,
-                today,
-                parsed[e["cycle"]],
-            )
-            for e in all_sorted
-        ],
+        "| Version | Age | Bug-fix Until | Latest Patch | Months Until EOL | Status |",
+        "|---------|-----|---------------|--------------|------------------|--------|",
+        *[format_row(e, notable.recommended_cycle, notable.latest_cycle, today, parsed[e["cycle"]]) for e in all_sorted],
         "",
     ]
 
@@ -258,15 +234,14 @@ def update_readme(table_content):
         raise RuntimeError(f"Failed to read {README_PATH}: {e}")
 
     pattern = re.compile(
-        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END), re.DOTALL
+        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END),
+        re.DOTALL
     )
 
     if not re.search(pattern, content):
         raise ValueError(f"Could not find version markers in {README_PATH}")
 
-    updated = re.sub(
-        pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content
-    )
+    updated = re.sub(pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content)
 
     try:
         with open(README_PATH, "w", encoding="utf-8") as f:
