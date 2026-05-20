@@ -31,11 +31,11 @@ Each Python version gets ~2 years of full bug-fix releases, then ~3 years of sec
 
 | Version | Released | Age | Bug-fix Until | Latest Patch | Last Release | Phase | EOL Date | Months Until EOL | Status |
 |---------|----------|-----|---------------|--------------|--------------|-------|----------|------------------|--------|
-| 3.10 | 2021-10-04 | 4y 7mo | 2023-04-05 | 3.10.20 | 2mo ago | Security | 2026-10-31 | 5mo | — |
-| 3.11 | 2022-10-24 | 3y 6mo | 2024-04-01 | 3.11.15 | 2mo ago | Security | 2027-10-31 | 17mo | — |
-| 3.12 | 2023-10-02 | 2y 7mo | 2025-04-02 | 3.12.13 | 2mo ago | Security | 2028-10-31 | 29mo | — |
-| 3.13 | 2024-10-07 | 1y 7mo | 2026-10-01 | 3.13.13 | 1mo ago | Full | 2029-10-31 | 41mo | ✅ Recommended |
-| 3.14 | 2025-10-07 | 7mo | 2027-10-01 | 3.14.5 | This month | Full | 2030-10-31 | 53mo | 🟢 Latest |
+| 3.10 | 2021-10-04 | 📅 4y 7mo | 2023-04-05 | 3.10.20 | 🕐 2mo ago | ![Phase](https://img.shields.io/badge/Phase-Security-orange?style=flat-square) | 2026-10-31 | ⏳ 5mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=flat-square) |
+| 3.11 | 2022-10-24 | 📅 3y 6mo | 2024-04-01 | 3.11.15 | 🕐 2mo ago | ![Phase](https://img.shields.io/badge/Phase-Security-orange?style=flat-square) | 2027-10-31 | ⏳ 17mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=flat-square) |
+| 3.12 | 2023-10-02 | 📅 2y 7mo | 2025-04-02 | 3.12.13 | 🕐 2mo ago | ![Phase](https://img.shields.io/badge/Phase-Security-orange?style=flat-square) | 2028-10-31 | ⏳ 29mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=flat-square) |
+| 3.13 | 2024-10-07 | 📅 1y 7mo | 2026-10-01 | 3.13.13 | 🕐 1mo ago | ![Phase](https://img.shields.io/badge/Phase-Full-brightgreen?style=flat-square) | 2029-10-31 | ⏳ 41mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=flat-square) |
+| 3.14 | 2025-10-07 | 📅 7mo | 2027-10-01 | 3.14.5 | 🕐 This month | ![Phase](https://img.shields.io/badge/Phase-Full-brightgreen?style=flat-square) | 2030-10-31 | ⏳ 53mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=flat-square) |
 
 If your project still targets 3.10, start planning a migration — it reaches end of life in just 5 months. Check your version with:
 
