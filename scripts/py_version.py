@@ -76,9 +76,15 @@ def age_display(release_date, today):
 
 def eol_display(eol_date, is_eol):
     if eol_date is None:
-        return "![EOL](https://img.shields.io/badge/EOL-unknown-lightgrey?style=flat-square)" if is_eol else "?"
+        return (
+            "![EOL](https://img.shields.io/badge/EOL-unknown-lightgrey?style=flat-square)"
+            if is_eol
+            else "?"
+        )
     if is_eol:
-        return f"![EOL](https://img.shields.io/badge/EOL-{eol_date}-red?style=flat-square)"
+        return (
+            f"![EOL](https://img.shields.io/badge/EOL-{eol_date}-red?style=flat-square)"
+        )
     return str(eol_date)
 
 
@@ -169,12 +175,14 @@ def select_notable_versions(all_sorted, parsed, today):
 
     upcoming_eol = next(
         (
-            e for e in all_sorted
+            e
+            for e in all_sorted
             if not parsed[e["cycle"]].is_eol
             and parsed[e["cycle"]].eol_date is not None
-            and months_between(today, parsed[e["cycle"]].eol_date) <= UPCOMING_EOL_MONTHS
+            and months_between(today, parsed[e["cycle"]].eol_date)
+            <= UPCOMING_EOL_MONTHS
         ),
-        None
+        None,
     )
 
     return NotableVersions(
@@ -188,8 +196,7 @@ def build_table(versions):
     today = date.today()
 
     all_sorted = sorted(
-        (e for e in versions if version_key(e) >= MIN_VERSION),
-        key=version_key
+        (e for e in versions if version_key(e) >= MIN_VERSION), key=version_key
     )
 
     if not all_sorted:
@@ -207,7 +214,16 @@ def build_table(versions):
         "",
         "| Version | Released | Age | Bug-fix Until | Latest Patch | Last Release | Phase | EOL Date | Months Until EOL | Status |",
         "|---------|----------|-----|---------------|--------------|--------------|-------|----------|------------------|--------|",
-        *[format_row(e, notable.recommended_cycle, notable.latest_cycle, today, parsed[e["cycle"]]) for e in all_sorted],
+        *[
+            format_row(
+                e,
+                notable.recommended_cycle,
+                notable.latest_cycle,
+                today,
+                parsed[e["cycle"]],
+            )
+            for e in all_sorted
+        ],
         "",
     ]
 
@@ -242,14 +258,15 @@ def update_readme(table_content):
         raise RuntimeError(f"Failed to read {README_PATH}: {e}")
 
     pattern = re.compile(
-        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END),
-        re.DOTALL
+        re.escape(TABLE_START) + r".*?" + re.escape(TABLE_END), re.DOTALL
     )
 
     if not re.search(pattern, content):
         raise ValueError(f"Could not find version markers in {README_PATH}")
 
-    updated = re.sub(pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content)
+    updated = re.sub(
+        pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content
+    )
 
     try:
         with open(README_PATH, "w", encoding="utf-8") as f:
