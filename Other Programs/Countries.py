@@ -52,7 +52,7 @@ while True:
         if randomphrases == 5:
            print("Wrong guess")
     if guess.lower() == country.lower():
-           wonrandomphrases = random.randint(1,5)
+           wonrandomphrases = random.randint(1,4)
            if wrongguesses > 5:
               print("It's not that one you noob")
               time.sleep(2)
