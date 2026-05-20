@@ -34,22 +34,22 @@ if randomcountry == 10:
     country = "Scotland"
 
 print("In this program you will need to guess the country I am thinking of")
-print("I am thinking of a country between London and Japan")
+print("I am thinking of a country between London and Japan. Good luck.")
 
 while True:
-    guess = input("Enter your guess: ")
+    guess = input("Please enter your guess: ")
 
     if guess.lower() != country.lower():
         randomphrases = random.randint(1, 5)
         wrongguesses = wrongguesses + 1
         if randomphrases == 1:
-            print("Interesting guess, but not quite!")
+            print("That was a interesting guess, but not quite.")
         if randomphrases == 2:
-            print("That's not right :(")
+            print("Welp. That was not right :(")
         if randomphrases == 3:
             print("Nice guess, but it's not this one.")
         if randomphrases == 4:
-            print("Nah")
+            print("Nuh uh")
         if randomphrases == 5:
             print("Wrong guess")
     if guess.lower() == country.lower():
@@ -64,9 +64,9 @@ while True:
             print("You won!")
             input()
         if wonrandomphrases == 2:
-            print("Congratulations, you guessed it right")
+            print("Congratulations, you guessed it right!")
             input()
 
         if wonrandomphrases == 4:
-            print("GGs, you guessed it right")
+            print("GGs, you guessed it right!")
             input()
