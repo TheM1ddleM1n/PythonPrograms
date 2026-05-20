@@ -45,7 +45,7 @@ while True:
         if randomphrases == 1:
             print("That was a interesting guess, but not quite.")
         if randomphrases == 2:
-            print("Welp. That was not right :(")
+            print("That was not right :(")
         if randomphrases == 3:
             print("Nice guess, but it's not this one.")
         if randomphrases == 4:
