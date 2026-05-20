@@ -1,7 +1,9 @@
 import re
 
+
 def is_valid_name(name):
     return re.fullmatch(r"[A-Za-z\s\-']+", name) is not None
+
 
 surname = input("Enter your surname: ")
 forename = input("Enter your forename: ")
