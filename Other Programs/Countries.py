@@ -1,36 +1,37 @@
 import random
 import time
-randomcountry = random.randint(1,10)
+
+randomcountry = random.randint(1, 10)
 wrongguesses = 0
 if randomcountry == 1:
-   country = "Spain"
+    country = "Spain"
 
 if randomcountry == 2:
-   country = "US"
+    country = "US"
 
 if randomcountry == 3:
-   country = "UK"
+    country = "UK"
 
 if randomcountry == 4:
-   country = "Poland"
+    country = "Poland"
 
 if randomcountry == 5:
-   country = "France"
+    country = "France"
 
 if randomcountry == 6:
-   country = "Australia"
+    country = "Australia"
 
 if randomcountry == 7:
-   country = "Italy"
+    country = "Italy"
 
 if randomcountry == 8:
-   country = "Portugal"
+    country = "Portugal"
 
 if randomcountry == 9:
-   country = "Finland"
+    country = "Finland"
 
 if randomcountry == 10:
-   country = "Scotland"
+    country = "Scotland"
 
 print("In this program you will need to guess the country I am thinking of")
 print("I am thinking of a country between London and Japan")
@@ -39,36 +40,33 @@ while True:
     guess = input("Enter your guess: ")
 
     if guess.lower() != country.lower():
-        randomphrases = random.randint(1,5)
+        randomphrases = random.randint(1, 5)
         wrongguesses = wrongguesses + 1
         if randomphrases == 1:
-           print("Interesting guess, but not quite!")
+            print("Interesting guess, but not quite!")
         if randomphrases == 2:
-           print("That's not right :(")
+            print("That's not right :(")
         if randomphrases == 3:
-           print("Nice guess, but it's not this one.")
+            print("Nice guess, but it's not this one.")
         if randomphrases == 4:
-           print("Nah")
+            print("Nah")
         if randomphrases == 5:
-           print("Wrong guess")
+            print("Wrong guess")
     if guess.lower() == country.lower():
-           wonrandomphrases = random.randint(1,4)
-           if wrongguesses > 5:
-              print("It's not that one you noob")
-              time.sleep(2)
-              print("Nah just kidding you got it right")
-              input()
+        wonrandomphrases = random.randint(1, 4)
+        if wrongguesses > 5:
+            print("It's not that one you noob")
+            time.sleep(2)
+            print("Nah just kidding you got it right")
+            input()
 
-           if wonrandomphrases == 1:
-              print("You won!")
-              input()
-           if wonrandomphrases == 2:
-              print("Congratulations, you guessed it right")
-              input()
-           
-           if wonrandomphrases == 4:
-              print("GGs, you guessed it right")
-              input()
-           
+        if wonrandomphrases == 1:
+            print("You won!")
+            input()
+        if wonrandomphrases == 2:
+            print("Congratulations, you guessed it right")
+            input()
 
-    
+        if wonrandomphrases == 4:
+            print("GGs, you guessed it right")
+            input()
