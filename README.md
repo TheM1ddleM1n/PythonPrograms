@@ -85,7 +85,6 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| **Code Style** | ✅ Black | Consistent formatting |
 | **Linting** | ✅ Ruff | Error checking & best practices |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
 | **Dependencies** | ✅ Dependabot | Auto-updates GitHub Actions weekly |
