@@ -77,8 +77,6 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 |------|------|-------------|
 | [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonProgramsV3!` |
 | [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
-| **ActionsUser** | Bot | Keeps the `README.md` updated! |
-| **British Banter Bot 🇬🇧** | Fun Bot | Generates British-flavoured commit messages! |
 | **Dependabot 🤖** | Bot | Keeps GitHub Actions versions up to date! |
 
 ---
