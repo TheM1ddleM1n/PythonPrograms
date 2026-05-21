@@ -6,8 +6,6 @@ A growing collection of Python scripts and experiments.
 ---
 
 ### 🧰 Tech Stack & Tools
-
-![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![Linter: Ruff](https://img.shields.io/badge/linter-ruff-purple)
 ![Spellcheck: Codespell](https://img.shields.io/badge/spellcheck-codespell-green)
 ![CI](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/ci.yml/badge.svg)
