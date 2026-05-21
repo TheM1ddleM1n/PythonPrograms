@@ -7,7 +7,6 @@ import calendar
 
 
 class FinanceTracker:
-
     CATEGORIES = [
         "Food & Dining",
         "Transportation",
@@ -206,7 +205,7 @@ class FinanceTracker:
                     budget_status = f" ⚠️ ${remaining:.2f} left"
                 else:
                     budget_status = f" ✅ ${remaining:.2f} left"
-                    
+
             bar_length = 20
             filled = int((percentage / 100) * bar_length)
             bar = "█" * filled + "░" * (bar_length - filled)
@@ -299,7 +298,7 @@ class FinanceTracker:
             change = ((current_spending - last_spending) / last_spending) * 100
             trend = "📈 Increasing" if change > 0 else "📉 Decreasing"
             print(f"\n{trend} spending: {abs(change):.1f}% vs last month")
-            
+
         print("\n💰 RECOMMENDATIONS:")
 
         if self.monthly_income > 0:
