@@ -1,8 +1,3 @@
-"""
-Personal Finance Tracker - Manage your money smartly
-Features: Expense tracking, budgets, reports, and insights
-"""
-
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -12,7 +7,6 @@ import calendar
 
 
 class FinanceTracker:
-    """Track expenses, income, and budgets."""
 
     CATEGORIES = [
         "Food & Dining",
@@ -36,7 +30,6 @@ class FinanceTracker:
         self.load_data()
 
     def load_data(self):
-        """Load financial data from JSON file."""
         if self.data_file.exists():
             try:
                 with open(self.data_file, "r") as f:
@@ -48,7 +41,6 @@ class FinanceTracker:
                 print(f"⚠️ Error loading data: {e}")
 
     def save_data(self):
-        """Save financial data to JSON file."""
         try:
             with open(self.data_file, "w") as f:
                 json.dump(
@@ -72,7 +64,6 @@ class FinanceTracker:
         transaction_type: str = "expense",
         date: Optional[str] = None,
     ):
-        """Add a new transaction."""
         if date is None:
             date = datetime.now().isoformat()
 
@@ -91,16 +82,13 @@ class FinanceTracker:
         symbol = "💰" if transaction_type == "income" else "💸"
         print(f"\n{symbol} Transaction added: ${amount:.2f} - {description}")
 
-        # Check budget warnings
         if transaction_type == "expense":
             self._check_budget_warning(category)
 
     def _check_budget_warning(self, category: str):
-        """Check if category is approaching or over budget."""
         if category not in self.budgets:
             return
 
-        # Get current month spending
         current_month = datetime.now().strftime("%Y-%m")
         month_spending = sum(
             t["amount"]
@@ -123,19 +111,16 @@ class FinanceTracker:
             )
 
     def set_budget(self, category: str, amount: float):
-        """Set monthly budget for a category."""
         self.budgets[category] = amount
         self.save_data()
         print(f"✅ Budget set: {category} = ${amount:.2f}/month")
 
     def set_income(self, amount: float):
-        """Set monthly income."""
         self.monthly_income = amount
         self.save_data()
         print(f"✅ Monthly income set: ${amount:.2f}")
 
     def view_transactions(self, limit: int = 10, category: Optional[str] = None):
-        """View recent transactions."""
         filtered = self.transactions
 
         if category:
@@ -148,9 +133,7 @@ class FinanceTracker:
         print("\n📊 RECENT TRANSACTIONS")
         print("=" * 70)
 
-        # Sort by date, most recent first
         sorted_transactions = sorted(filtered, key=lambda x: x["date"], reverse=True)
-
         for transaction in sorted_transactions[:limit]:
             date = datetime.fromisoformat(transaction["date"]).strftime("%Y-%m-%d")
             symbol = "+" if transaction["type"] == "income" else "-"
@@ -161,7 +144,6 @@ class FinanceTracker:
             print(f"{date} | {symbol}${amount:>8.2f} | {category:<20} | {desc}")
 
     def monthly_report(self, year: int = None, month: int = None):
-        """Generate monthly financial report."""
         if year is None:
             year = datetime.now().year
         if month is None:
@@ -169,8 +151,6 @@ class FinanceTracker:
 
         month_str = f"{year}-{month:02d}"
         month_name = calendar.month_name[month]
-
-        # Filter transactions for this month
         month_transactions = [
             t for t in self.transactions if t["date"].startswith(month_str)
         ]
@@ -178,8 +158,6 @@ class FinanceTracker:
         if not month_transactions:
             print(f"\n📊 No transactions for {month_name} {year}")
             return
-
-        # Calculate totals
         total_income = sum(
             t["amount"] for t in month_transactions if t["type"] == "income"
         )
@@ -188,14 +166,12 @@ class FinanceTracker:
         )
         net = total_income - total_expenses
 
-        # Category breakdown
         category_spending = defaultdict(float)
         for t in month_transactions:
             if t["type"] == "expense":
                 category_spending[t["category"]] += t["amount"]
 
-        # Display report
-        print(f"\n📊 MONTHLY REPORT - {month_name} {year}")
+        print(f"\nMONTHLY REPORT - {month_name} {year}")
         print("=" * 70)
         print(f"💰 Total Income:    ${total_income:>10.2f}")
         print(f"💸 Total Expenses:  ${total_expenses:>10.2f}")
@@ -204,12 +180,10 @@ class FinanceTracker:
         net_label = "Net Savings" if net >= 0 else "Net Loss"
         print(f"📈 {net_label}:    {net_symbol}${abs(net):>10.2f}")
 
-        # Budget comparison
         if self.monthly_income > 0:
             savings_rate = (net / self.monthly_income) * 100
             print(f"💰 Savings Rate:    {savings_rate:>9.1f}%")
 
-        # Category breakdown
         print("\n📋 SPENDING BY CATEGORY")
         print("-" * 70)
 
@@ -220,7 +194,6 @@ class FinanceTracker:
         for category, amount in sorted_categories:
             percentage = (amount / total_expenses) * 100 if total_expenses > 0 else 0
 
-            # Budget status
             budget_status = ""
             if category in self.budgets:
                 budget = self.budgets[category]
@@ -233,8 +206,7 @@ class FinanceTracker:
                     budget_status = f" ⚠️ ${remaining:.2f} left"
                 else:
                     budget_status = f" ✅ ${remaining:.2f} left"
-
-            # Progress bar
+                    
             bar_length = 20
             filled = int((percentage / 100) * bar_length)
             bar = "█" * filled + "░" * (bar_length - filled)
@@ -244,7 +216,6 @@ class FinanceTracker:
             )
 
     def budget_overview(self):
-        """Show budget status for current month."""
         current_month = datetime.now().strftime("%Y-%m")
 
         print("\n💰 BUDGET OVERVIEW")
@@ -255,7 +226,6 @@ class FinanceTracker:
             return
 
         for category, budget in sorted(self.budgets.items()):
-            # Calculate spending
             spent = sum(
                 t["amount"]
                 for t in self.transactions
@@ -266,16 +236,12 @@ class FinanceTracker:
 
             remaining = budget - spent
             percentage = (spent / budget) * 100 if budget > 0 else 0
-
-            # Status
             if percentage >= 100:
                 status = "❌ OVER"
             elif percentage >= 80:
                 status = "⚠️ WARNING"
             else:
                 status = "✅ OK"
-
-            # Progress bar
             bar_length = 20
             filled = min(int((percentage / 100) * bar_length), bar_length)
             bar = "█" * filled + "░" * (bar_length - filled)
@@ -285,15 +251,12 @@ class FinanceTracker:
             print()
 
     def insights(self):
-        """Generate financial insights and recommendations."""
         if not self.transactions:
             print("\n📊 Not enough data for insights yet.")
             return
 
         print("\n💡 FINANCIAL INSIGHTS")
         print("=" * 70)
-
-        # Average daily spending
         if self.transactions:
             first_date = min(
                 datetime.fromisoformat(t["date"]) for t in self.transactions
@@ -307,7 +270,6 @@ class FinanceTracker:
 
             print(f"📊 Average daily spending: ${avg_daily:.2f}")
 
-        # Top spending category
         category_totals = defaultdict(float)
         for t in self.transactions:
             if t["type"] == "expense":
@@ -318,8 +280,6 @@ class FinanceTracker:
             print(
                 f"🏆 Top spending category: {top_category[0]} (${top_category[1]:.2f})"
             )
-
-        # Spending trend
         current_month = datetime.now().strftime("%Y-%m")
         last_month = (datetime.now() - timedelta(days=30)).strftime("%Y-%m")
 
@@ -339,8 +299,7 @@ class FinanceTracker:
             change = ((current_spending - last_spending) / last_spending) * 100
             trend = "📈 Increasing" if change > 0 else "📉 Decreasing"
             print(f"\n{trend} spending: {abs(change):.1f}% vs last month")
-
-        # Recommendations
+            
         print("\n💰 RECOMMENDATIONS:")
 
         if self.monthly_income > 0:
@@ -360,13 +319,12 @@ class FinanceTracker:
 
 
 def main():
-    """Main program interface."""
     tracker = FinanceTracker()
 
     print("""
     ╔═══════════════════════════════════════╗
     ║   💰 PERSONAL FINANCE TRACKER 💰     ║
-    ║      Manage Your Money Smartly       ║
+    ║      Manage Your Money Smartly        ║
     ╚═══════════════════════════════════════╝
     """)
 
@@ -475,7 +433,7 @@ def main():
             break
 
         else:
-            print("❌ Invalid choice. Please select 1-9.")
+            print("Invalid choice. Please select 1-9.")
 
 
 if __name__ == "__main__":
