@@ -11,3 +11,8 @@ updates:
       - "dependencies"
     commit-message:
       prefix: "chore"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"
