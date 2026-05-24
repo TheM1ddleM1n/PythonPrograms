@@ -1,6 +1,7 @@
 from datetime import date
 import random
 
+
 def ordinal(n):
     if 11 <= n % 100 <= 13:
         return f"{n}th"
@@ -55,6 +56,7 @@ def birthday_program():
         except ValueError:
             print("Invalid Input. Please try again.")
 
+
 def days_until_event():
     print("\nDays Until Event")
 
@@ -79,6 +81,7 @@ def days_until_event():
     except ValueError:
         print("\nInvalid date entered.")
 
+
 def number_guessing_game():
     print("\nNumber Guessing Game")
 
@@ -100,6 +103,7 @@ def number_guessing_game():
 
         except ValueError:
             print("Please enter a valid number.\n")
+
 
 def calculator():
     print("\nCalculator")
@@ -129,6 +133,7 @@ def calculator():
     except ValueError:
         print("Invalid number entered.")
 
+
 def main_menu():
     while True:
         print("\n=== Main Menu ===")
@@ -154,4 +159,6 @@ def main_menu():
         else:
             print("Invalid choice. Try again.")
 
-main_menu()
+
+if __name__ == "__main__":
+    main_menu()
