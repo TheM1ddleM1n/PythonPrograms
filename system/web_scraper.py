@@ -1,7 +1,7 @@
-# Web scraper — grabs headlines from BBC News and Hacker News.
 import html
-import re
+import json
 import urllib.request
+import xml.etree.ElementTree as ET
 
 
 def fetch(url):
@@ -11,34 +11,32 @@ def fetch(url):
 
 
 def scrape_bbc(limit=10):
-    # BBC publishes a proper RSS feed so this is clean and reliable
     content = fetch("https://feeds.bbci.co.uk/news/rss.xml")
-    titles = re.findall(r"<title><!\[CDATA\[(.*?)\]\]></title>", content)
-    links = re.findall(r"<link>(https://www\.bbc\.co\.uk/news/.*?)</link>", content)
+    root = ET.fromstring(content)
+    channel = root.find("channel")
 
-    titles = [t for t in titles if t != "BBC News"][:limit]
-    links = links[:limit]
-    return list(zip(titles, links))
+    results = []
+    for item in channel.findall("item")[:limit]:
+        title = item.findtext("title", "").strip()
+        link = item.findtext("link", "").strip()
+        if title and link:
+            results.append((title, link))
+
+    return results
 
 
 def scrape_hackernews(limit=10):
-    # Hacker News has a proper JSON API, so again no scraping is needed here
-    top_ids_raw = fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
-    story_ids = re.findall(r"\d+", top_ids_raw)[:limit]
+    raw = fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
+    story_ids = json.loads(raw)[:limit]
 
     stories = []
     for sid in story_ids:
         try:
             data = fetch(f"https://hacker-news.firebaseio.com/v0/item/{sid}.json")
-            title_match = re.search(r'"title":"(.*?)"', data)
-            url_match = re.search(r'"url":"(.*?)"', data)
-            if title_match:
-                title = html.unescape(title_match.group(1))
-                link = (
-                    url_match.group(1)
-                    if url_match
-                    else f"https://news.ycombinator.com/item?id={sid}"
-                )
+            item = json.loads(data)
+            title = html.unescape(item.get("title", "")).strip()
+            link = item.get("url") or f"https://news.ycombinator.com/item?id={sid}"
+            if title:
                 stories.append((title, link))
         except Exception:
             continue
@@ -85,7 +83,7 @@ def main():
             if choice in ("2", "3"):
                 display("Hacker News", scrape_hackernews())
         except Exception as e:
-            print(f"  ⚠️ Failed to fetch: {e}")
+            print(f"⚠️ Failed to fetch: {e}")
 
         print()
 
