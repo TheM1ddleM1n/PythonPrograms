@@ -64,13 +64,14 @@ def is_pwned(password):
 
     try:
         res = requests.get(url, timeout=5)
+        res.raise_for_status()
         for line in res.text.splitlines():
             h, count = line.split(":")
             if h == suffix:
-                return True
-        return False
+                return True, False
+        return False, False
     except Exception:
-        return False
+        return False, True
 
 
 def update_meter(score):
@@ -137,7 +138,14 @@ def check_strength():
 
     entropy_bits = password_entropy(password)
     crack = crack_time(entropy_bits)
-    pwned = is_pwned(password)
+    pwned, pwned_failed = is_pwned(password)
+
+    if pwned_failed:
+        breach_status = "⚠️ Breach check unavailable"
+    elif pwned:
+        breach_status = "⚠️ Found in breaches!"
+    else:
+        breach_status = "✅ Not found"
 
     result = ""
     result += "Password Strength Check\n"
@@ -145,7 +153,7 @@ def check_strength():
     result += f"Strength: {strength}\n"
     result += f"Entropy: {entropy_bits:.2f} bits\n"
     result += f"Estimated Crack Time: {crack}\n"
-    result += f"Breach Status: {'⚠️ Found in breaches!' if pwned else 'Not found'}\n"
+    result += f"Breach Status: {breach_status}\n"
 
     if missing:
         result += "\nSuggestions:\n"
@@ -157,7 +165,7 @@ def check_strength():
     text_output.insert(tk.END, result)
     text_output.config(state="disabled")
 
-    if strength == "Strong" and not pwned:
+    if strength == "Strong" and not pwned and not pwned_failed:
         add_to_history(password)
 
 
