@@ -8,7 +8,7 @@ def ordinal(n):
     if n % 10 == 1:
         return f"{n}st"
     if n % 10 == 2:
-        return f"{n}nd"
+        return f"{n}nd" # codespell:ignore nd
     if n % 10 == 3:
         return f"{n}rd"
     return f"{n}th"
