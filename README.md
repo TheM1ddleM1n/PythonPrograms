@@ -101,14 +101,48 @@ Feel free to open a **PR** or **issue**, and I'll get back to you as soon as pos
 4. Push to the branch (`git push origin feature/amazing-program`)
 5. Open a Pull Request
 
+---
+
 ## 🎂 Birthday Checker
 
-Want a birthday message from PythonProgramsV3?
+Get a personal birthday message from PythonProgramsV3 — runs entirely
+in GitHub Actions, no install needed.
 
-1. Head to the [Actions tab](../../actions/workflows/birthday.yml)
-2. Click **Run workflow**
-3. Enter your GitHub username and birthday (`MM-DD`)
-4. Run it and check the logs for your message!
+### How to use it
+
+**Step 1 — Go to the Actions tab**
+Click [Actions](../../actions) at the top of this repo page.
+
+**Step 2 — Open the Birthday Checker workflow**
+In the left sidebar, click **🎂 Birthday Checker**.
+
+**Step 3 — Run the workflow**
+Click the **Run workflow** button on the right side. A small form
+will drop down.
+
+**Step 4 — Fill in your details**
+- `Your GitHub username` — your real GitHub username, e.g. `mo2ney`
+- `Your birthday (MM-DD)` — month and day only, e.g. `03-21` for
+  21st March
+- `Owner token` — **leave this blank** unless you are TheM1ddleM1n
+
+**Step 5 — Click Run workflow**
+The green button at the bottom of the form.
+
+**Step 6 — View your message**
+Wait a few seconds, then click the run that appears in the list.
+Open the **Run birthday checker** step to see your personal message.
+
+> 💡 Your birthday is only used for that single run and is never
+> stored, committed, or visible to anyone else — only you can see
+> the log of a run you triggered.
+
+### Rules
+
+- Your username must be a real GitHub account or the run will exit early
+- Birthday format is `MM-DD` — month first, then day
+- June 5th is reserved for the repo creator (TheM1ddleM1n) and cannot be claimed
+  by other users
 
 ---
 
