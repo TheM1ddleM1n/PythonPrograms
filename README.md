@@ -30,7 +30,7 @@ Each Python version gets ~2 years of full bug-fix releases, then ~3 years of sec
 | Version | Age | Bug-fix Until | Latest Patch | Months Until EOL | Status |
 |---------|-----|---------------|--------------|------------------|--------|
 | 3.10 | 📅 4y 7mo | 2023-04-05 | 3.10.20 (2mo ago) | ⏳ 5mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
-| 3.11 | 📅 3y 6mo | 2024-04-01 | 3.11.15 (2mo ago) | ⏳ 17mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
+| 3.11 | 📅 3y 7mo | 2024-04-01 | 3.11.15 (2mo ago) | ⏳ 17mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
 | 3.12 | 📅 2y 7mo | 2025-04-02 | 3.12.13 (2mo ago) | ⏳ 29mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
 | 3.13 | 📅 1y 7mo | 2026-10-01 | 3.13.13 (1mo ago) | ⏳ 41mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
 | 3.14 | 📅 7mo | 2027-10-01 | 3.14.5 (this month) | ⏳ 53mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
