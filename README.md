@@ -101,6 +101,15 @@ Feel free to open a **PR** or **issue**, and I'll get back to you as soon as pos
 4. Push to the branch (`git push origin feature/amazing-program`)
 5. Open a Pull Request
 
+## 🎂 Birthday Checker
+
+Want a birthday message from PythonProgramsV3?
+
+1. Head to the [Actions tab](../../actions/workflows/birthday.yml)
+2. Click **Run workflow**
+3. Enter your GitHub username and birthday (`MM-DD`)
+4. Run it and check the logs for your message!
+
 ---
 
 ## 📜 License
