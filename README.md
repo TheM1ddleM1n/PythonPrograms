@@ -1,6 +1,6 @@
-# 🐍 PythonProgramsV3
+# 🐍 PythonPrograms
 
-Welcome to **PythonProgramsV3** — the upgraded successor to *V2*!  
+Welcome to **PythonPrograms** — the upgraded successor!
 A growing collection of Python scripts and experiments.
 
 ---
@@ -8,17 +8,17 @@ A growing collection of Python scripts and experiments.
 ### 🧰 Tech Stack & Tools
 ![Linter: Ruff](https://img.shields.io/badge/linter-ruff-purple)
 ![Spellcheck: Codespell](https://img.shields.io/badge/spellcheck-codespell-green)
-![CI](https://github.com/TheM1ddleM1n/PythonProgramsV3/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/TheM1ddleM1n/PythonPrograms/actions/workflows/ci.yml/badge.svg)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)
 
 ---
 
 ### 📦 Repository Stats
 
-![GitHub Stars](https://img.shields.io/github/stars/TheM1ddleM1n/PythonProgramsV3?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/TheM1ddleM1n/PythonProgramsV3?style=social)
-![GitHub Repo Size](https://img.shields.io/github/repo-size/TheM1ddleM1n/PythonProgramsV3?color=blueviolet&label=Repo%20Size)
-![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/TheM1ddleM1n/PythonProgramsV3?color=gold)
+![GitHub Stars](https://img.shields.io/github/stars/TheM1ddleM1n/PythonPrograms?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/TheM1ddleM1n/PythonPrograms?style=social)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/TheM1ddleM1n/PythonPrograms?color=blueviolet&label=Repo%20Size)
+![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/TheM1ddleM1n/PythonPrograms?color=gold)
 
 ## Python Version Lifecycle
 
@@ -51,8 +51,8 @@ Full schedule: [devguide.python.org/versions](https://devguide.python.org/versio
 ### Run Locally via command 
 ```bash
 # Clone the repository
-git clone https://github.com/TheM1ddleM1n/PythonProgramsV3.git
-cd PythonProgramsV3
+git clone https://github.com/TheM1ddleM1n/PythonPrograms.git
+cd PythonPrograms
 
 # Install dependencies (optional, most scripts have minimal deps)
 pip install -r requirements.txt  # if available
@@ -73,7 +73,7 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 
 | Name | Role | Description |
 |------|------|-------------|
-| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonProgramsV3!` |
+| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonPrograms!` |
 | [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
 | **Dependabot 🤖** | Bot | Keeps GitHub Actions versions up to date! |
 
