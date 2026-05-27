@@ -397,8 +397,8 @@ Last Visited:      {profile_data.get('last_visited', 'First time!')}
     def cmd_learn(self):
         trigger = input("Bot: What trigger word/phrase should activate this? ").strip().lower()
         response = input("Bot: What should I respond with? ").strip()
-        
-        if trigger and response
+        if trigger and response:
+    
     def cmd_learn(self):
         trigger = input("Bot: What trigger word/phrase should activate this? ").strip().lower()
         response = input("Bot: What should I respond with? ").strip()
