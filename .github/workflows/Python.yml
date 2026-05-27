@@ -1,4 +1,4 @@
-name: Update Python Version Table
+name: Update Python Version
 on:
   schedule:
     - cron: '0 6 * * 1'
