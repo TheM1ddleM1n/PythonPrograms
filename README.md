@@ -1,9 +1,6 @@
 # 🐍 PythonPrograms
 
-Welcome to **PythonPrograms** — the upgraded successor!
-A growing collection of Python scripts and experiments.
-
----
+# Welcome to **PythonPrograms**! A growing collection of Python scripts and experiments.
 
 ### 🧰 Tech Stack & Tools
 ![Linter: Ruff](https://img.shields.io/badge/linter-ruff-purple)
