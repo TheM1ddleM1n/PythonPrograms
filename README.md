@@ -1,6 +1,6 @@
 # 🐍 PythonPrograms
 
-# Welcome to **PythonPrograms**! A growing collection of Python scripts and experiments.
+## Welcome to **PythonPrograms**! A growing collection of Python scripts and experiments.
 
 ### 🧰 Tech Stack & Tools
 ![Linter: Ruff](https://img.shields.io/badge/linter-ruff-purple)
@@ -61,7 +61,7 @@ python Dice/RollTheDice.py
 ```
 
 ### Run in Browser
-No Python installed? No problem!  
+No Python installed? Or having problems running Python? No problem!  
 Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in your browser.
 
 ---
@@ -70,7 +70,7 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 
 | Name | Role | Description |
 |------|------|-------------|
-| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Maintainer | The mastermind behind `PythonPrograms!` |
+| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Owner | The mastermind behind `PythonPrograms!` |
 | [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
 | **Dependabot 🤖** | Bot | Keeps GitHub Actions versions up to date! |
 
