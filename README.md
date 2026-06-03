@@ -72,7 +72,7 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 |------|------|-------------|
 | [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Owner | The mastermind behind `PythonPrograms!` |
 | [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
-| **Dependabot 🤖** | Bot | Keeps GitHub Actions versions up to date! |
+| **Dependabot** | ActionsBot | Keeps GitHub Actions versions up to date! |
 
 ---
 
