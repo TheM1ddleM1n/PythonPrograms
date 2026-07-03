@@ -41,18 +41,14 @@ Full schedule: [devguide.python.org/versions](https://devguide.python.org/versio
 
 ---
 
-## Quick Start Guide
-
-### Run Locally via command 
+### Run Local
 ```bash
-# Clone the repository
 git clone https://github.com/TheM1ddleM1n/PythonPrograms.git
 cd PythonPrograms
 
 # Install dependencies (optional, most scripts have minimal deps)
 pip install -r requirements.txt  # if available
 
-# Run any program
 python Number/numbergame.py
 python Other\ Programs/TerminalQuizShowdown.py
 python Dice/RollTheDice.py
@@ -64,9 +60,9 @@ python Dice/RollTheDice.py
 
 | Name | Role | Description |
 |------|------|-------------|
-| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Owner | The mastermind behind `PythonPrograms!` |
+| [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Owner | Marvellous Mastermind behind `PythonPrograms!` |
 | [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
-| **Dependabot** | ActionsBot | Keeps GitHub Actions versions up to date! |
+| **Dependabot** | ActionsBot | Keeps GitHub Actions / Pip versions up to date! |
 
 ---
 
@@ -74,7 +70,7 @@ python Dice/RollTheDice.py
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| **Linting** | ✅ Ruff | Error checking & best practices |
+| **Linting** | ✅ Ruff | Error checking |
 | **Spell Check** | ✅ Codespell | Documentation accuracy |
 | **Dependencies** | ✅ Dependabot | Auto-updates GitHub Actions weekly |
 
@@ -96,11 +92,9 @@ Feel free to open a **PR** or **issue**, and I'll get back to you as soon as pos
 
 ## 📜 License
 
-This project is open source and available under the MIT License.
+This project is open source and available under MIT.
 
 ---
 
 > _"Code. Test. Improve. Repeat."_  
 > — **TheM1ddleM1n**
-
-**Happy coding! 🐍✨**
