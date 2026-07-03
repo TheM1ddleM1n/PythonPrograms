@@ -59,10 +59,6 @@ python Other\ Programs/TerminalQuizShowdown.py
 python Dice/RollTheDice.py
 ```
 
-### Run in Browser
-No Python installed? Or having problems running Python? No problem!  
-Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in your browser.
-
 ---
 
 ## 👥 Contributors
