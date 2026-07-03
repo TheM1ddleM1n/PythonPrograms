@@ -1,7 +1,7 @@
 name: Update Python Version
 on:
   schedule:
-    - cron: '0 6 * * 1'
+    - cron: '0 9 * * 1'
   workflow_dispatch:
 concurrency:
   group: push-to-main
@@ -26,6 +26,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git diff --quiet && echo "No changes" && exit 0
           git add README.md
-          git commit -m "chore: update Python version table"
+          git commit -m "chore: bump Python version table"
           git pull --rebase origin main
           git push
