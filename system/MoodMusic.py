@@ -1,6 +1,5 @@
 import random
 
-# Dictionary linking moods to song suggestions
 mood_music = {
     "happy": [
         "Walking on Sunshine – Katrina & The Waves",
@@ -44,23 +43,20 @@ mood_music = {
     ],
 }
 
-
 def suggest_song(mood):
     mood = mood.lower()
     if mood in mood_music:
         song = random.choice(mood_music[mood])
         print(
-            f"\nFeeling this {mood}? Here's a track for you that you might like: 🎶 {song}"
+            f"\nFeeling this {mood}? Here's a track for you that you might like: {song}"
         )
     else:
-        print("\nMood not recognized 😕 Try a mood like happy, chill, romantic, etc.")
-
+        print("\nMood not recognized! Please try a mood like: happy, chill, romantic, sad, etc.")
 
 def main():
-    print("Welcome to MoodMusicSuggester!")
+    print("Welcome to MoodMusic!")
     mood = input("What is your current mood right now? ")
     suggest_song(mood)
-
 
 if __name__ == "__main__":
     main()
