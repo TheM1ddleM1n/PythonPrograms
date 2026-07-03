@@ -224,7 +224,7 @@ def build_table(versions):
             f"Check your version with:"
         )
     else:
-        lines.append("Check your version with:")
+        lines.append("Check your version with the command:")
 
     lines += [
         "",
@@ -272,7 +272,7 @@ def main():
 
     print("Building version table...")
     table = build_table(versions)
-    print("✓ Table built")
+    print("✓ Table was successfully built")
 
     print(f"Updating {README_PATH}...")
     update_readme(table)
