@@ -30,7 +30,7 @@ Each Python version gets ~2 years of full bug-fix releases, then ~3 years of sec
 | 3.13 | 📅 1y 8mo | 2026-10-01 | 3.13.14 (this month) | ⏳ 39mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
 | 3.14 | 📅 8mo | 2027-10-01 | 3.14.6 (this month) | ⏳ 51mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
 
-Check your version with:
+Check your version with the command:
 
 ```bash
 python --version
