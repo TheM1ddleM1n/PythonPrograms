@@ -1,9 +1,7 @@
 from datetime import datetime
 
-# Get the current date and time
 now = datetime.now()
 
-# Different formats
 full_date_time = now.strftime(
     "%Y-%m-%d %H:%M:%S"
 )  # Full date and time ie. 2010/03/02 12:01:22
@@ -13,7 +11,6 @@ time_only_12hr = now.strftime("%I:%M:%S %p")  # Time in 12-hour format with AM/P
 day_of_week = now.strftime("%A")  # Day of the week ie. Friday
 month_name = now.strftime("%B")  # Full month name ie. June
 
-# Print all formats
 print("Full Date and Time:", full_date_time)
 print("Date Only:", date_only)
 print("Time (24-hour format):", time_only_24hr)
