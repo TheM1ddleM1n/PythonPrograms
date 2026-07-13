@@ -1,8 +1,8 @@
-# 🐍 PythonPrograms
+# PythonPrograms
 
 ## Welcome to **PythonPrograms**! A growing collection of Python scripts and experiments.
 
-### 🧰 Tech Stack & Tools
+### Tech Stack & Tools
 ![Linter: Ruff](https://img.shields.io/badge/linter-ruff-purple)
 ![Spellcheck: Codespell](https://img.shields.io/badge/spellcheck-codespell-green)
 ![CI](https://github.com/TheM1ddleM1n/PythonPrograms/actions/workflows/ci.yml/badge.svg)
@@ -10,7 +10,7 @@
 
 ---
 
-### 📦 Repository Stats
+### Repository Stats
 
 ![GitHub Stars](https://img.shields.io/github/stars/TheM1ddleM1n/PythonPrograms?style=social)
 ![GitHub Forks](https://img.shields.io/github/forks/TheM1ddleM1n/PythonPrograms?style=social)
@@ -65,7 +65,7 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 
 ---
 
-## 👥 Contributors
+## Contributors
 
 | Name | Role | Description |
 |------|------|-------------|
@@ -75,17 +75,17 @@ Use [**Trinket.io**](https://trinket.io/python3) to run any script directly in y
 
 ---
 
-## 🎯 Code Quality Metrics
+## Code Quality Metrics
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| **Linting** | ✅ Ruff | Error checking & best practices |
-| **Spell Check** | ✅ Codespell | Documentation accuracy |
-| **Dependencies** | ✅ Dependabot | Auto-updates GitHub Actions weekly |
+| **Linting** | Ruff | Error checking & best practices |
+| **Spell Check** | Codespell | Documentation accuracy |
+| **Dependencies** | Dependabot | Auto-updates GitHub Actions weekly |
 
 ---
 
-## 💬 Feedback & Contributions
+## Feedback & Contributions
 
 Got ideas, issues, or improvements?  
 Feel free to open a **PR** or **issue**, and I'll get back to you as soon as possible!
@@ -99,13 +99,11 @@ Feel free to open a **PR** or **issue**, and I'll get back to you as soon as pos
 
 ---
 
-## 📜 License
+## License
 
-This project is open source and available under the MIT License.
+This project is open source and available under MIT.
 
 ---
 
 > _"Code. Test. Improve. Repeat."_  
 > — **TheM1ddleM1n**
-
-**Happy coding! 🐍✨**
