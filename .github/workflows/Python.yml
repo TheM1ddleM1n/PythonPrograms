@@ -1,31 +1,43 @@
 name: Update Python Version
+
 on:
   schedule:
     - cron: '0 9 * * 1'
   workflow_dispatch:
+
 concurrency:
   group: push-to-main
   cancel-in-progress: false
+
 permissions:
   contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
+
       - name: Run update script
         run: python scripts/py_version.py
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git diff --quiet && echo "No changes" && exit 0
+          
+          if git diff --quiet README.md; then
+            echo "No changes detected in README.md. Exiting early."
+            exit 0
+          fi
+          
           git add README.md
-          git commit -m "chore: bump Python version table"
+          git commit -m "chore: update Python version compatibility table [skip ci]"
           git pull --rebase origin main
-          git push
+          git push origin main
