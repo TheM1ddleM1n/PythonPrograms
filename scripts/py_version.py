@@ -2,35 +2,34 @@ import urllib.request
 import urllib.error
 import json
 import re
+import os
 from datetime import date, datetime
-from typing import NamedTuple
+from dataclasses import dataclass
 
 API_URL = "https://endoflife.date/api/python.json"
 README_PATH = "README.md"
-TABLE_START = "<!-- PYTHON_VERSIONS_START -->"
-TABLE_END = "<!-- PYTHON_VERSIONS_END -->"
+TABLE_START = ""
+TABLE_END = ""
 MIN_VERSION = (3, 11)
 UPCOMING_EOL_MONTHS = 12
 
-
-class ParsedDates(NamedTuple):
+@dataclass(frozen=True)
+class ParsedDates:
     eol_date: date | None
     is_eol: bool
     support_end: date | None
 
-
-class NotableVersions(NamedTuple):
+@dataclass(frozen=True)
+class NotableVersions:
     recommended_cycle: str
     latest_cycle: str
     upcoming_eol_entry: dict | None
-
 
 def version_key(entry):
     try:
         return tuple(int(x) for x in entry["cycle"].split("."))
     except Exception:
         return (0,)
-
 
 def parse_date(value):
     if not value or isinstance(value, bool):
@@ -39,7 +38,6 @@ def parse_date(value):
         return datetime.strptime(value, "%Y-%m-%d").date()
     except ValueError:
         return None
-
 
 def parse_entry_dates(entry, today):
     eol_raw = entry.get("eol")
@@ -53,13 +51,11 @@ def parse_entry_dates(entry, today):
     support_end = parse_date(entry.get("support"))
     return ParsedDates(eol_date, is_eol, support_end)
 
-
 def months_between(from_date, to_date):
     months = (to_date.year - from_date.year) * 12 + (to_date.month - from_date.month)
     if to_date.day < from_date.day:
         months -= 1
     return max(0, months)
-
 
 def age_display(release_date, today):
     if release_date is None:
@@ -72,7 +68,6 @@ def age_display(release_date, today):
     if years:
         return f"📅 {years}y"
     return f"📅 {months}mo"
-
 
 def latest_patch_display(latest_patch, latest_release_date, today):
     if latest_patch is None:
@@ -88,7 +83,6 @@ def latest_patch_display(latest_patch, latest_release_date, today):
         ago = f"{total_months}mo ago"
     return f"{latest_patch} ({ago})"
 
-
 def months_until_eol_display(eol_date, is_eol, today):
     if is_eol:
         return "—"
@@ -96,18 +90,14 @@ def months_until_eol_display(eol_date, is_eol, today):
         return "?"
     return f"⏳ {months_between(today, eol_date)}mo"
 
-
-def status_badge(is_eol, is_recommended, is_latest, support_end, today):
+def status_badge(is_eol, is_recommended, is_latest):
     if is_eol:
         return "![Status](https://img.shields.io/badge/Status-Stop_Using-red?style=for-the-badge)"
     if is_recommended:
         return "![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge)"
     if is_latest:
         return "![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge)"
-    if support_end is not None and support_end <= today:
-        return "![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge)"
     return "![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge)"
-
 
 def bugfix_display(support_end, is_eol):
     if is_eol:
@@ -115,7 +105,6 @@ def bugfix_display(support_end, is_eol):
     if support_end is None:
         return "?"
     return str(support_end)
-
 
 def format_row(entry, recommended_cycle, latest_cycle, today, parsed):
     cycle = entry.get("cycle", "?")
@@ -130,16 +119,14 @@ def format_row(entry, recommended_cycle, latest_cycle, today, parsed):
     bugfix_col = bugfix_display(parsed.support_end, parsed.is_eol)
     patch_col = latest_patch_display(latest_patch, latest_release_date, today)
     months_col = months_until_eol_display(parsed.eol_date, parsed.is_eol, today)
-    status_col = status_badge(
-        parsed.is_eol, is_recommended, is_latest, parsed.support_end, today
-    )
+    status_col = status_badge(parsed.is_eol, is_recommended, is_latest)
 
     return f"| {cycle} | {age_col} | {bugfix_col} | {patch_col} | {months_col} | {status_col} |"
 
-
 def fetch_versions():
+    req = urllib.request.Request(API_URL, headers={"User-Agent": "PythonVersionUpdater/1.0"})
     try:
-        with urllib.request.urlopen(API_URL) as response:
+        with urllib.request.urlopen(req, timeout=10) as response:
             data = json.loads(response.read())
     except urllib.error.URLError as e:
         raise RuntimeError(f"Failed to fetch version data: {e}")
@@ -151,7 +138,6 @@ def fetch_versions():
 
     return data
 
-
 def select_notable_versions(all_sorted, parsed, today):
     active = [e for e in all_sorted if not parsed[e["cycle"]].is_eol]
 
@@ -161,24 +147,19 @@ def select_notable_versions(all_sorted, parsed, today):
     recommended = active[-2] if len(active) >= 2 else active[-1]
     latest = active[-1]
 
-    upcoming_eol = next(
-        (
-            e
-            for e in all_sorted
-            if not parsed[e["cycle"]].is_eol
-            and parsed[e["cycle"]].eol_date is not None
-            and months_between(today, parsed[e["cycle"]].eol_date)
-            <= UPCOMING_EOL_MONTHS
-        ),
-        None,
-    )
+    upcoming_eol = None
+    for e in all_sorted:
+        cycle_parsed = parsed[e["cycle"]]
+        if not cycle_parsed.is_eol and cycle_parsed.eol_date is not None:
+            if months_between(today, cycle_parsed.eol_date) <= UPCOMING_EOL_MONTHS:
+                upcoming_eol = e
+                break
 
     return NotableVersions(
         recommended_cycle=recommended["cycle"],
         latest_cycle=latest["cycle"],
         upcoming_eol_entry=upcoming_eol,
     )
-
 
 def build_table(versions):
     today = date.today()
@@ -195,8 +176,7 @@ def build_table(versions):
 
     lines = [
         f"> **Recommended: Python {notable.recommended_cycle}** — stable, fully supported, and widely compatible with modern libraries. "
-        f"**{notable.latest_cycle}** is available if you want the latest but may have rough edges in some packages. "
-        f"And it might not work on all computers",
+        f"**Python {notable.latest_cycle}** is available if you target the newest features, but ensure compliance with external dependencies.",
         "",
         "Each Python version gets ~2 years of full bug-fix releases, then ~3 years of security-only patches, for a total of 5 years of support. After that it's EOL — no more patches, ever.",
         "",
@@ -237,7 +217,6 @@ def build_table(versions):
 
     return "\n".join(lines)
 
-
 def update_readme(table_content):
     try:
         with open(README_PATH, "r", encoding="utf-8") as f:
@@ -256,14 +235,17 @@ def update_readme(table_content):
         pattern, TABLE_START + "\n" + table_content + "\n" + TABLE_END, content
     )
 
+    tmp_path = f"{README_PATH}.tmp"
     try:
-        with open(README_PATH, "w", encoding="utf-8") as f:
+        with open(tmp_path, "w", encoding="utf-8") as f:
             f.write(updated)
+        os.replace(tmp_path, README_PATH)
     except OSError as e:
-        raise RuntimeError(f"Failed to write {README_PATH}: {e}")
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        raise RuntimeError(f"Failed to securely write {README_PATH}: {e}")
 
     print(f"✓ {README_PATH} updated successfully")
-
 
 def main():
     print("Fetching Python version data...")
@@ -276,7 +258,6 @@ def main():
 
     print(f"Updating {README_PATH}...")
     update_readme(table)
-
 
 if __name__ == "__main__":
     main()
