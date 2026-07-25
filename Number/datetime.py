@@ -1,15 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
-now = datetime.now()
+now = datetime.now(timezone.utc)
 
-full_date_time = now.strftime(
-    "%Y-%m-%d %H:%M:%S"
-)  # Full date and time ie. 2010/03/02 12:01:22
-date_only = now.strftime("%Y-%m-%d")  # Date only ie. 2010/03/02
-time_only_24hr = now.strftime("%H:%M:%S")  # Time in 24-hour format
-time_only_12hr = now.strftime("%I:%M:%S %p")  # Time in 12-hour format with AM/PM
-day_of_week = now.strftime("%A")  # Day of the week ie. Friday
-month_name = now.strftime("%B")  # Full month name ie. June
+full_date_time = now.strftime("%Y-%m-%d %H:%M:%S")
+date_only = now.strftime("%Y-%m-%d")
+time_only_24hr = now.strftime("%H:%M:%S")
+time_only_12hr = now.strftime("%I:%M:%S %p")
+day_of_week = now.strftime("%A")
+month_name = now.strftime("%B")
 
 print("Full Date and Time:", full_date_time)
 print("Date Only:", date_only)
