@@ -1,7 +1,6 @@
-import time
 import random
 import sys
-
+import time
 
 def slow(text, delay=0.03):
     for c in text:
