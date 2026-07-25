@@ -1,5 +1,5 @@
-import time
 import random
+import time
 
 print("🍷 Welcome to the Chateau of Food!")
 print("It seems we are quite busy this evening...\n")
