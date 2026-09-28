@@ -26,7 +26,7 @@ Each Python version gets ~2 years of full bug-fix releases, then ~3 years of sec
 
 | Version | Age | Bug-fix Until | Latest Patch | Months Until EOL | Status |
 |---------|-----|---------------|--------------|------------------|--------|
-| 3.11 | 📅 3y 10mo | 2024-04-01 | 3.11.16 (1mo ago) | ⏳ 13mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
+| 3.11 | 📅 3y 11mo | 2024-04-01 | 3.11.16 (1mo ago) | ⏳ 13mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
 | 3.12 | 📅 2y 11mo | 2025-04-02 | 3.12.14 (1mo ago) | ⏳ 25mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
 | 3.13 | 📅 1y 11mo | 2026-10-01 | 3.13.15 (1mo ago) | ⏳ 37mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
 | 3.14 | 📅 11mo | 2027-10-01 | 3.14.7 (1mo ago) | ⏳ 49mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
