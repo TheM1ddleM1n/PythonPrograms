@@ -1,5 +1,5 @@
-import random
 import os
+import random
 MAX_NUMBER = None
 
 def clear():
@@ -11,9 +11,9 @@ try:
    CHOICE = int(input("Choose a difficulty between 1 and 3: "))
    clear()
 except ValueError:
-   print("Invalid choice !")
+   print("Invalid Choice")
    input()
-   exit()
+   sys.exit()
 if CHOICE == 3:
    MAX_NUMBER = 2000
 if CHOICE == 2:
@@ -21,9 +21,9 @@ if CHOICE == 2:
 if CHOICE == 1:
    MAX_NUMBER = 1000
 if MAX_NUMBER == None:
-   print("Invalid choice")
+   print("Invalid Choice")
    input()
-   exit()
+   sys.exit()
    
 SECRET = random.randint(1,MAX_NUMBER)
 
@@ -33,7 +33,6 @@ print(f"I am thinking of a number between 1 and {MAX_NUMBER}")
 while True:
     try:
         guess = int(input())
-
         if guess < SECRET:
             print("Your guess is too low! Please try again.")
         elif guess > SECRET:
