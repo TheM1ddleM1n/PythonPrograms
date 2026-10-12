@@ -20,7 +20,7 @@
 ## Python Version Lifecycle
 
 <!-- PYTHON_VERSIONS_START -->
-> **Recommended: Python 3.13** — stable, fully supported, and widely compatible with modern libraries. **3.14** is available if you want the latest but may have rough edges in some packages. And it might not work on all computers
+> **Recommended: Python 3.14** — stable, fully supported, and widely compatible with modern libraries. **3.15** is available if you want the latest but may have rough edges in some packages. And it might not work on all computers
 
 Each Python version gets ~2 years of full bug-fix releases, then ~3 years of security-only patches, for a total of 5 years of support. After that it's EOL — no more patches, ever.
 
@@ -28,8 +28,9 @@ Each Python version gets ~2 years of full bug-fix releases, then ~3 years of sec
 |---------|-----|---------------|--------------|------------------|--------|
 | 3.11 | 📅 3y 11mo | 2024-04-01 | 3.11.17 (this month) | ⏳ 12mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
 | 3.12 | 📅 3y | 2025-04-02 | 3.12.15 (this month) | ⏳ 24mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
-| 3.13 | 📅 1y 11mo | 2026-10-01 | 3.13.16 (this month) | ⏳ 36mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
-| 3.14 | 📅 11mo | 2027-10-01 | 3.14.8 (this month) | ⏳ 48mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
+| 3.13 | 📅 2y | 2026-10-01 | 3.13.16 (this month) | ⏳ 36mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
+| 3.14 | 📅 1y | 2027-10-01 | 3.14.8 (this month) | ⏳ 48mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
+| 3.15 | 📅 0mo | 2028-10-09 | 3.15.0 (this month) | ⏳ 60mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
 
 If your project still targets 3.11, start planning a migration — it reaches end of life in just 12 months. Check your version with:
 
