@@ -28,9 +28,9 @@ Each Python version gets ~2 years of full bug-fix releases, then ~3 years of sec
 |---------|-----|---------------|--------------|------------------|--------|
 | 3.11 | 📅 4y | 2024-04-01 | 3.11.18 (this month) | ⏳ 11mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
 | 3.12 | 📅 3y 1mo | 2025-04-02 | 3.12.16 (this month) | ⏳ 23mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
-| 3.13 | 📅 2y | 2026-10-01 | 3.13.18 (this month) | ⏳ 35mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
-| 3.14 | 📅 1y | 2027-10-01 | 3.14.10 (this month) | ⏳ 47mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
-| 3.15 | 📅 0mo | 2028-10-09 | 3.15.2 (this month) | ⏳ 59mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
+| 3.13 | 📅 2y 1mo | 2026-10-01 | 3.13.18 (this month) | ⏳ 35mo | ![Status](https://img.shields.io/badge/Status-Migrate_Soon-orange?style=for-the-badge) |
+| 3.14 | 📅 1y 1mo | 2027-10-01 | 3.14.10 (this month) | ⏳ 47mo | ![Status](https://img.shields.io/badge/Status-Recommended-brightgreen?style=for-the-badge) |
+| 3.15 | 📅 1mo | 2028-10-09 | 3.15.2 (this month) | ⏳ 59mo | ![Status](https://img.shields.io/badge/Status-Latest-blue?style=for-the-badge) |
 
 If your project still targets 3.11, start planning a migration — it reaches end of life in just 11 months. Check your version with:
 
