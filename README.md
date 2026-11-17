@@ -71,8 +71,9 @@ Use [**Coddy**](https://coddy.tech/playground/python) to run any script directly
 | Name | Role | Description |
 |------|------|-------------|
 | [**TheM1ddleM1n**](https://github.com/TheM1ddleM1n) | Creator & Owner | The mastermind behind `PythonPrograms!` |
-| [**cclauss**](https://github.com/cclauss) | Contributor | Python 3 wizardry & linting expertise! |
-| **Dependabot** | ActionsBot | Keeps GitHub Actions versions up to date! |
+| [**cclauss**](https://github.com/cclauss) | PR Contributor | Python 3 wizardry & linting expertise! |
+| [**XXXDark303**](https://github.com/XXXDark303) | PR Contributor | Improved programs |
+| [**KevinSpek**](https://github.com/KevinSpek) | PR Contributor | Made Coddy for a run in browser experience |
 
 ---
 
